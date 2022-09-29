@@ -1,0 +1,208 @@
+#-TITLE:  David Martin's emacs configuration
+#-AUTHOR: David H Martin
+#-OPTIONS: num:nil
+* Overview
+  This is David Martin's emacs configuration.
+** Usage
+   Copy or symlink this file (config.org) to $HOME/.emacs.d. Edit init.el to contain only the following:
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'org)
+(org-babel-load-file
+ (expand-file-name "config.org"
+                   user-emacs-directory))
+#+END_SRC
+
+** Conventions:
+  - Use straight for package management
+  - use config.org for all configuration
+  - Don't use customize (
+  - Only use customize for themes. Everything else is old-school
+
+* Setting up package management and load paths
+** Disable package.el
+#+BEGIN_SRC emacs-lisp
+  (setq package-enable-at-startup nil)
+#+END_SRC
+
+** Bootstrap straight as the package manager
+#+BEGIN_SRC emacs-lisp
+
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+  (straight-use-package 'use-package)
+  (use-package straight
+    :custom (straight-use-package-by-default t))
+#+END_SRC
+
+** Add .emacs.d/lisp to load path, for unpackaged sources
+#+BEGIN_SRC emacs-lisp
+   (setq load-path (cons (expand-file-name "~/.emacs.d/lisp") load-path))
+#+END_SRC
+
+* Fix the os/x shell path issue
+ #+BEGIN_SRC emacs-lisp
+   (when (memq window-system '(mac ns x))
+     (use-package exec-path-from-shell
+       :config (when (memq window-system '(mac ns x))
+                 (exec-path-from-shell-initialize))))
+#+END_SRC
+
+
+* Look & Feel
+  Currently I'm a huge fan of nord theme.
+  Note: I'm trying to avoid using customize, but "customize-theme" is a fantastic way to try different color schemes.
+  Use it for selection, but then replace the customize-generated stuff with explicit configs.
+#+BEGIN_SRC emacs-lisp
+  (use-package nord-theme
+    :config (load-theme 'nord t))
+#+END_SRC 
+
+* General editor settings 
+ #+BEGIN_SRC emacs-lisp
+   ;; Basic settings
+   (tool-bar-mode -1)
+   (menu-bar-mode -1)
+   (column-number-mode 1)
+   (global-hl-line-mode 1)
+   (global-visual-line-mode nil)
+   (global-whitespace-mode 1)
+   (show-paren-mode 1)
+   (setq-default indent-tabs-mode nil)
+#+END_SRC 
+
+* Org mode customizations
+** Customize the to-do workflow states.
+   I distinguish between activites ("TODO") and meetings ("MEETING")
+#+BEGIN_SRC emacs-lisp
+      (setq-default org-todo-keywords
+            '((sequence "TODO" "IN-PROGRESS" "|" "DONE" "DEFERRED" "CANCELED")
+              (sequence "MEETING" "|" "DONE" "CANCELLED")))
+
+#+END_SRC
+
+** Org babel helpers (Primarily for editing this config.org file)
+  Add a keyboard macro named "elisp" to insert #+BEGIN_SRC and #+END_SRC.
+  I'm using a macro instead of snippets because YASnippets does not play well with org mode and it's not worth the effort to fix unless I get heavily into org mode editing.
+#+BEGIN_SRC emacs-lisp
+(fset 'elisp
+   (kmacro-lambda-form [?\C-a ?# ?+ ?B ?E ?G ?I ?N ?_ ?S ?R ?C ?  ?e ?m ?a ?c ?s ?- ?l ?/ ?i ?s ?p backspace backspace backspace backspace ?i ?s ?p return return ?# ?+ ?E ?N ?D ?_ ?S ?R ?C up] 0 "%d"))
+#+END_SRC
+
+* Markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :custom (markdown-command '/usr/local/bin/markdown))
+  (use-package markdown-preview-mode)
+#+END_SRC        
+  
+* Snippets
+  
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :config (yas-global-mode 1))
+  (use-package yasnippet-snippets)
+#+END_SRC
+
+* Various file edit modes
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode)
+  (use-package json-mode)
+  (use-package graphql-mode)
+#+END_SRC
+
+** Git support 
+ #+BEGIN_SRC emacs-lisp
+   (use-package magit)
+#+END_SRC
+
+* Programming language support
+#+BEGIN_SRC emacs-lisp
+    (use-package lsp-mode)
+#+END_SRC
+** High octane completion
+   Enables ivy mode, counsel, and swiper. (See https://github.com/abo-abo/swiper and https://oremacs.com/swiper/)
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy)
+  (use-package counsel :config (counsel-mode 1))
+  (use-package swiper)
+    (use-package flycheck
+                     :config (global-flycheck-mode 1))
+  (straight-use-package 'company-mode)
+#+END_SRC
+** Ruby
+#+BEGIN_SRC emacs-lisp
+    (use-package inf-ruby
+      :config
+      (autoload 'inf-ruby-minor-mode "inf-ruby" "Run an inferior Ruby process" t)
+      (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode))
+#+END_SRC
+
+Loading ruby-debug was disabled in my original init.el. I don't remember why. If you start doing ruby dev, try re-enabling this.
+#+BEGIN_SRC emacs-lisp :tangle no
+       (require 'ruby-debug)
+#+END_SRC
+
+** Javascript / Typescript
+#+BEGIN_SRC emacs-lisp
+  (use-package typescript-mode)
+#+END_SRC
+
+** Go
+   Inspiration: https://dr-knz.net/a-tour-of-emacs-as-go-editor.html
+
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :config
+    (add-hook 'go-mode-hook (lambda ()
+                              (setq indent-tabs-mode 1)
+                              (setq tab-width 4)))
+    (defvar gofmt-command '/usr/local/bin/gofmt)
+    (add-hook 'go-mode-hook #'lsp)
+    (add-hook 'before-save-hook 'gofmt-before-save))
+
+#+END_SRC
+
+*** Glyphs
+    Disabled until I achieve sufficient go proficiency not to get confused.
+#+BEGIN_SRC emacs-lisp :tangle no
+   (add-hook
+    'go-mode-hook
+    (lambda ()
+      (push '("error" . ?∇) prettify-symbols-alist)
+      (push '("err" . ?⊙) prettify-symbols-alist)
+      (push '("exists" . ?∃) prettify-symbols-alist)
+      (push '(":= range" . ?∈) prettify-symbols-alist)
+      (push '("ok" . ?✓) prettify-symbols-alist)
+      (push '("==" . ?≡) prettify-symbols-alist)
+      (push '(":=" . ?≔) prettify-symbols-alist)
+      (push '(">=" . ?≥) prettify-symbols-alist)
+      (push '("<=" . ?≤) prettify-symbols-alist)
+      (push '("<-" . ?←) prettify-symbols-alist)
+      (push '("!=" . ?≠) prettify-symbols-alist)
+      (push '("..." . ?…) prettify-symbols-alist)
+      (push '("nil" . ?∅) prettify-symbols-alist)
+      (push '("make" . ?&) prettify-symbols-alist)
+      (push '("new" . ?&) prettify-symbols-alist)
+      (push '("context.Context" . ?◇) prettify-symbols-alist)
+      (push '("ctx" . ?⋄) prettify-symbols-alist)
+      (push '("mu" . ?❢) prettify-symbols-alist)
+      (push '("&&" . ?∧) prettify-symbols-alist)
+      (push '("||" . ?∨) prettify-symbols-alist)
+      (push '("!" . ?¬) prettify-symbols-alist)
+      (push '("interface{}" . ?⋆) prettify-symbols-alist)
+      (push '("struct{}" . ?ε) prettify-symbols-alist)
+      ))
+   (global-prettify-symbols-mode 't)
+
+#+END_SRC
