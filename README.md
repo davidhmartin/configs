@@ -1,2 +1,2 @@
-[./emacs/config.org](GNU Emacs Configuration)
+[GNU Emacs Configuration](./emacs/config.org)
   
