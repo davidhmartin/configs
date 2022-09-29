@@ -2,7 +2,7 @@
 #+AUTHOR: David H Martin
 #+OPTIONS: num:nil
 * Overview
-  This is David Martin's emacs configuration.
+  This is David Martin's emacs configuration, implemented in "literate programming" style using org/babel  
 ** Usage
    Copy or symlink this file (config.org) to $HOME/.emacs.d. Edit init.el to contain only the following:
 #+BEGIN_SRC emacs-lisp :tangle no
