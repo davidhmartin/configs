@@ -1,6 +1,6 @@
-#-TITLE:  David Martin's emacs configuration
-#-AUTHOR: David H Martin
-#-OPTIONS: num:nil
+#+TITLE:  David Martin's emacs configuration
+#+AUTHOR: David H Martin
+#+OPTIONS: num:nil
 * Overview
   This is David Martin's emacs configuration.
 ** Usage
