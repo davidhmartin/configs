@@ -15,8 +15,7 @@
 ** Conventions:
   - Use straight for package management
   - use config.org for all configuration
-  - Don't use customize (
-  - Only use customize for themes. Everything else is old-school
+  - Don't use customize
 
 * Setting up package management and load paths
 ** Disable package.el
@@ -60,9 +59,9 @@
 
 
 * Look & Feel
-  Currently I'm a huge fan of nord theme.
-  Note: I'm trying to avoid using customize, but "customize-theme" is a fantastic way to try different color schemes.
-  Use it for selection, but then replace the customize-generated stuff with explicit configs.
+  Nord theme rules! 
+  Note: customize-theme" is a fantastic way to try different color schemes.
+  I use it for selection, but then replace the customize-generated code with explicit.
 #+BEGIN_SRC emacs-lisp
   (use-package nord-theme
     :config (load-theme 'nord t))
