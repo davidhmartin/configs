@@ -65,20 +65,28 @@
   (setq read-process-output-max (* 1024 1024)))
 #+END_SRC
 
+* Hydra
+#+BEGIN_SRC emacs-lisp
+(use-package general)
+(use-package hydra)
+#+END_SRC
 
-* Themes
-  To find new themes, see https://emacsthemes.com.
-** Load my favorite themes
+* Projectile
 #+BEGIN_SRC emacs-lisp
-  (use-package nord-theme
-    :config (load-theme 'nord t))
-  (use-package zenburn-theme)
-#+END_SRC 
-** Persist theme selection across sessions
+  (use-package projectile)
+  (projectile-mode +1)
+  ;; Recommended keymap prefix on macOS
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  ;; Recommended keymap prefix on Windows/Linux
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+#+END_SRC
+
+* Neotree
 #+BEGIN_SRC emacs-lisp
-  (use-package remember-last-theme
-  :config (remember-last-theme-with-file-enable (expand-file-name "transient/last-theme" user-emacs-directory)))
-#+END_SRC 
+  (use-package neotree)
+  (global-set-key [f8] 'neotree-toggle)
+  (setq neo-window-fixed-size nil)
+#+END_SRC
 
 * General editor settings
 ** Basic settings
@@ -105,11 +113,11 @@
   (define-key david-map (kbd "l") #'counsel-load-theme)
   (define-key david-map (kbd "c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))))
 #+END_SRC
-    ** Theme selection
+** Theme selection
 #+BEGIN_SRC emacs-lisp :tangle no 
     (global-set-key (kbd "f12") #'counsel-load-theme)
 #+END_SRC
-  ** Open/edit this configuration file
+** Open/edit this configuration file
 #+BEGIN_SRC emacs-lisp :tangle no
   (global-set-key (kbd "C-c d c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))))
 #+END_SRC
@@ -154,24 +162,71 @@
 #+END_SRC
 
 * Programming language support
+
 ** LSP
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :bind (:map lsp-mode-map ("C-c C-a" . #'lsp-execute-code-action))
-    :custom
-    (lsp-file-watch-threshold nil)
-    (lsp-solargraph-multi-root nil))
+(use-package lsp-mode
+  :init (setq lsp-keymap-prefix "C-c l")
+  :commands (lsp lsp-deferred)
+  :bind (:map lsp-mode-map ("C-c C-a" . #'lsp-execute-code-action))
+  :custom
+  (lsp-file-watch-threshold nil)
+  (lsp-solargraph-multi-root nil)
+  :hook ((go-mode . lsp-deferred)
+         (typescript-mode . lsp-deferred)
+         (ruby-mode . lsp-deferred)
+         (lsp-mode . lsp-enable-which-key-integration)))
 
-  (use-package lsp-ui
-    :commands lsp-ui
-    :after lsp-mode
-    :custom
-    (lsp-prefer-flymake nil)
-    (lsp-ui-doc-position 'top)
-    (lsp-ui-doc-alignment 'window))
+(use-package lsp-ui
+  :commands lsp-ui
+  :after lsp-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-prefer-flymake nil)
+  (lsp-ui-doc-position 'top)
+  (lsp-ui-doc-alignment 'window))
+
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+(use-package company-lsp :commands company-lsp)
+
+(setq
+ lsp-ui-doc-enable t
+ lsp-ui-peek-enable t
+ lsp-ui-sideline-enable t
+ lsp-ui-imenu-enable t
+ lsp-ui-flycheck-enable t)
 #+END_SRC
 
+** DAP
+#+BEGIN_SRC emacs-lisp
+(use-package dap-mode
+  :commands dap-debug
+  :init
+  (require 'dap-node)
+  (dap-node-setup) ;; automatically installs Node debug adapter if needed
+  (require 'dap-go)
+  (require 'dap-dlv-go)
+  (dap-go-setup)
+  (defun pt/turn-on-debugger ()
+    (interactive)
+    (dap-mode)
+    (dap-auto-configure-mode)
+    (dap-ui-mode)
+    (dap-ui-controls-mode))
+  (require 'dap-hydra)
+  (require 'dap-gdb-lldb)
+  (dap-gdb-lldb-setup)
+  :config
+  ;; bind C-c l d to dap-hydra for easy access
+  (general-define-key
+   :keymaps 'lsp-mode-map
+   :prefix lsp-keymap-prefix
+   "d" '(dap-hydra t :wk "debugger")))
+#+END_SRC
+   
 ** Various file edit modes
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
@@ -182,23 +237,26 @@
 ** High octane completion
    Enables ivy mode, counsel, and swiper. (See https://github.com/abo-abo/swiper and https://oremacs.com/swiper/)
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy)
-  (use-package counsel :config (counsel-mode 1))
-  (use-package swiper)
-    (use-package flycheck
-                     :config (global-flycheck-mode 1))
-  (straight-use-package 'company-mode)
+    (use-package ivy
+      :bind (("<C-return>" . ivy-immediate-done)))
+    (use-package counsel :config (counsel-mode 1))
+    (use-package swiper)
+      (use-package flycheck
+                       :config (global-flycheck-mode 1))
+    (straight-use-package 'company-mode)
 #+END_SRC
 ** Ruby
 #+BEGIN_SRC emacs-lisp
-  (use-package ruby-mode
-    :after lsp-mode
-    :hook ((ruby-mode . lsp-deferred)))
+  (use-package robe
+    :hook ((ruby-mode . robe-mode)))
+
+  ;; (use-package ruby-mode
+  ;;   :after lsp-mode
+  ;;   :hook ((ruby-mode . lsp-deferred)))
   (use-package inf-ruby
     :config
     (autoload 'inf-ruby-minor-mode "inf-ruby" "Run an inferior Ruby process" t)
     (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode))
-;    (add-hook 'ruby-mode-hook #'lsp-ruby-enable))
 #+END_SRC
 
 Loading ruby-debug was disabled in my original init.el. I don't remember why. If you start doing ruby dev, try re-enabling this.
@@ -212,7 +270,9 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
 #+END_SRC
 
 ** Go
-   Inspiration: https://dr-knz.net/a-tour-of-emacs-as-go-editor.html
+   Inspirations:
+   - https://dr-knz.net/a-tour-of-emacs-as-go-editor.html
+   - https://alpha2phi.medium.com/emacs-lsp-and-dap-7c1786282324
 
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
@@ -221,9 +281,11 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
                               (setq indent-tabs-mode 1)
                               (setq tab-width 4)))
     (defvar gofmt-command '/usr/local/bin/gofmt)
-    (add-hook 'go-mode-hook #'lsp)
-    (add-hook 'before-save-hook 'gofmt-before-save))
-
+    :hook ((go-mode . lsp-deferred)
+           (before-save . lsp-format-buffer)
+           (before-save . lsp-organize-imports)))
+    ;(add-hook 'go-mode-hook #'lsp)
+    ;(add-hook 'before-save-hook 'gofmt-before-save))
 #+END_SRC
 
 *** Glyphs
@@ -259,3 +321,19 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
    (global-prettify-symbols-mode 't)
 
 #+END_SRC
+
+* Themes
+  To find new themes, see https://emacsthemes.com.
+  (Note: Setting the color theme last makes it easier to notice when emacs init fails due to config errors.)
+** Load my favorite themes
+#+BEGIN_SRC emacs-lisp
+  (use-package nord-theme
+    :config (load-theme 'nord t))
+  (use-package zenburn-theme)
+#+END_SRC 
+** Persist theme selection across sessions
+#+BEGIN_SRC emacs-lisp
+  (use-package remember-last-theme
+  :config (remember-last-theme-with-file-enable (expand-file-name "transient/last-theme" user-emacs-directory)))
+#+END_SRC 
+
