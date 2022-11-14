@@ -105,32 +105,30 @@
   (savehist-mode 1)
 #+END_SRC
 
-* Custom keyboard shortcuts
-  I'm using function key F12 as the prefix for my shortcuts.
-#+BEGIN_SRC emacs-lisp
-  (define-prefix-command 'david-map)
-  (global-set-key (kbd "<f12>") 'david-map)
-  (define-key david-map (kbd "l") #'counsel-load-theme)
-  (define-key david-map (kbd "c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))))
-#+END_SRC
-** Theme selection
-#+BEGIN_SRC emacs-lisp :tangle no 
-    (global-set-key (kbd "f12") #'counsel-load-theme)
-#+END_SRC
-** Open/edit this configuration file
-#+BEGIN_SRC emacs-lisp :tangle no
-  (global-set-key (kbd "C-c d c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))))
-#+END_SRC
-
-* Org mode customizations
+* TO-do file customizations
 ** Customize the to-do workflow states.
    I distinguish between activites ("TODO") and meetings ("MEETING")
 #+BEGIN_SRC emacs-lisp
-      (setq-default org-todo-keywords
-            '((sequence "TODO" "IN-PROGRESS" "|" "DONE" "DEFERRED" "CANCELED")
-              (sequence "MEETING" "|" "DONE" "CANCELLED")))
+(setq-default org-todo-keywords
+              '((sequence "TODO" "IN-PROGRESS" "|" "DONE" "DEFERRED" "CANCELED")
+                (sequence "MEETING" "|" "MTG DONE" "MTG CANCELED")))
 
 #+END_SRC
+** Function to open todo file for the current day.
+   This hard-codes my (rather primitive) convention: file name is the date, all files are in $HOME/todo.
+#+BEGIN_SRC emacs-lisp
+(defun open-today-todo-file ()
+  "Opens today's org mode todo file. Hard-coned assumptions: todo files are in '$HOME/todo' and follow the pattern 'mmmdd.org', e.g. 'nov07.org'"
+  (interactive)
+  (let ((today (downcase (format-time-string "%b%d.org"))))
+    (switch-to-buffer (find-file-noselect (concat "~/todo/" today)))
+    (when (eq 0 (buffer-size))
+      (insert "Todo list for " (format-time-string "<%Y-%m-%d %a>\n"))
+      (insert "* Work\n")
+      (insert "** TODO Email/Slack/Tabs\n")
+      (insert "** MEETING Standup\n"))))
+#+END_SRC
+
 
 ** Org babel helpers (Primarily for editing this config.org file)
   Add a keyboard macro named "elisp" to insert #+BEGIN_SRC and #+END_SRC.
@@ -172,10 +170,11 @@
   :custom
   (lsp-file-watch-threshold nil)
   (lsp-solargraph-multi-root nil)
-  :hook ((go-mode . lsp-deferred)
-         (typescript-mode . lsp-deferred)
-         (ruby-mode . lsp-deferred)
-         (lsp-mode . lsp-enable-which-key-integration)))
+  :config
+  ;;;(lsp-enable-which-key-integration t)
+  :hook ((go-mode . lsp)
+         (typescript-mode . lsp)
+         (ruby-mode . lsp)))
 
 (use-package lsp-ui
   :commands lsp-ui
@@ -204,22 +203,31 @@
 #+BEGIN_SRC emacs-lisp
 (use-package dap-mode
   :commands dap-debug
-  :init
+
+  :config
+  (dap-mode 1)
+  (setq dap-print-io t)
+  
+  (require 'dap-hydra)
+
   (require 'dap-node)
   (dap-node-setup) ;; automatically installs Node debug adapter if needed
-  (require 'dap-go)
+
   (require 'dap-dlv-go)
-  (dap-go-setup)
-  (defun pt/turn-on-debugger ()
-    (interactive)
-    (dap-mode)
-    (dap-auto-configure-mode)
-    (dap-ui-mode)
-    (dap-ui-controls-mode))
-  (require 'dap-hydra)
-  (require 'dap-gdb-lldb)
-  (dap-gdb-lldb-setup)
-  :config
+  ;; (defun pt/turn-on-debugger ()
+  ;;   (interactive)
+  ;;   (dap-mode)
+  ;;   (dap-auto-configure-mode)
+  ;;   (dap-ui-mode)
+  ;;   (dap-ui-controls-mode))
+  ;(require 'dap-gdb-lldb)
+  ;(dap-gdb-lldb-setup)
+
+  ;; (use-package dap-ui
+  ;; :ensure nil
+  ;; :config
+  ;; (dap-ui-mode 1)) 
+
   ;; bind C-c l d to dap-hydra for easy access
   (general-define-key
    :keymaps 'lsp-mode-map
@@ -321,6 +329,17 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
    (global-prettify-symbols-mode 't)
 
 #+END_SRC
+
+* Custom keyboard shortcuts
+  I'm using function key F12 as the prefix for my shortcuts.
+#+BEGIN_SRC emacs-lisp
+  (define-prefix-command 'david-map)
+  (global-set-key (kbd "<f12>") 'david-map)
+  (define-key david-map (kbd "l") #'counsel-load-theme)
+  (define-key david-map (kbd "c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))))
+  (define-key david-map (kbd "t") #'open-today-todo-file)
+#+END_SRC
+
 
 * Themes
   To find new themes, see https://emacsthemes.com.
