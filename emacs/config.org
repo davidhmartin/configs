@@ -65,6 +65,17 @@
   (setq read-process-output-max (* 1024 1024)))
 #+END_SRC
 
+
+* Shell support: vterm
+  The ultimate emacs terminal emulator. See https://github.com/akermu/emacs-libvterm
+  To run on OS/X, need to install libvterm and cmake via homebrew, as follows:
+    brew install libvterm
+    brew install cmake
+#+BEGIN_SRC emacs-lisp
+(use-package vterm)
+#+END_SRC
+
+
 * Hydra
 #+BEGIN_SRC emacs-lisp
 (use-package general)
