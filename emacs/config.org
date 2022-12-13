@@ -65,6 +65,13 @@
   (setq read-process-output-max (* 1024 1024)))
 #+END_SRC
 
+* file stuff
+#+BEGIN_SRC emacs-lisp
+;(straight-use-package 'f)
+;(require 'f-shortdoc)
+;(require 'f)
+#+END_SRC
+
 
 * Shell support: vterm
   The ultimate emacs terminal emulator. See https://github.com/akermu/emacs-libvterm
@@ -289,6 +296,15 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
   (use-package typescript-mode)
 #+END_SRC
 
+** Java
+   From initial test with a sample source file, it seems java editing is broken when I enable this.
+   Some testing and reconfiguring would be necessary. Currently disabled.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package lsp-java
+  :config
+  (add-hook 'java-mode-hook #'lsp))
+#+END_SRC
+
 ** Go
    Inspirations:
    - https://dr-knz.net/a-tour-of-emacs-as-go-editor.html
@@ -343,7 +359,10 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
 #+END_SRC
 
 * Custom keyboard shortcuts
-  I'm using function key F12 as the prefix for my shortcuts.
+  Setting backtab as the prefix for my personal shortcuts.
+  This exploits the facts that emacs does not by default bind backtab to anything, and that
+  my ergo keyboard has an actual backtab key conveniently located just under esc. On a
+  normal keyboard it would be shift-tab, which seems OK too.
 #+BEGIN_SRC emacs-lisp
   (define-prefix-command 'david-map)
   (global-set-key (kbd "<f12>") 'david-map)
