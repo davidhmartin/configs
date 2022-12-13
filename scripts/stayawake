@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+## Prevents laptop from going to sleep for the specified number of hours, defaulting to 8 hours.
+## Note that this is not a security issue because it does not prevent password locking,
+## but it does keep the displays on, potentially forgoing the power savings in order to avoid
+## that irritating delay when waking up all 3 external monitors.
+
+function print_help () {
+    echo "Usage: $(basename $0) [-k] [-h] [hours]"
+    echo "    -k: kills the caffeinate process"
+    echo "    -h: print help"
+    echo "    hours: number of hours to stay awake. Defaults to 8."
+}
+
+if ! command -v caffeinate &> /dev/null
+then
+    echo "Can't stay awake without caffeine, dude."
+    exit 1
+fi
+
+
+while getopts "kh" options
+do
+    case $options in
+        k )
+            killall caffeinate
+            echo Stayawake canceled
+            exit 0
+            ;;
+        h )
+            print_help
+            exit 0
+            ;;
+    esac
+done
+shift "$(($OPTIND -1))"
+HOURS=${1:-8}
+DELAY_SECONDS=$((60 * 60 * $HOURS))
+
+if pgrep -x "caffeinate" > /dev/null
+then
+    killall caffeinate
+fi
+
+caffeinate -u -t $DELAY_SECONDS &
+
+echo Your displays will be kept awake until $( date -r $(($(DATE "+%s") + ${DELAY_SECONDS})) )
+
