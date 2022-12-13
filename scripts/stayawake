@@ -4,10 +4,15 @@
 ## Note that this is not a security issue because it does not prevent password locking,
 ## but it does keep the displays on, potentially forgoing the power savings in order to avoid
 ## that irritating delay when waking up all 3 external monitors.
+##
+## Caveats:
+## 1) This will only work on OS/X.
+## 2) Using the -k option to cancel will kill all caffeinate processes, even those not started
+##    by this script.
 
 function print_help () {
     echo "Usage: $(basename $0) [-k] [-h] [hours]"
-    echo "    -k: kills the caffeinate process"
+    echo "    -k: kills all caffeinate processes"
     echo "    -h: print help"
     echo "    hours: number of hours to stay awake. Defaults to 8."
 }
