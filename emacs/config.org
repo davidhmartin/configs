@@ -1,5 +1,5 @@
-#+TITLE:  David Martin's emacs configuration
 #+AUTHOR: David H Martin
+#+TITLE:  David Martin's emacs configuration
 #+OPTIONS: num:nil
 * Overview
   GNU Emacs configuration implemented in "literate programming" style using org/babel  
@@ -25,36 +25,35 @@
 
 ** Bootstrap straight as the package manager
 #+BEGIN_SRC emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-
-  (straight-use-package 'use-package)
-  (use-package straight
-    :custom (straight-use-package-by-default t))
+(straight-use-package 'use-package)
+(use-package straight
+  :custom (straight-use-package-by-default t))
 #+END_SRC
 
 ** Add .emacs.d/lisp to load path, for unpackaged sources
 #+BEGIN_SRC emacs-lisp
-   (setq load-path (cons (expand-file-name "~/.emacs.d/lisp") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/lisp") load-path))
 #+END_SRC
 
 * Fix the os/x shell path issue
  #+BEGIN_SRC emacs-lisp
-   (when (memq window-system '(mac ns x))
-     (use-package exec-path-from-shell
-       :config (when (memq window-system '(mac ns x))
-                 (exec-path-from-shell-initialize))))
+(when (memq window-system '(mac ns x))
+  (use-package exec-path-from-shell
+    :config (when (memq window-system '(mac ns x))
+              (exec-path-from-shell-initialize))))
 #+END_SRC
 
 * Head off potential memory issues caused by LSP
@@ -74,7 +73,7 @@
 
 
 * Shell support: vterm
-  The ultimate emacs terminal emulator. See https://github.com/akermu/emacs-libvterm
+  See https://github.com/akermu/emacs-libvterm
   To run on OS/X, need to install libvterm and cmake via homebrew, as follows:
     brew install libvterm
     brew install cmake
@@ -91,26 +90,156 @@
 
 * Projectile
 #+BEGIN_SRC emacs-lisp
-  (use-package projectile)
+(use-package projectile
+  :ensure t
+  :init
   (projectile-mode +1)
-  ;; Recommended keymap prefix on macOS
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  ;; Recommended keymap prefix on Windows/Linux
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map))
+  :config
+  (setq projectile-project-search-path '(("~/git" . 1))))
 #+END_SRC
 
 * Neotree
 #+BEGIN_SRC emacs-lisp
-  (use-package neotree)
-  (global-set-key [f8] 'neotree-toggle)
-  (setq neo-window-fixed-size nil)
+(use-package neotree
+  :config
+    (global-set-key [f8] 'neotree-toggle)
+    (setq neo-window-fixed-size nil)
+    (setq neo-smart-open t)
+    (setq neo-theme 'nerd)
+    (setq neo-window-width 35)
+    (setq projectile-switch-project-action 'neotree-projectile-action))
 #+END_SRC
+
+* Treemacs
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay        0.5
+          treemacs-directory-name-transformer      #'identity
+          treemacs-display-in-side-window          t
+          treemacs-eldoc-display                   'simple
+          treemacs-file-event-delay                2000
+          treemacs-file-extension-regex            treemacs-last-period-regex-value
+          treemacs-file-follow-delay               0.2
+          treemacs-file-name-transformer           #'identity
+          treemacs-follow-after-init               t
+          treemacs-expand-after-init               t
+          treemacs-find-workspace-method           'find-for-file-or-pick-first
+          treemacs-git-command-pipe                ""
+          treemacs-goto-tag-strategy               'refetch-index
+          treemacs-header-scroll-indicators        '(nil . "^^^^^^")
+          treemacs-hide-dot-git-directory          t
+          treemacs-indentation                     2
+          treemacs-indentation-string              " "
+          treemacs-is-never-other-window           nil
+          treemacs-max-git-entries                 5000
+          treemacs-missing-project-action          'ask
+          treemacs-move-forward-on-expand          nil
+          treemacs-no-png-images                   nil
+          treemacs-no-delete-other-windows         t
+          treemacs-project-follow-cleanup          nil
+          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                        'left
+          treemacs-read-string-input               'from-child-frame
+          treemacs-recenter-distance               0.1
+          treemacs-recenter-after-file-follow      nil
+          treemacs-recenter-after-tag-follow       nil
+          treemacs-recenter-after-project-jump     'always
+          treemacs-recenter-after-project-expand   'on-distance
+          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
+          treemacs-show-cursor                     nil
+          treemacs-show-hidden-files               t
+          treemacs-silent-filewatch                nil
+          treemacs-silent-refresh                  nil
+          treemacs-sorting                         'alphabetic-asc
+          treemacs-select-when-already-in-treemacs 'move-back
+          treemacs-space-between-root-nodes        t
+          treemacs-tag-follow-cleanup              t
+          treemacs-tag-follow-delay                1.5
+          treemacs-text-scale                      nil
+          treemacs-user-mode-line-format           nil
+          treemacs-user-header-line-format         nil
+          treemacs-wide-toggle-width               70
+          treemacs-width                           35
+          treemacs-width-increment                 1
+          treemacs-width-is-initially-locked       t
+          treemacs-workspace-switch-cleanup        nil)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)
+    (when treemacs-python-executable
+      (treemacs-git-commit-diff-mode t))
+
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple)))
+
+    (treemacs-hide-gitignored-files-mode nil))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t d"   . treemacs-select-directory)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
+
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
+
+(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+  :ensure t
+  :config (treemacs-set-scope-type 'Perspectives))
+
+(use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
+  :after (treemacs)
+  :ensure t
+  :config (treemacs-set-scope-type 'Tabs))
+#+END_SRC
+
+
+* Expand-region
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
+  :config
+    (global-set-key (kbd "C-=") 'er/expand-region))
+#+END_SRC
+
 
 * General editor settings
 ** Basic settings
  #+BEGIN_SRC emacs-lisp
    (tool-bar-mode -1)
-   (menu-bar-mode -1)
+   (menu-bar-mode 1)
    (column-number-mode 1)
    (global-hl-line-mode 1)
    (global-visual-line-mode nil)
@@ -152,7 +281,7 @@
   Add a keyboard macro named "elisp" to insert #+BEGIN_SRC and #+END_SRC.
   I'm using a macro instead of snippets because YASnippets does not play well with org mode and it's not worth the effort to fix unless I get heavily into org mode editing.
 #+BEGIN_SRC emacs-lisp
-(fset 'elisp
+(fset 'elisp-src
    (kmacro-lambda-form [?\C-a ?# ?+ ?B ?E ?G ?I ?N ?_ ?S ?R ?C ?  ?e ?m ?a ?c ?s ?- ?l ?/ ?i ?s ?p backspace backspace backspace backspace ?i ?s ?p return return ?# ?+ ?E ?N ?D ?_ ?S ?R ?C up] 0 "%d"))
 #+END_SRC
 
@@ -172,7 +301,7 @@
 #+END_SRC
 
 
-** Git support 
+* Git support 
  #+BEGIN_SRC emacs-lisp
    (use-package magit)
 #+END_SRC
@@ -183,7 +312,7 @@
 ** LSP
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
-  :init (setq lsp-keymap-prefix "C-c l")
+  :init (setq lsp-keymap-prefix "s-l")
   :commands (lsp lsp-deferred)
   :bind (:map lsp-mode-map ("C-c C-a" . #'lsp-execute-code-action))
   :custom
@@ -256,22 +385,56 @@
    
 ** Various file edit modes
 #+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode)
-  (use-package json-mode)
-  (use-package graphql-mode)
+(use-package yaml-mode)
+(use-package json-mode)
+(use-package graphql-mode
+  :mode ("\\.graphqls\\'"
+         "\\.graphql\\'"
+         "\\.gql\\'")
+  :config
+  (setq graphql-indent-level 4))
 #+END_SRC
 
 ** High octane completion
    Enables ivy mode, counsel, and swiper. (See https://github.com/abo-abo/swiper and https://oremacs.com/swiper/)
 #+BEGIN_SRC emacs-lisp
-    (use-package ivy
-      :bind (("<C-return>" . ivy-immediate-done)))
-    (use-package counsel :config (counsel-mode 1))
-    (use-package swiper)
-      (use-package flycheck
-                       :config (global-flycheck-mode 1))
-    (straight-use-package 'company-mode)
+
+(use-package ivy
+  :bind (("<C-return>" . ivy-immediate-done)))
+
+(use-package counsel :config (counsel-mode 1))
+
+(use-package swiper
+  :bind* (("C-s" . swiper)
+          ("C-M-s" . swiper-all))
+  :bind
+  (:map read-expression-map
+        ("C-r" . counsel-minibuffer-history)))
+
+(use-package flycheck
+  :config (global-flycheck-mode 1))
+
+(straight-use-package 'company-mode)
+
+(define-key isearch-mode-map (kbd "C-c s") 'swiper-isearch-toggle)
+(define-key swiper-map (kbd "C-c s") 'swiper-isearch-toggle)
+
+(use-package ivy-posframe
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (ivy-posframe-mode 1))
+
 #+END_SRC
+
+** popwin
+Makes the compilation buffer show in a consistent place
+#+BEGIN_SRC emacs-lisp
+(use-package popwin
+  :config
+  (popwin-mode 1)
+  (push '(compilation-mode :position top :noselect 1 :stick 1) popwin:special-display-config))
+#+END_SRC
+
 ** Ruby
 #+BEGIN_SRC emacs-lisp
   (use-package robe
@@ -311,17 +474,16 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
    - https://alpha2phi.medium.com/emacs-lsp-and-dap-7c1786282324
 
 #+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :config
-    (add-hook 'go-mode-hook (lambda ()
-                              (setq indent-tabs-mode 1)
-                              (setq tab-width 4)))
-    (defvar gofmt-command '/usr/local/bin/gofmt)
-    :hook ((go-mode . lsp-deferred)
-           (before-save . lsp-format-buffer)
-           (before-save . lsp-organize-imports)))
-    ;(add-hook 'go-mode-hook #'lsp)
-    ;(add-hook 'before-save-hook 'gofmt-before-save))
+(use-package go-mode
+  :config
+  (add-hook 'go-mode-hook (lambda ()
+                            (setq indent-tabs-mode 1)
+                            (setq tab-width 4)
+                            (setq lsp-go-env '((GOFLAGS . "-tags=e2e")))))
+  (defvar gofmt-command '/usr/local/bin/gofmt)
+  :hook ((go-mode . lsp-deferred)
+         (before-save . lsp-format-buffer)
+         (before-save . lsp-organize-imports)))
 #+END_SRC
 
 *** Glyphs
@@ -359,31 +521,38 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
 #+END_SRC
 
 * Custom keyboard shortcuts
-  Setting backtab as the prefix for my personal shortcuts.
-  This exploits the facts that emacs does not by default bind backtab to anything, and that
-  my ergo keyboard has an actual backtab key conveniently located just under esc. On a
-  normal keyboard it would be shift-tab, which seems OK too.
+  Using F12 as the prefix for personal shortcuts.
 #+BEGIN_SRC emacs-lisp
-  (define-prefix-command 'david-map)
-  (global-set-key (kbd "<f12>") 'david-map)
-  (define-key david-map (kbd "l") #'counsel-load-theme)
-  (define-key david-map (kbd "c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))))
-  (define-key david-map (kbd "t") #'open-today-todo-file)
+(define-prefix-command 'david-map)
+(global-set-key (kbd "<f12>") 'david-map)
+(define-key david-map (kbd "l") #'counsel-load-theme)
+(define-key david-map (kbd "c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))))
+(define-key david-map (kbd "t") #'open-today-todo-file)
+(define-key david-map (kbd "n") #'display-line-numbers-mode)
+(define-key david-map (kbd "e") #'elisp-src) ; inserts begin_src emacs-lisp and end_src emacs-lisp region 
 #+END_SRC
+
+* Window navigation
+#+BEGIN_SRC emacs-lisp
+(use-package ace-window
+  :bind ("M-o" . ace-window))
+#+END_SRC 
 
 
 * Themes
-  To find new themes, see https://emacsthemes.com.
-  (Note: Setting the color theme last makes it easier to notice when emacs init fails due to config errors.)
+To find new themes, see https://emacsthemes.com.
+(Note: I like to set the color theme last because it makes it easy to tell when emacs initialization has successfully completed.)
+
 ** Load my favorite themes
 #+BEGIN_SRC emacs-lisp
-  (use-package nord-theme
-    :config (load-theme 'nord t))
-  (use-package zenburn-theme)
+(use-package nord-theme
+  :config (load-theme 'nord t))
+(use-package zenburn-theme)
 #+END_SRC 
+
 ** Persist theme selection across sessions
 #+BEGIN_SRC emacs-lisp
-  (use-package remember-last-theme
+(use-package remember-last-theme
   :config (remember-last-theme-with-file-enable (expand-file-name "transient/last-theme" user-emacs-directory)))
 #+END_SRC 
 

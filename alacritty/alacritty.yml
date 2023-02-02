@@ -1,5 +1,20 @@
 import:
-#  - ~/.alacritty-colorscheme/themes/nord.yaml
-#  - ~/.alacritty-colorscheme/themes/solarized_light.yaml
-#  - ~/.alacritty-base16/colors/base16-hardcore.yml  
   - ~/.alacritty-base16/colors/base16-zenburn.yml  
+
+window:
+  padding:
+    x: 5
+    y: 5
+    
+scrolling:
+  history: 100000
+  multiplier: 3
+  faux_multiplier: 3
+  auto_scroll: true
+  
+cursor:
+  style: Block
+
+live_config_reload: true  
+  
+

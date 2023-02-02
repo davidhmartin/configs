@@ -7,7 +7,7 @@
 ##
 ## Caveats:
 ## 1) This will only work on OS/X.
-## 2) Using the -k option to cancel will kill all caffeinate processes, even those not started
+## 2) Using the -k option will kill all caffeinate processes, even those not started
 ##    by this script.
 
 function print_help () {
