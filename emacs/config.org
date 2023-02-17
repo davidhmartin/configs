@@ -110,7 +110,8 @@
     (setq neo-smart-open t)
     (setq neo-theme 'nerd)
     (setq neo-window-width 35)
-    (setq projectile-switch-project-action 'neotree-projectile-action))
+    (setq projectile-switch-project-action 'neotree-projectile-action)
+)
 #+END_SRC
 
 * Treemacs
@@ -516,8 +517,6 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
       (push '("interface{}" . ?⋆) prettify-symbols-alist)
       (push '("struct{}" . ?ε) prettify-symbols-alist)
       ))
-   (global-prettify-symbols-mode 't)
-
 #+END_SRC
 
 * Custom keyboard shortcuts
@@ -526,17 +525,44 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
 (define-prefix-command 'david-map)
 (global-set-key (kbd "<f12>") 'david-map)
 (define-key david-map (kbd "l") #'counsel-load-theme)
-(define-key david-map (kbd "c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))))
+(define-key david-map (kbd "c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory)))) ; open buffer on this file
 (define-key david-map (kbd "t") #'open-today-todo-file)
 (define-key david-map (kbd "n") #'display-line-numbers-mode)
-(define-key david-map (kbd "e") #'elisp-src) ; inserts begin_src emacs-lisp and end_src emacs-lisp region 
+(define-key david-map (kbd "e") #'elisp-src) ; inserts begin_src emacs-lisp and end_src emacs-lisp region
+(define-key david-map (kbd "f") #'neotree-find)
+(define-key david-map (kbd "p") #'prettify-symbols-mode) ; toggle ligatures
+
+;; window navigation
+(define-key david-map (kbd "<up>") #'windmove-up)
+(define-key david-map (kbd "<down>") #'windmove-down)
+(define-key david-map (kbd "<left>") #'windmove-left)
+(define-key david-map (kbd "<right>") #'windmove-right)
 #+END_SRC
 
 * Window navigation
+
+** ace-window
 #+BEGIN_SRC emacs-lisp
 (use-package ace-window
   :bind ("M-o" . ace-window))
 #+END_SRC 
+
+* Fonts
+
+** Edit and enable this to set the default face
+#+BEGIN_SRC emacs-lisp :tangle no
+(set-face-attribute 'default nil
+                    :family "Menlo"
+                    :height 120
+                    :weight 'normal
+                    :width 'normal)
+#+END_SRC
+
+** Enable this to turn on ligatures by default.
+Note that the custom shortcut "F12-p" toggles ligatures for the buffer.
+#+BEGIN_SRC emacs-lisp :tangle no
+   (global-prettify-symbols-mode 't)
+#+END_SRC
 
 
 * Themes
