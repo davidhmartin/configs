@@ -88,6 +88,32 @@
 (use-package hydra)
 #+END_SRC
 
+* Vertico
+TODO: Try vertico. 
+#+BEGIN_SRC emacs-lisp  :tangle no
+
+(setq vertico-map 
+(use-package vertico
+  :ensure ;TODO: 
+  :bind (:map vertico-map
+              ("C-j" . vertico-next)
+              ("C-k" . vertico-previous)
+              ("C-f" . vertico-exit)
+              :map minibuffer-local-map
+              ("M-h" . backward-kill-word))
+  :init
+  (vertico-mode))
+
+(use-package vertico
+  :custom
+  (vertico-count 13)                    ; Number of candidates to display
+  (vertico-resize t)
+  (vertico-cycle nil) ; Go from last to first candidate and first to last (cycle)?
+  :config
+  (vertico-mode))
+
+#+END_SRC
+
 * Projectile
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
@@ -101,7 +127,10 @@
   (setq projectile-project-search-path '(("~/git" . 1))))
 #+END_SRC
 
-* Neotree
+* Tree pane support
+Neotree has been working well for me, and I like the simplicity of its configuration.
+Might experiment with treemacs in the future. 
+** Neotree
 #+BEGIN_SRC emacs-lisp
 (use-package neotree
   :config
@@ -113,120 +142,6 @@
     (setq projectile-switch-project-action 'neotree-projectile-action)
 )
 #+END_SRC
-
-* Treemacs
-#+BEGIN_SRC emacs-lisp :tangle no
-(use-package treemacs
-  :ensure t
-  :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :config
-  (progn
-    (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
-          treemacs-deferred-git-apply-delay        0.5
-          treemacs-directory-name-transformer      #'identity
-          treemacs-display-in-side-window          t
-          treemacs-eldoc-display                   'simple
-          treemacs-file-event-delay                2000
-          treemacs-file-extension-regex            treemacs-last-period-regex-value
-          treemacs-file-follow-delay               0.2
-          treemacs-file-name-transformer           #'identity
-          treemacs-follow-after-init               t
-          treemacs-expand-after-init               t
-          treemacs-find-workspace-method           'find-for-file-or-pick-first
-          treemacs-git-command-pipe                ""
-          treemacs-goto-tag-strategy               'refetch-index
-          treemacs-header-scroll-indicators        '(nil . "^^^^^^")
-          treemacs-hide-dot-git-directory          t
-          treemacs-indentation                     2
-          treemacs-indentation-string              " "
-          treemacs-is-never-other-window           nil
-          treemacs-max-git-entries                 5000
-          treemacs-missing-project-action          'ask
-          treemacs-move-forward-on-expand          nil
-          treemacs-no-png-images                   nil
-          treemacs-no-delete-other-windows         t
-          treemacs-project-follow-cleanup          nil
-          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-          treemacs-position                        'left
-          treemacs-read-string-input               'from-child-frame
-          treemacs-recenter-distance               0.1
-          treemacs-recenter-after-file-follow      nil
-          treemacs-recenter-after-tag-follow       nil
-          treemacs-recenter-after-project-jump     'always
-          treemacs-recenter-after-project-expand   'on-distance
-          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
-          treemacs-show-cursor                     nil
-          treemacs-show-hidden-files               t
-          treemacs-silent-filewatch                nil
-          treemacs-silent-refresh                  nil
-          treemacs-sorting                         'alphabetic-asc
-          treemacs-select-when-already-in-treemacs 'move-back
-          treemacs-space-between-root-nodes        t
-          treemacs-tag-follow-cleanup              t
-          treemacs-tag-follow-delay                1.5
-          treemacs-text-scale                      nil
-          treemacs-user-mode-line-format           nil
-          treemacs-user-header-line-format         nil
-          treemacs-wide-toggle-width               70
-          treemacs-width                           35
-          treemacs-width-increment                 1
-          treemacs-width-is-initially-locked       t
-          treemacs-workspace-switch-cleanup        nil)
-
-    ;; The default width and height of the icons is 22 pixels. If you are
-    ;; using a Hi-DPI display, uncomment this to double the icon size.
-    ;;(treemacs-resize-icons 44)
-
-    (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode 'always)
-    (when treemacs-python-executable
-      (treemacs-git-commit-diff-mode t))
-
-    (pcase (cons (not (null (executable-find "git")))
-                 (not (null treemacs-python-executable)))
-      (`(t . t)
-       (treemacs-git-mode 'deferred))
-      (`(t . _)
-       (treemacs-git-mode 'simple)))
-
-    (treemacs-hide-gitignored-files-mode nil))
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t d"   . treemacs-select-directory)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
-
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
-
-(use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
-
-(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  :ensure t
-  :config (treemacs-set-scope-type 'Perspectives))
-
-(use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
-  :after (treemacs)
-  :ensure t
-  :config (treemacs-set-scope-type 'Tabs))
-#+END_SRC
-
 
 * Expand-region
 #+BEGIN_SRC emacs-lisp
@@ -311,7 +226,10 @@
 * Programming language support
 
 ** LSP
-#+BEGIN_SRC emacs-lisp
+Language Server Protocol support.
+
+*** lsp-mode
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package lsp-mode
   :init (setq lsp-keymap-prefix "s-l")
   :commands (lsp lsp-deferred)
@@ -348,34 +266,93 @@
  lsp-ui-flycheck-enable t)
 #+END_SRC
 
-** DAP
+**** lsp-mode custom keymap
+#+BEGIN_SRC emacs-lisp :tangle no
+(define-prefix-command 'my-lsp-map)
+(global-set-key (kbd "<f9>") 'my-lsp-map)
+(define-key my-lsp-map (kbd ".") #'xref-find-definitions)
+(define-key my-lsp-map (kbd ",") #'xref-go-back)
+(define-key my-lsp-map (kbd "/") #'xref-find-references)
+(define-key my-lsp-map (kbd "<tab>") #'company-complete)
+(define-key my-lsp-map (kbd "<down>") #'flymake-goto-next-error)
+(define-key my-lsp-map (kbd "<up>") #'flymake-goto-prev-error)
+
+(define-key my-lsp-map (kbd "b") #'dap-breakpoint-toggle)
+(define-key my-lsp-map (kbd "r") #'dap-restart)
+(define-key my-lsp-map (kbd "l") #'dap-debug-last)
+(define-key my-lsp-map (kbd "d") #'dap-debug)
+
+#+END_SRC
+
+
+*** eglot
+
+Debugging golang only works well with lsp-mode. :-(
+
 #+BEGIN_SRC emacs-lisp
-(use-package dap-mode
-  :commands dap-debug
 
-  :config
-  (dap-mode 1)
-  (setq dap-print-io t)
+;; Install eglot-format-buffer as a save hook.
+;; The depth of -10 places this before eglot's willSave notification,
+;; so that that notification reports the actual contents that will be saved.
+  ;; From: https://go.googlesource.; commentm/tools/+/refs/heads/master/gopls/doc/emacs.md
+(defun eglot-format-buffer-on-save ()
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+
+(use-package eglot)
+#+END_SRC
+
+**** eglot custom keymap
+Eglot uses the std xref commands which are bound to *M-.*, *M-?*, and *M-,* for "find defn", "find references", and "go back"
+but it doesn't define shortcuts for related commands.
+I'm using F9 prefix, mapping the above to the same keys w/ the meta prefix, plus letter mnemonics for
+the other find function plus rename and "code actions".
+
+#+BEGIN_SRC emacs-lisp
+(define-prefix-command 'eglot-map)
+(global-set-key (kbd "<f9>") 'eglot-map)
+(define-key eglot-map (kbd ".") #'xref-find-definitions)
+(define-key eglot-map (kbd ",") #'xref-go-back)
+(define-key eglot-map (kbd "/") #'xref-find-references)
+(define-key eglot-map (kbd "d") #'eglot-find-declaration)
+(define-key eglot-map (kbd "i") #'eglot-find-implementation)
+(define-key eglot-map (kbd "t") #'eglot-find-typeDefinition)
+(define-key eglot-map (kbd "r") #'eglot-rename)
+(define-key eglot-map (kbd "a") #'eglot-code-actions)
+(define-key eglot-map (kbd "<tab>") #'company-complete)
+(define-key eglot-map (kbd "<down>") #'flymake-goto-next-error)
+(define-key eglot-map (kbd "<up>") #'flymake-goto-prev-error)
+#+END_SRC
+
+** DAP
+Debugging
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dap-mode
+    :commands dap-debug
   
-  (require 'dap-hydra)
+    :config
+    (dap-mode 1)
+    (setq dap-print-io t)
 
-  (require 'dap-node)
-  (dap-node-setup) ;; automatically installs Node debug adapter if needed
+    (dap-auto-configure-mode 1)
+    (dap-ui-mode 1)
+    (dap-tooltip-mode 1)
+    (dap-ui-controls-mode 1)
+  
+    (require 'dap-hydra)
+  
+    (require 'dap-node)
+    (dap-node-setup) ;; automatically installs Node debug adapter if needed
+  
+    (require 'dap-dlv-go)
 
-  (require 'dap-dlv-go)
-  ;; (defun pt/turn-on-debugger ()
-  ;;   (interactive)
-  ;;   (dap-mode)
-  ;;   (dap-auto-configure-mode)
-  ;;   (dap-ui-mode)
-  ;;   (dap-ui-controls-mode))
-  ;(require 'dap-gdb-lldb)
-  ;(dap-gdb-lldb-setup)
+    (require 'dap-gdb-lldb)
+    (dap-gdb-lldb-setup)
 
   ;; (use-package dap-ui
-  ;; :ensure nil
-  ;; :config
-  ;; (dap-ui-mode 1)) 
+  ;;   :ensure nil
+  ;;   :config
+  ;;   (dap-ui-mode 1))
 
   ;; bind C-c l d to dap-hydra for easy access
   (general-define-key
@@ -415,7 +392,10 @@
 (use-package flycheck
   :config (global-flycheck-mode 1))
 
-(straight-use-package 'company-mode)
+;;(straight-use-package 'company-mode)
+(use-package company
+  :config
+  (global-company-mode))
 
 (define-key isearch-mode-map (kbd "C-c s") 'swiper-isearch-toggle)
 (define-key swiper-map (kbd "C-c s") 'swiper-isearch-toggle)
@@ -461,13 +441,8 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
 #+END_SRC
 
 ** Java
-   From initial test with a sample source file, it seems java editing is broken when I enable this.
-   Some testing and reconfiguring would be necessary. Currently disabled.
-#+BEGIN_SRC emacs-lisp :tangle no
-(use-package lsp-java
-  :config
-  (add-hook 'java-mode-hook #'lsp))
-#+END_SRC
+I'm happy not to be doing java anymore. As a long-term IntelliJ IDEA user, it's an open question (for me) whether lsp is a viable alternative.
+If I'm lucky I won't have to find out; a quarter century is too long to use the same programming language.
 
 ** Go
    Inspirations:
@@ -475,21 +450,34 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
    - https://alpha2phi.medium.com/emacs-lsp-and-dap-7c1786282324
 
 #+BEGIN_SRC emacs-lisp
+
 (use-package go-mode
   :config
   (add-hook 'go-mode-hook (lambda ()
                             (setq indent-tabs-mode 1)
                             (setq tab-width 4)
-                            (setq lsp-go-env '((GOFLAGS . "-tags=e2e")))))
-  (defvar gofmt-command '/usr/local/bin/gofmt)
-  :hook ((go-mode . lsp-deferred)
-         (before-save . lsp-format-buffer)
-         (before-save . lsp-organize-imports)))
+                            (eglot-ensure)
+                            (eglot-format-buffer-on-save)
+                                        ;(setq lsp-go-env '((GOFLAGS . "-tags=e2e")))
+                            ))
+    (setq-default eglot-workspace-configuration
+      '((:gopls .
+          ((staticcheck . t)
+           (matcher . "CaseSensitive")))))
+
+    (defvar gofmt-command '/usr/local/bin/gofmt)
+
+    ;; :hook ((go-mode . lsp-deferred)
+    ;;        (before-save . lsp-format-buffer)
+    ;;        (before-save . lsp-organize-imports)))
+    )
 #+END_SRC
 
 *** Glyphs
-    Disabled until I achieve sufficient go proficiency not to get confused.
-#+BEGIN_SRC emacs-lisp :tangle no
+    Defines ligatures for go mode.
+    Currently prettify-symbols-mode is disabled by default; I define the shortcut "F12-p" to turn it on for current buffer.
+    If/when I do start using this, will probably narrow it down to a subset.
+#+BEGIN_SRC emacs-lisp
    (add-hook
     'go-mode-hook
     (lambda ()
@@ -549,7 +537,8 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
 
 * Fonts
 
-** Edit and enable this to set the default face
+** Setting the default face (disabled)
+Just keeping this here for reference, but not needing it right now
 #+BEGIN_SRC emacs-lisp :tangle no
 (set-face-attribute 'default nil
                     :family "Menlo"
@@ -558,10 +547,11 @@ Loading ruby-debug was disabled in my original init.el. I don't remember why. If
                     :width 'normal)
 #+END_SRC
 
-** Enable this to turn on ligatures by default.
+** Ligatures (prettify-symbols-mode)
+Setting this off by default, at least for now. 
 Note that the custom shortcut "F12-p" toggles ligatures for the buffer.
-#+BEGIN_SRC emacs-lisp :tangle no
-   (global-prettify-symbols-mode 't)
+#+BEGIN_SRC emacs-lisp
+   (global-prettify-symbols-mode -1)
 #+END_SRC
 
 
