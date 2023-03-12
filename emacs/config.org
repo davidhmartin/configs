@@ -89,29 +89,77 @@
 #+END_SRC
 
 * Vertico
-TODO: Try vertico. 
-#+BEGIN_SRC emacs-lisp  :tangle no
+#+BEGIN_SRC emacs-lisp
+  ;; (use-package vertico
+  ;;   :ensure
+  ;;   :bind (:map vertico-map
+  ;;               ("C-j" . vertico-next)
+  ;;               ("C-k" . vertico-previous)
+  ;;               ("C-f" . vertico-exit)
+  ;;               :map minibuffer-local-map
+  ;;               ("M-h" . backward-kill-word))
+  ;;   :init
+  ;;   (vertico-mode))
 
-(setq vertico-map 
-(use-package vertico
-  :ensure ;TODO: 
-  :bind (:map vertico-map
-              ("C-j" . vertico-next)
-              ("C-k" . vertico-previous)
-              ("C-f" . vertico-exit)
-              :map minibuffer-local-map
-              ("M-h" . backward-kill-word))
-  :init
-  (vertico-mode))
+  (use-package vertico
+    :custom
+    (vertico-count 13)                    ; Number of candidates to display
+    (vertico-resize t)
+    (vertico-cycle nil) ; Go from last to first candidate and first to last (cycle)?
+    :config
+    (vertico-mode))
+#+END_SRC
 
-(use-package vertico
+* Orderless completion
+#+BEGIN_SRC emacs-lisp
+(use-package orderless
+  :ensure t
   :custom
-  (vertico-count 13)                    ; Number of candidates to display
-  (vertico-resize t)
-  (vertico-cycle nil) ; Go from last to first candidate and first to last (cycle)?
-  :config
-  (vertico-mode))
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+#+END_SRC
 
+* Marginalia
+#+BEGIN_SRC emacs-lisp
+(use-package marginalia
+  :ensure t
+  :config
+  (marginalia-mode))
+#+END_SRC
+
+* Embark
+#+BEGIN_SRC emacs-lisp
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
+  ;; strategy, if you want to see the documentation from multiple providers.
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t ; only need to install it, embark loads it after consult if found
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
 
 * Projectile
@@ -128,19 +176,40 @@ TODO: Try vertico.
 #+END_SRC
 
 * Tree pane support
+** Neotree
 Neotree has been working well for me, and I like the simplicity of its configuration.
 Might experiment with treemacs in the future. 
-** Neotree
+
 #+BEGIN_SRC emacs-lisp
+
+(defun neotree-project-dir ()
+    "Open NeoTree using the git root."
+    (interactive)
+    (let ((project-dir (projectile-project-root))
+          (file-name (buffer-file-name)))
+      (neotree-toggle)
+      (if project-dir
+          (if (neo-global--window-exists-p)
+              (progn
+                (neotree-dir project-dir)
+                (neotree-find file-name)))
+        (message "Could not find git project root."))))
+
 (use-package neotree
   :config
-    (global-set-key [f8] 'neotree-toggle)
+    ;;(global-set-key [f8] 'neotree-toggle)
     (setq neo-window-fixed-size nil)
     (setq neo-smart-open t)
     (setq neo-theme 'nerd)
     (setq neo-window-width 35)
     (setq projectile-switch-project-action 'neotree-projectile-action)
-)
+
+    (defhydra hydra-neotree (global-map "<f8>")
+      "neotree"
+      ("t" neotree-toggle "toggle")
+      ("p" neotree-project-dir "open project root")
+      ("f" neotree-find "find")
+      ("d" neotree-dir "dir")))
 #+END_SRC
 
 * Expand-region
@@ -229,7 +298,7 @@ Might experiment with treemacs in the future.
 Language Server Protocol support.
 
 *** lsp-mode
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
   :init (setq lsp-keymap-prefix "s-l")
   :commands (lsp lsp-deferred)
@@ -267,7 +336,7 @@ Language Server Protocol support.
 #+END_SRC
 
 **** lsp-mode custom keymap
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp 
 (define-prefix-command 'my-lsp-map)
 (global-set-key (kbd "<f9>") 'my-lsp-map)
 (define-key my-lsp-map (kbd ".") #'xref-find-definitions)
@@ -281,7 +350,7 @@ Language Server Protocol support.
 (define-key my-lsp-map (kbd "r") #'dap-restart)
 (define-key my-lsp-map (kbd "l") #'dap-debug-last)
 (define-key my-lsp-map (kbd "d") #'dap-debug)
-
+(define-key my-lsp-map (kbd "h") '(dap-hydra t :wk "debugger"))
 #+END_SRC
 
 
@@ -289,7 +358,7 @@ Language Server Protocol support.
 
 Debugging golang only works well with lsp-mode. :-(
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 
 ;; Install eglot-format-buffer as a save hook.
 ;; The depth of -10 places this before eglot's willSave notification,
@@ -307,7 +376,7 @@ but it doesn't define shortcuts for related commands.
 I'm using F9 prefix, mapping the above to the same keys w/ the meta prefix, plus letter mnemonics for
 the other find function plus rename and "code actions".
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (define-prefix-command 'eglot-map)
 (global-set-key (kbd "<f9>") 'eglot-map)
 (define-key eglot-map (kbd ".") #'xref-find-definitions)
@@ -329,8 +398,9 @@ Debugging
 #+BEGIN_SRC emacs-lisp
   (use-package dap-mode
     :commands dap-debug
-  
+
     :config
+    (require 'dap-ui)
     (dap-mode 1)
     (setq dap-print-io t)
 
@@ -338,21 +408,22 @@ Debugging
     (dap-ui-mode 1)
     (dap-tooltip-mode 1)
     (dap-ui-controls-mode 1)
-  
+
     (require 'dap-hydra)
-  
+
     (require 'dap-node)
     (dap-node-setup) ;; automatically installs Node debug adapter if needed
-  
+
     (require 'dap-dlv-go)
 
     (require 'dap-gdb-lldb)
     (dap-gdb-lldb-setup)
 
-  ;; (use-package dap-ui
-  ;;   :ensure nil
-  ;;   :config
-  ;;   (dap-ui-mode 1))
+    (dap-ui-mode 1)
+    ;; (use-package dap-ui
+    ;;  :ensure nil
+    ;;  :config
+    ;;  (dap-ui-mode 1))
 
   ;; bind C-c l d to dap-hydra for easy access
   (general-define-key
@@ -451,26 +522,26 @@ If I'm lucky I won't have to find out; a quarter century is too long to use the 
 
 #+BEGIN_SRC emacs-lisp
 
-(use-package go-mode
-  :config
-  (add-hook 'go-mode-hook (lambda ()
-                            (setq indent-tabs-mode 1)
-                            (setq tab-width 4)
-                            (eglot-ensure)
-                            (eglot-format-buffer-on-save)
-                                        ;(setq lsp-go-env '((GOFLAGS . "-tags=e2e")))
-                            ))
-    (setq-default eglot-workspace-configuration
-      '((:gopls .
-          ((staticcheck . t)
-           (matcher . "CaseSensitive")))))
+  (use-package go-mode
+    :config
+    (add-hook 'go-mode-hook (lambda ()
+                              (setq indent-tabs-mode 1)
+                              (setq tab-width 4)
+                              ;; (eglot-ensure)
+                              ;; (eglot-format-buffer-on-save)
+                              (setq lsp-go-env '((GOFLAGS . "-tags=e2e")))
+                              ))
+      (setq-default eglot-workspace-configuration
+        '((:gopls .
+            ((staticcheck . t)
+             (matcher . "CaseSensitive")))))
 
-    (defvar gofmt-command '/usr/local/bin/gofmt)
+      (defvar gofmt-command '/usr/local/bin/gofmt)
 
-    ;; :hook ((go-mode . lsp-deferred)
-    ;;        (before-save . lsp-format-buffer)
-    ;;        (before-save . lsp-organize-imports)))
-    )
+      ;; :hook ((go-mode . lsp-deferred)
+      ;;        (before-save . lsp-format-buffer)
+      ;;        (before-save . lsp-organize-imports)))
+      )
 #+END_SRC
 
 *** Glyphs
@@ -517,6 +588,7 @@ If I'm lucky I won't have to find out; a quarter century is too long to use the 
 (define-key david-map (kbd "t") #'open-today-todo-file)
 (define-key david-map (kbd "n") #'display-line-numbers-mode)
 (define-key david-map (kbd "e") #'elisp-src) ; inserts begin_src emacs-lisp and end_src emacs-lisp region
+(define-key david-map (kbd "E") #'emacs-lisp-mode)
 (define-key david-map (kbd "f") #'neotree-find)
 (define-key david-map (kbd "p") #'prettify-symbols-mode) ; toggle ligatures
 
