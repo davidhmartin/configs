@@ -75,12 +75,6 @@
 #+END_SRC
 
 
-* Hydra
-#+BEGIN_SRC emacs-lisp
-(use-package general)
-(use-package hydra)
-#+END_SRC
-
 * Vertico
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
@@ -97,16 +91,159 @@
 (use-package orderless
   :ensure t
   :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-#+END_SRC
+  (completion-styles '(orderless))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+;; (use-package orderless
+;;   :ensure t
+;;   :custom
+;;   (completion-styles '(orderless basic))
+;;   (completion-category-overrides '((file (styles basic partial-completion)))))
+
+  #+END_SRC
 
 * Marginalia
 #+BEGIN_SRC emacs-lisp
-(use-package marginalia
-  :ensure t
+  ;; (use-package all-the-icons
+  ;;   :if (display-graphic-p)
+  ;;   :commands all-the-icons-install-fonts
+  ;;   :config (unless (find-font (font-spec :name "all-the-icons"))
+  ;;             (all-the-icons-install-fonts t)))
+
+
+  (use-package marginalia
+    :ensure t
+    :config
+    (marginalia-mode))
+
+  ;; (use-package all-the-icons-completion
+  ;;   :after (marginalia all-the-icons)
+  ;;   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
+
+#+END_SRC
+
+* Consult
+
+#+BEGIN_SRC emacs-lisp
+;; Example configuration for Consult
+(use-package consult
+  ;; Replace bindings. Lazily loaded due by `use-package'.
+  :bind (;; C-c bindings (mode-specific-map)
+         ("C-c M-x" . consult-mode-command)
+         ("C-c h" . consult-history)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
+         ;; C-x bindings (ctl-x-map)
+         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+         ;; Custom M-# bindings for fast register access
+         ("M-#" . consult-register-load)
+         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("C-M-#" . consult-register)
+         ;; Other custom bindings
+         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ;; M-g bindings (goto-map)
+         ("M-g e" . consult-compile-error)
+         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         ;; M-s bindings (search-map)
+         ("M-s d" . consult-find)
+         ("M-s D" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+         ;; Isearch integration
+         ("M-s e" . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+         ;; Minibuffer history
+         :map minibuffer-local-map
+         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+
+  ;; Enable automatic preview at point in the *Completions* buffer. This is
+  ;; relevant when you use the default completion UI.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+
+  ;; The :init configuration is always executed (Not lazy)
+  :init
+
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
+  ;; Configure other variables and modes in the :config section,
+  ;; after lazily loading the package.
   :config
-  (marginalia-mode))
+
+  ;; Optionally configure preview. The default value
+  ;; is 'any, such that any key triggers the preview.
+  ;; (setq consult-preview-key 'any)
+  ;; (setq consult-preview-key "M-.")
+  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
+  ;; For some commands and buffer sources it is useful to configure the
+  ;; :preview-key on a per-command basis using the `consult-customize' macro.
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   ;; :preview-key "M-."
+   :preview-key '(:debounce 0.4 any))
+
+  ;; Optionally configure the narrowing key.
+  ;; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key "<") ;; "C-+"
+
+  ;; Optionally make narrowing help available in the minibuffer.
+  ;; You may want to use `embark-prefix-help-command' or which-key instead.
+  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+
+  ;; By default `consult-project-function' uses `project-root' from project.el.
+  ;; Optionally configure a different project root function.
+  ;;;; 1. project.el (the default)
+  ;; (setq consult-project-function #'consult--default-project--function)
+  ;;;; 2. vc.el (vc-root-dir)
+  ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
+  ;;;; 3. locate-dominating-file
+  ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
+  ;;;; 4. projectile.el (projectile-project-root)
+  ;; (autoload 'projectile-project-root "projectile")
+  ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
+  ;;;; 5. No project support
+  ;; (setq consult-project-function nil)
+)
 #+END_SRC
 
 * Embark
@@ -144,18 +281,67 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
 
+* Hydra
+#+BEGIN_SRC emacs-lisp
+(use-package general)
+(use-package hydra)
+(use-package major-mode-hydra
+  :after (hydra all-the-icons)
+  :preface
+  (defun with-alltheicon (icon str &optional height v-adjust face)
+    "Display an icon from all-the-icon."
+    (s-concat (all-the-icons-alltheicon icon :v-adjust (or v-adjust 0) :height (or height 1) :face face) " " str))
+  
+  ;; (defun with-faicon (icon str &optional height v-adjust face)
+  ;;   "Display an icon from Font Awesome icon."
+  ;;   (s-concat (all-the-icons-faicon icon ':v-adjust (or v-adjust 0) :height (or height 1) :face face) " " str))
+  
+  (defun with-fileicon (icon str &optional height v-adjust face)
+    "Display an icon from the Atom File Icons package."
+    (s-concat (all-the-icons-fileicon icon :v-adjust (or v-adjust 0) :height (or height 1) :face face) " " str))
+  
+  (defun with-octicon (icon str &optional height v-adjust face)
+    "Display an icon from the GitHub Octicons."
+    (s-concat (all-the-icons-octicon icon :v-adjust (or v-adjust 0) :height (or height 1) :face face) " " str)))
+#+END_SRC
+
 * Projectile
 #+BEGIN_SRC emacs-lisp
+  
+
 (use-package projectile
   :ensure t
+  :after hydra
   :init
   (projectile-mode +1)
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map))
+              ("C-c p" . projectile-command-map)
+              ("<f7>" . hydra-projectile/body))
   :config
-  (setq projectile-project-search-path '(("~/git" . 1))))
+  (setq projectile-project-search-path '(("~/git" . 1)))
+  (pretty-hydra-define hydra-projectile
+    ;(:hint nil :color teal :quit-key "q" :title (with-faicon "rocket" "Projectile" 1 -0.05))
+    (:hint nil :color teal :quit-key "q" :title "Projectile")
+    ("Buffers"
+     (("b" projectile-switch-to-buffer "list")
+      ("k" projectile-kill-buffers "kill all")
+      ("S" projectile-save-project-buffers "save all"))
+     "Find"
+     (("d" projectile-find-dir "directory")
+      ("D" projectile-dired "root")
+      ("f" projectile-find-file "file")
+      ("p" consult-projectile "project"))
+     "Other"
+     (("i" projectile-invalidate-cache "reset cache"))
+     "Search"
+     (("r" projectile-replace "replace")
+      ("R" projectile-replace-regexp "regexp replace")
+      ("g" consult-git-grep "search")
+      ("s" consult-line "search this buffer")
+      ("a" consult-line-multi "search all buffers")))))
 #+END_SRC
+
 
 * Tree pane support
 ** Neotree
@@ -196,114 +382,66 @@ Might experiment with treemacs in the future.
 
 ** Treemacs
 #+BEGIN_SRC emacs-lisp
-  (use-package treemacs
-    :ensure t
-    :defer t
-    :init
-    ;; todo bind a key to 'treemacs-select-window
-    :config
-    (progn
-      (setq treemacs-deferred-git-apply-delay        0.5
-            treemacs-directory-name-transformer      #'identity
-            treemacs-display-in-side-window          t
-            treemacs-eldoc-display                   'simple
-            treemacs-file-event-delay                2000
-            treemacs-file-extension-regex            treemacs-last-period-regex-value
-            treemacs-file-follow-delay               0.2
-            treemacs-file-name-transformer           #'byte-optimize-identity
-            treemacs-follow-after-init               t
-            treemacs-expand-after-init               t
-            treemacs-find-workspace-method           'find-for-file-or-pick-first
-            treemacs-git-command-pipe                ""
-            treemacs-goto-tag-strategy               'refetch-index
-            treemacs-header-scroll-indicators        '(nil . "^^^^^^")
-            treemacs-hide-dot-git-directory          t
-            treemacs-indentation                     2
-            treemacs-indentation-string              " "
-            treemacs-is-never-other-window           nil
-            treemacs-max-git-entries                 5000
-            treemacs-missing-project-action          'ask
-            treemacs-move-forward-on-expand          nil
-            treemacs-no-png-images                   nil
-            treemacs-no-delete-other-windows         t
-            treemacs-project-follow-cleanup          nil
-            treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-            treemacs-position                        'left
-            treemacs-read-string-input               'from-child-frame
-            treemacs-recenter-distance               0.1
-            treemacs-recenter-after-file-follow      nil
-            treemacs-recenter-after-tag-follow       nil
-            treemacs-recenter-after-project-jump     'always
-            treemacs-recenter-after-project-expand   'on-distance
-            treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
-            treemacs-project-follow-into-home        nil
-            treemacs-show-cursor                     nil
-            treemacs-show-hidden-files               t
-            treemacs-silent-filewatch                nil
-            treemacs-silent-refresh                  nil
-            treemacs-sorting                         'alphabetic-asc
-            treemacs-select-when-already-in-treemacs 'move-back
-            treemacs-space-between-root-nodes        t
-            treemacs-tag-follow-cleanup              t
-            treemacs-tag-follow-delay                1.5
-            treemacs-text-scale                      nil
-            treemacs-user-mode-line-format           nil
-            treemacs-user-header-line-format         nil
-            treemacs-wide-toggle-width               70
-            treemacs-width                           35
-            treemacs-width-increment                 1
-            treemacs-width-is-initially-locked       t
-            treemacs-workspace-switch-cleanup        nil))
+(use-package treemacs
+  :ensure t
+  :defer t
+  :bind
+  (("<f8>" . treemacs-common-helpful-hydra)
+   ("S-<f8>" . treemacs)
+   ("C-S-<f8>" . treemacs-advanced-helpful-hydra))
+  :init
+  ;; todo bind a key to 'treemacs-select-window
+  :config
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
+  ;; The default width and height of the icons is 22 pixels. If you are
+  ;; using a Hi-DPI display, uncomment this to double the icon size.
+  ;;(treemacs-resize-icons 44)
+  
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode 'always)
+  ;; (when treemacs-python-executable
+  ;;   (treemacs-git-commit-diff-mode t))
+  
+  ;; (pcase (cons (not (null (executable-find "git")))
+  ;;              (not (null treemacs-python-executable)))
+  ;;   (`(t . t)
+  ;;    (treemacs-git-mode 'deferred))
+  ;;   (`(t . _)
+  ;;    (treemacs-git-mode 'simple)))
+  
+  (treemacs-hide-gitignored-files-mode nil)
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t d"   . treemacs-select-directory)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
 
-      ;; The default width and height of the icons is 22 pixels. If you are
-      ;; using a Hi-DPI display, uncomment this to double the icon size.
-      ;;(treemacs-resize-icons 44)
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
 
-      ;; (treemacs-follow-mode t)
-      ;; (treemacs-filewatch-mode t)
-      ;; (treemacs-fringe-indicator-mode 'always)
-      ;; (when treemacs-python-executable
-      ;;   (treemacs-git-commit-diff-mode t))
+;; (use-package treemacs-icons-dired
+;;   :hook (dired-mode . treemacs-icons-dired-enable-once)
+;;   :ensure t)
 
-      ;; (pcase (cons (not (null (executable-find "git")))
-      ;;              (not (null treemacs-python-executable)))
-      ;;   (`(t . t)
-      ;;    (treemacs-git-mode 'deferred))
-      ;;   (`(t . _)
-      ;;    (treemacs-git-mode 'simple)))
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
 
-      ;; (treemacs-hide-gitignored-files-mode nil))
-    :bind
-    (:map global-map
-          ("M-0"       . treemacs-select-window)
-          ("C-x t 1"   . treemacs-delete-other-windows)
-          ("C-x t t"   . treemacs)
-          ("C-x t d"   . treemacs-select-directory)
-          ("C-x t B"   . treemacs-bookmark)
-          ("C-x t C-t" . treemacs-find-file)
-          ("C-x t M-t" . treemacs-find-tag)))
+;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+;;   :ensure t
+;;   :config (treemacs-set-scope-type 'Perspectives))
 
-  (use-package treemacs-projectile
-    :after (treemacs projectile)
-    :ensure t)
-
-  ;; (use-package treemacs-icons-dired
-  ;;   :hook (dired-mode . treemacs-icons-dired-enable-once)
-  ;;   :ensure t)
-
-  (use-package treemacs-magit
-    :after (treemacs magit)
-    :ensure t)
-
-  ;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  ;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  ;;   :ensure t
-  ;;   :config (treemacs-set-scope-type 'Perspectives))
-
-  ;; (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
-  ;;   :after (treemacs)
-  ;;   :ensure t
-  ;;   :config (treemacs-set-scope-type 'Tabs))
+;; (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
+;;   :after (treemacs)
+;;   :ensure t
+;;   :config (treemacs-set-scope-type 'Tabs))
 
 #+END_SRC
 
@@ -416,11 +554,11 @@ Language Server Protocol support.
   (lsp-ui-doc-position 'top)
   (lsp-ui-doc-alignment 'window))
 
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
-(use-package company-lsp :commands company-lsp)
+;(use-package company-lsp :commands company-lsp)
 
 (setq
  lsp-ui-doc-enable t
@@ -541,7 +679,7 @@ Debugging
 
 ** High octane completion
    Enables ivy mode, counsel, and swiper. (See https://github.com/abo-abo/swiper and https://oremacs.com/swiper/)
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 
 (use-package ivy
   :bind (("<C-return>" . ivy-immediate-done)))
@@ -554,9 +692,6 @@ Debugging
   :bind
   (:map read-expression-map
         ("C-r" . counsel-minibuffer-history)))
-
-(use-package flycheck
-  :config (global-flycheck-mode 1))
 
 ;;(straight-use-package 'company-mode)
 (use-package company
@@ -571,6 +706,11 @@ Debugging
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
   (ivy-posframe-mode 1))
 
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck
+  :config (global-flycheck-mode 1))
 #+END_SRC
 
 ** popwin
@@ -677,22 +817,55 @@ I'm deferring adding java support until needed.
 * Custom keyboard shortcuts
   Using F12 as the prefix for personal shortcuts.
 #+BEGIN_SRC emacs-lisp
-(define-prefix-command 'david-map)
-(global-set-key (kbd "<f12>") 'david-map)
-(define-key david-map (kbd "l") #'counsel-load-theme)
-(define-key david-map (kbd "c") (lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory)))) ; open buffer on this file
-(define-key david-map (kbd "t") #'open-today-todo-file)
-(define-key david-map (kbd "n") #'display-line-numbers-mode)
-(define-key david-map (kbd "e") #'elisp-src) ; inserts begin_src emacs-lisp and end_src emacs-lisp region
-(define-key david-map (kbd "E") #'emacs-lisp-mode)
-(define-key david-map (kbd "f") #'neotree-find)
-(define-key david-map (kbd "p") #'prettify-symbols-mode) ; toggle ligatures
+  (defun open-emacs-config ()
+    (interactive)
+    (find-file (expand-file-name "config.org" user-emacs-directory)))
+  
+  (pretty-hydra-define david-hydra
+    (:hint nil :color teal :quit-key "q" :title "General things")
+    ("Editing config.org"
+     (("c" open-emacs-config "Emacs config")
+      ("E" elisp-src "Elisp source  block")
+      ("e" emacs-lisp-mode "Emacs lisp mode"))
+     "TODO"
+     (("t" open-today-todo-file))
+     "Visual"
+     (("n" display-line-numbers-mode "Toggle line numbers")
+      ("p" prettify-symbols-mode "Toggle ligatures")
+      ("l" load-theme))
+     "windows"
+     (("<up>" windmove-up "Up window")
+      ("<down>" windmove-down "Down window")
+      ("<left>" windmove-left "Left window")
+      ("<right>" windmove-right "Right window")
+      ("1" delete-other-windows "delete other windows")
+      ("0" delete-window "delete this window")
+      ("2" split-window-below "split --")
+      ("3" split-window-right "split |"))
+     "Search"
+     (("s" consult-line "search this buffer")
+      ("S" consult-line-multi "search all buffers")
+      ("f" consult-focus-lines))))
 
-;; window navigation
-(define-key david-map (kbd "<up>") #'windmove-up)
-(define-key david-map (kbd "<down>") #'windmove-down)
-(define-key david-map (kbd "<left>") #'windmove-left)
-(define-key david-map (kbd "<right>") #'windmove-right)
+  (global-set-key (kbd "<f12>") 'david-hydra/body)
+
+
+  ;; (define-prefix-command 'david-map)
+  ;; (global-set-key (kbd "<f12>") 'david-map)
+  ;; (define-key david-map (kbd "l") #'load-theme)
+  ;; (define-key david-map (kbd "c") (lambda () ((interactive ";")) (find-file (expand-file-name "config.org" user-emacs-directory)))) ; open buffer on this file
+  ;; (define-key david-map (kbd "t") #'open-today-todo-file)
+  ;; (define-key david-map (kbd "n") #'display-line-numbers-mode)
+  ;; (define-key david-map (kbd "e") #'elisp-src) ; inserts begin_src emacs-lisp and end_src emacs-lisp region
+  ;; (define-key david-map (kbd "E") #'emacs-lisp-mode)
+  ;; (define-key david-map (kbd "f") #'neotree-find)
+  ;; (define-key david-map (kbd "p") #'prettify-symbols-mode) ; toggle ligatures
+
+  ;; ;; window navigation
+  ;; (define-key david-map (kbd "<up>") #'windmove-up)
+  ;; (define-key david-map (kbd "<down>") #'windmove-down)
+  ;; (define-key david-map (kbd "<left>") #'windmove-left)
+  ;; (define-key david-map (kbd "<right>") #'windmove-right)
 #+END_SRC
 
 * Window navigation
