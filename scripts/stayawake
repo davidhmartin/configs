@@ -1,14 +1,7 @@
 #!/usr/bin/env bash
 
 ## Prevents laptop from going to sleep for the specified number of hours, defaulting to 8 hours.
-## Note that this is not a security issue because it does not prevent password locking,
-## but it does keep the displays on, potentially forgoing the power savings in order to avoid
-## that irritating delay when waking up all 3 external monitors.
-##
-## Caveats:
-## 1) This will only work on OS/X.
-## 2) Using the -k option will kill all caffeinate processes, even those not started
-##    by this script.
+## Assumes availability of the macos utiilty `caffeinate`, or compatible port.
 
 function print_help () {
     echo "Usage: $(basename $0) [-k] [-h] [hours]"

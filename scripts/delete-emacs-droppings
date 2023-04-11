@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+files=( ./**/*~ )
+if [[ ! -z $files ]]; then
+    echo I found the following emacs droppings:
+    echo $files
+    if read -q "$REPLY?Press Y/y to delete these files..."; then
+        rm **/*~
+        echo
+        echo OK, deleted.
+    else
+        echo
+        echo OK never mind then.
+    fi
+fi

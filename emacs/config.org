@@ -10,7 +10,7 @@
 (org-babel-load-file
  (expand-file-name "config.org"
                    user-emacs-directory))
-#+END_SRC
+#+END_SRC 
 
 ** Conventions:
   - Use straight for package management
@@ -340,47 +340,12 @@
       ("g" consult-git-grep "search")
       ("s" consult-line "search this buffer")
       ("a" consult-line-multi "search all buffers")))))
+
+(use-package consult-projectile)
 #+END_SRC
 
 
-* Tree pane support
-** Neotree
-Neotree has been working well for me, and I like the simplicity of its configuration.
-Might experiment with treemacs in the future. 
-
-#+BEGIN_SRC emacs-lisp :tangle no
-
-(defun neotree-project-dir ()
-    "Open NeoTree using the git root."
-    (interactive)
-    (let ((project-dir (projectile-project-root))
-          (file-name (buffer-file-name)))
-      (neotree-toggle)
-      (if project-dir
-          (if (neo-global--window-exists-p)
-              (progn
-                (neotree-dir project-dir)
-                (neotree-find file-name)))
-        (message "Could not find git project root."))))
-
-(use-package neotree
-  :config
-    ;;(global-set-key [f8] 'neotree-toggle)
-    (setq neo-window-fixed-size nil)
-    (setq neo-smart-open t)
-    (setq neo-theme 'nerd)
-    (setq neo-window-width 35)
-    (setq projectile-switch-project-action 'neotree-projectile-action)
-
-    (defhydra hydra-neotree (global-map "<f8>")
-      "neotree"
-      ("t" neotree-toggle "toggle")
-      ("p" neotree-project-dir "open project root")
-      ("f" neotree-find "find")
-      ("d" neotree-dir "dir")))
-#+END_SRC
-
-** Treemacs
+* Treemacs
 #+BEGIN_SRC emacs-lisp
 (use-package treemacs
   :ensure t
@@ -554,11 +519,11 @@ Language Server Protocol support.
   (lsp-ui-doc-position 'top)
   (lsp-ui-doc-alignment 'window))
 
-;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
-;(use-package company-lsp :commands company-lsp)
+(use-package company-lsp :commands company-lsp)
 
 (setq
  lsp-ui-doc-enable t
@@ -570,20 +535,25 @@ Language Server Protocol support.
 
 **** lsp-mode custom keymap
 #+BEGIN_SRC emacs-lisp 
-(define-prefix-command 'my-lsp-map)
-(global-set-key (kbd "<f9>") 'my-lsp-map)
-(define-key my-lsp-map (kbd ".") #'xref-find-definitions)
-(define-key my-lsp-map (kbd ",") #'xref-go-back)
-(define-key my-lsp-map (kbd "/") #'xref-find-references)
-(define-key my-lsp-map (kbd "<tab>") #'company-complete)
-(define-key my-lsp-map (kbd "<down>") #'flymake-goto-next-error)
-(define-key my-lsp-map (kbd "<up>") #'flymake-goto-prev-error)
+(pretty-hydra-define lsp-hydra
+  (:hint nil :color wheatgrass :quit-key "q" :title "LSP")
+  ("Navigation"
+   (("." xref-find-definitions "Find definition")
+    ("," xref-go-back "Go back")
+    ("/" xref-find-references "Find references"))
+   "Errors"
+   (("<down>" flymake-goto-next-error "Next error")
+    ("<up>" flymake-goto-prev-error "Previous error"))
+   "Debug"
+   (("b" dap-breakpoint-toggle "Toggle breakpoint")
+    ("r" dap-restart "Dap restart")
+    ("d" dap-debug "Dap debug")
+    ("l" dap-debug-last "Dap debug last"))))
+(global-set-key (kbd "<f9>") 'lsp-hydra/body)
 
-(define-key my-lsp-map (kbd "b") #'dap-breakpoint-toggle)
-(define-key my-lsp-map (kbd "r") #'dap-restart)
-(define-key my-lsp-map (kbd "l") #'dap-debug-last)
-(define-key my-lsp-map (kbd "d") #'dap-debug)
-(define-key my-lsp-map (kbd "h") '(dap-hydra t :wk "debugger"))
+(add-hook 'dap-stopped-hook (lambda (arg) (call-interactively #'dap-hydra)))
+
+(global-set-key (kbd "<f6>") 'dap-hydra)
 #+END_SRC
 
 
@@ -819,8 +789,9 @@ I'm deferring adding java support until needed.
 #+BEGIN_SRC emacs-lisp
   (defun open-emacs-config ()
     (interactive)
-    (find-file (expand-file-name "config.org" user-emacs-directory)))
-  
+    ; My config.org is a symlink. Using file-truename prevents the "symbolic link to git controlled source file" prompt
+    (find-file (file-truename (expand-file-name "config.org" user-emacs-directory))))
+
   (pretty-hydra-define david-hydra
     (:hint nil :color teal :quit-key "q" :title "General things")
     ("Editing config.org"
