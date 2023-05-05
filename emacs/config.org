@@ -64,6 +64,8 @@
   (setq read-process-output-max (* 1024 1024)))
 #+END_SRC
 
+* Turn off audible bell
+(setq visible-bell t)
 
 * Shell support: vterm
   See https://github.com/akermu/emacs-libvterm
@@ -347,6 +349,9 @@
 
 * Treemacs
 #+BEGIN_SRC emacs-lisp
+(use-package all-the-icons
+  :if (display-graphic-p))
+
 (use-package treemacs
   :ensure t
   :defer t
@@ -365,6 +370,9 @@
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode 'always)
+
+  (setq treemacs-width 45)
+  
   ;; (when treemacs-python-executable
   ;;   (treemacs-git-commit-diff-mode t))
   
@@ -521,7 +529,8 @@ Language Server Protocol support.
 
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-treemacs
+  :commands lsp-treemacs-errors-list)
 
 (use-package company-lsp :commands company-lsp)
 
@@ -535,25 +544,40 @@ Language Server Protocol support.
 
 **** lsp-mode custom keymap
 #+BEGIN_SRC emacs-lisp 
-(pretty-hydra-define lsp-hydra
-  (:hint nil :color wheatgrass :quit-key "q" :title "LSP")
-  ("Navigation"
-   (("." xref-find-definitions "Find definition")
-    ("," xref-go-back "Go back")
-    ("/" xref-find-references "Find references"))
-   "Errors"
-   (("<down>" flymake-goto-next-error "Next error")
-    ("<up>" flymake-goto-prev-error "Previous error"))
-   "Debug"
-   (("b" dap-breakpoint-toggle "Toggle breakpoint")
-    ("r" dap-restart "Dap restart")
-    ("d" dap-debug "Dap debug")
-    ("l" dap-debug-last "Dap debug last"))))
-(global-set-key (kbd "<f9>") 'lsp-hydra/body)
+  (pretty-hydra-define lsp-hydra
+    (:hint nil :color wheatgrass :quit-key "q" :title "LSP")
+    ("Navigation"
+     (("." xref-find-definitions "Find definition")
+      ("," xref-go-back "Go back")
+      ("/" xref-find-references "Find references"))
+     ;; "Treemacs"
+     ;; (("ts" lsp-treemacs-symbols "Symbols")
+     ;;  ("td" lsp-treemacs-definitions "Definitions")
+     ;;  ("tr" lsp-treemacs-references "References"))
+      ;; ("tt" lsp-treemacs-types "Types")
+      ;; ("th" lsp-treemacs-call-hierarchy "Call hierarchy")
+      ;; ("tc" lsp-treemacs-code-actions "Code actions")
+      ;; ("te" lsp-treemacs-errors-list "Errors list")
+      ;; ("tf" lsp-treemacs-flatten-namespace "Flatten namespace")
+      ;; ("ti" lsp-treemacs-implementations "Implementations")
+      ;; ("tl" lsp-treemacs-list-projects "List projects")
+      ;; ("tp" lsp-treemacs-preferences "Preferences")
+      ;; ("tq" lsp-treemacs-rename "Rename")
+      ;; ("tt" lsp-treemacs-sync-mode "Sync mode")
+      ;; ("tu" lsp-treemacs-update-workspace "Update workspace"))
+     "Errors"
+     (("<down>" flymake-goto-next-error "Next error")
+      ("<up>" flymake-goto-prev-error "Previous error"))
+     "Debug"
+     (("b" dap-breakpoint-toggle "Toggle breakpoint")
+      ("r" dap-restart "Dap restart")
+      ("d" dap-debug "Dap debug")
+      ("l" dap-debug-last "Dap debug last"))))
+  (global-set-key (kbd "<f9>") 'lsp-hydra/body)
 
-(add-hook 'dap-stopped-hook (lambda (arg) (call-interactively #'dap-hydra)))
+  (add-hook 'dap-stopped-hook (lambda (arg) (call-interactively #'dap-hydra)))
 
-(global-set-key (kbd "<f6>") 'dap-hydra)
+  (global-set-key (kbd "<f6>") 'dap-hydra)
 #+END_SRC
 
 
@@ -794,6 +818,7 @@ I'm deferring adding java support until needed.
 
   (pretty-hydra-define david-hydra
     (:hint nil :color teal :quit-key "q" :title "General things")
+
     ("Editing config.org"
      (("c" open-emacs-config "Emacs config")
       ("E" elisp-src "Elisp source  block")
@@ -845,7 +870,70 @@ I'm deferring adding java support until needed.
 #+BEGIN_SRC emacs-lisp
 (use-package ace-window
   :bind ("M-o" . ace-window))
-#+END_SRC 
+#+END_SRC
+
+
+* Copilot
+
+Thanks to https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
+
+#+BEGIN_SRC emacs-lisp
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t
+  :diminish
+  :config
+  (add-hook 'prog-mode-hook 'copilot-mode)
+  (defun rk/copilot-complete-or-accept ()
+    "Command that either triggers a completion or accepts one if one
+is available. Useful if you tend to hammer your keys like I do."
+    (interactive)
+    (if (copilot--overlay-visible)
+        (progn
+          (copilot-accept-completion)
+          (open-line 1)
+          (next-line))
+      (copilot-complete)))
+
+  (define-key copilot-mode-map (kbd "M-C-<next>") #'copilot-next-completion)
+  (define-key copilot-mode-map (kbd "M-C-<prior>") #'copilot-previous-completion)
+  (define-key copilot-mode-map (kbd "M-C-<right>") #'copilot-accept-completion-by-word)
+  (define-key copilot-mode-map (kbd "M-C-<down>") #'copilot-accept-completion-by-line)
+  (define-key global-map (kbd "M-C-<return>") #'rk/copilot-complete-or-accept)
+
+
+  (defun rk/copilot-tab ()
+    "Tab command that will complete with copilot if a completion is
+     available. Otherwise will try company, yasnippet or normal
+     tab-indent."
+    (interactive)
+    (or (copilot-accept-completion)
+        (company-yasnippet-or-completion)
+        (indent-for-tab-command)))
+
+  (define-key global-map (kbd "<tab>") #'rk/copilot-tab)
+
+  (defun rk/copilot-quit ()
+    "Run `copilot-clear-overlay' or `keyboard-quit'. If copilot is
+     cleared, make sure the overlay doesn't come back too soon."
+    (interactive)
+    (condition-case err
+        (when copilot--overlay
+          (lexical-let ((pre-copilot-disable-predicates copilot-disable-predicates))
+                       (setq copilot-disable-predicates (list (lambda () t)))
+                       (copilot-clear-overlay)
+                       (run-with-idle-timer
+                        1.0
+                        nil
+                        (lambda ()
+                          (setq copilot-disable-predicates pre-copilot-disable-predicates)))))
+      (error handler)))
+
+(advice-add 'keyboard-quit :before #'rk/copilot-quit))
+#+END_SRC
+
+
+
 
 * Fonts
 
@@ -869,13 +957,13 @@ Note that the custom shortcut "F12-p" toggles ligatures for the buffer.
 
 * Themes
 To find new themes, see https://emacsthemes.com.
-(Note: I like to set the color theme last because it makes it easy to tell when emacs initialization has successfully completed.)
 
 ** Load my favorite themes
 #+BEGIN_SRC emacs-lisp
-(use-package nord-theme
-  :config (load-theme 'nord t))
+(use-package nord-theme)
 (use-package zenburn-theme)
+(use-package os1-theme
+  :straight (:type git :host github :repo "sashimacs/os1-theme"))
 #+END_SRC 
 
 ** Persist theme selection across sessions
