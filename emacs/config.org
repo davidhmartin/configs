@@ -65,7 +65,7 @@
 #+END_SRC
 
 * Turn off audible bell
-(setq visible-bell t)
+(setq-default visible-bell t)
 
 * Shell support: vterm
   See https://github.com/akermu/emacs-libvterm
@@ -73,7 +73,12 @@
     brew install libvterm
     brew install cmake
 #+BEGIN_SRC emacs-lisp
-(use-package vterm)
+  (use-package vterm)
+  (use-package vterm-toggle
+    :bind (("C-`" . vterm-toggle)
+           :map vterm-mode-map
+           ("C-`" . vterm-toggle-insert-cd)))
+  
 #+END_SRC
 
 
@@ -128,128 +133,129 @@
 * Consult
 
 #+BEGIN_SRC emacs-lisp
-;; Example configuration for Consult
-(use-package consult
-  ;; Replace bindings. Lazily loaded due by `use-package'.
-  :bind (;; C-c bindings (mode-specific-map)
-         ("C-c M-x" . consult-mode-command)
-         ("C-c h" . consult-history)
-         ("C-c k" . consult-kmacro)
-         ("C-c m" . consult-man)
-         ("C-c i" . consult-info)
-         ([remap Info-search] . consult-info)
-         ;; C-x bindings (ctl-x-map)
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
-         ;; Custom M-# bindings for fast register access
-         ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-         ("C-M-#" . consult-register)
-         ;; Other custom bindings
-         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ;; M-g bindings (goto-map)
-         ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-         ("M-g m" . consult-mark)
-         ("M-g k" . consult-global-mark)
-         ("M-g i" . consult-imenu)
-         ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings (search-map)
-         ("M-s d" . consult-find)
-         ("M-s D" . consult-locate)
-         ("M-s g" . consult-grep)
-         ("M-s G" . consult-git-grep)
-         ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
-         ("M-s L" . consult-line-multi)
-         ("M-s k" . consult-keep-lines)
-         ("M-s u" . consult-focus-lines)
-         ;; Isearch integration
-         ("M-s e" . consult-isearch-history)
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-         ;; Minibuffer history
-         :map minibuffer-local-map
-         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+  ;; Example configuration for Consult
+  (use-package consult
+    ;; Replace bindings. Lazily loaded due by `use-package'.
+    :bind (;; C-c bindings (mode-specific-map)
+           ("C-c M-x" . consult-mode-command)
+           ("C-c h" . consult-history)
+           ("C-c k" . consult-kmacro)
+           ("C-c m" . consult-man)
+           ("C-c i" . consult-info)
+           ([remap Info-search] . consult-info)
+           ;; C-x bindings (ctl-x-map)
+           ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+           ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+           ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+           ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+           ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+           ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+           ;; Custom M-# bindings for fast register access
+           ("M-#" . consult-register-load)
+           ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+           ("C-M-#" . consult-register)
+           ;; Other custom bindings
+           ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+           ;; M-g bindings (goto-map)
+           ("M-g e" . consult-compile-error)
+           ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+           ("M-g g" . consult-goto-line)             ;; orig. goto-line
+           ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+           ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+           ("M-g m" . consult-mark)
+           ("M-g k" . consult-global-mark)
+           ("M-g i" . consult-imenu)
+           ("M-g I" . consult-imenu-multi)
+           ;; M-s bindings (search-map)
+           ("M-s d" . consult-find)
+           ("M-s D" . consult-locate)
+           ("M-s g" . consult-grep)
+           ("M-s G" . consult-git-grep)
+           ("M-s r" . consult-ripgrep)
+           ("M-s l" . consult-line)
+           ("M-s L" . consult-line-multi)
+           ("M-s k" . consult-keep-lines)
+           ("M-s u" . consult-focus-lines)
+           ;; Isearch integration
+           ("M-s e" . consult-isearch-history)
+           :map isearch-mode-map
+           ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+           ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+           ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+           ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+           ;; Minibuffer history
+           :map minibuffer-local-map
+           ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+           ("M-r" . consult-history))                ;; orig. previous-matching-history-element
 
-  ;; Enable automatic preview at point in the *Completions* buffer. This is
-  ;; relevant when you use the default completion UI.
-  :hook (completion-list-mode . consult-preview-at-point-mode)
+    ;; Enable automatic preview at point in the *Completions* buffer. This is
+    ;; relevant when you use the default completion UI.
+    :hook (completion-list-mode . consult-preview-at-point-mode)
 
-  ;; The :init configuration is always executed (Not lazy)
-  :init
+    ;; The :init configuration is always executed (Not lazy)
+    :init
 
-  ;; Optionally configure the register formatting. This improves the register
-  ;; preview for `consult-register', `consult-register-load',
-  ;; `consult-register-store' and the Emacs built-ins.
-  (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
+    ;; Optionally configure the register formatting. This improves the register
+    ;; preview for `consult-register', `consult-register-load',
+    ;; `consult-register-store' and the Emacs built-ins.
+    (setq register-preview-delay 0.5
+          register-preview-function #'consult-register-format)
 
-  ;; Optionally tweak the register preview window.
-  ;; This adds thin lines, sorting and hides the mode line of the window.
-  (advice-add #'register-preview :override #'consult-register-window)
+    ;; Optionally tweak the register preview window.
+    ;; This adds thin lines, sorting and hides the mode line of the window.
+    (advice-add #'register-preview :override #'consult-register-window)
 
-  ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
+    ;; Use Consult to select xref locations with preview
+    (setq xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref)
 
-  ;; Configure other variables and modes in the :config section,
-  ;; after lazily loading the package.
-  :config
+    ;; Configure other variables and modes in the :config section,
+    ;; after lazily loading the package.
+    :config
 
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key "M-.")
-  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
-  (consult-customize
-   consult-theme :preview-key '(:debounce 0.2 any)
-   consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
-   ;; :preview-key "M-."
-   :preview-key '(:debounce 0.4 any))
+    ;; Optionally configure preview. The default value
+    ;; is 'any, such that any key triggers the preview.
+    ;; (setq consult-preview-key 'any)
+    ;; (setq consult-preview-key "M-.")
+    ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
+    ;; For some commands and buffer sources it is useful to configure the
+    ;; :preview-key on a per-command basis using the `consult-customize' macro.
+    (consult-customize
+     consult-theme :preview-key '(:debounce 0.2 any)
+     consult-ripgrep consult-git-grep consult-grep
+     consult-bookmark consult-recent-file consult-xref
+     consult--source-bookmark consult--source-file-register
+     consult--source-recent-file consult--source-project-recent-file
+     :preview-key "M-."
+     ;; :preview-key '(:debounce 0.4 any)
+     )
 
-  ;; Optionally configure the narrowing key.
-  ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
+    ;; Optionally configure the narrowing key.
+    ;; Both < and C-+ work reasonably well.
+    (setq consult-narrow-key "<") ;; "C-+"
 
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+    ;; Optionally make narrowing help available in the minibuffer.
+    ;; You may want to use `embark-prefix-help-command' or which-key instead.
+    ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
-  ;; By default `consult-project-function' uses `project-root' from project.el.
-  ;; Optionally configure a different project root function.
-  ;;;; 1. project.el (the default)
-  ;; (setq consult-project-function #'consult--default-project--function)
-  ;;;; 2. vc.el (vc-root-dir)
-  ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
-  ;;;; 3. locate-dominating-file
-  ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
-  ;;;; 4. projectile.el (projectile-project-root)
-  ;; (autoload 'projectile-project-root "projectile")
-  ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
-  ;;;; 5. No project support
-  ;; (setq consult-project-function nil)
-)
+    ;; By default `consult-project-function' uses `project-root' from project.el.
+    ;; Optionally configure a different project root function.
+    ;;;; 1. project.el (the default)
+    ;; (setq consult-project-function #'consult--default-project--function)
+    ;;;; 2. vc.el (vc-root-dir)
+    ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
+    ;;;; 3. locate-dominating-file
+    ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
+    ;;;; 4. projectile.el (projectile-project-root)
+    ;; (autoload 'projectile-project-root "projectile")
+    ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
+    ;;;; 5. No project support
+    ;; (setq consult-project-function nil)
+  )
 #+END_SRC
 
 * Embark
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package embark
   :ensure t
 
@@ -349,72 +355,74 @@
 
 * Treemacs
 #+BEGIN_SRC emacs-lisp
-(use-package all-the-icons
-  :if (display-graphic-p))
+  (use-package all-the-icons
+    :if (display-graphic-p))
 
-(use-package treemacs
-  :ensure t
-  :defer t
-  :bind
-  (("<f8>" . treemacs-common-helpful-hydra)
-   ("S-<f8>" . treemacs)
-   ("C-S-<f8>" . treemacs-advanced-helpful-hydra))
-  :init
-  ;; todo bind a key to 'treemacs-select-window
-  :config
-  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
-  ;; The default width and height of the icons is 22 pixels. If you are
-  ;; using a Hi-DPI display, uncomment this to double the icon size.
-  ;;(treemacs-resize-icons 44)
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :bind
+    (("<f8>" . treemacs-common-helpful-hydra)
+     ("S-<f8>" . treemacs)
+     ("C-S-<f8>" . treemacs-advanced-helpful-hydra))
+    :init
+    ;; todo bind a key to 'treemacs-select-window
+    :config
+    (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
   
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode 'always)
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)
+    (treemacs-indent-guide-mode t)
+    ;(setq treemacs-no-png-images t)
 
-  (setq treemacs-width 45)
+    (setq treemacs-width 45)
   
-  ;; (when treemacs-python-executable
-  ;;   (treemacs-git-commit-diff-mode t))
+    ;; (when treemacs-python-executable
+    ;;   (treemacs-git-commit-diff-mode t))
   
-  ;; (pcase (cons (not (null (executable-find "git")))
-  ;;              (not (null treemacs-python-executable)))
-  ;;   (`(t . t)
-  ;;    (treemacs-git-mode 'deferred))
-  ;;   (`(t . _)
-  ;;    (treemacs-git-mode 'simple)))
+    ;; (pcase (cons (not (null (executable-find "git")))
+    ;;              (not (null treemacs-python-executable)))
+    ;;   (`(t . t)
+    ;;    (treemacs-git-mode 'deferred))
+    ;;   (`(t . _)
+    ;;    (treemacs-git-mode 'simple)))
   
-  (treemacs-hide-gitignored-files-mode nil)
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t d"   . treemacs-select-directory)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+    (treemacs-hide-gitignored-files-mode nil)
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("C-x t t"   . treemacs)
+          ("C-x t d"   . treemacs-select-directory)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag)))
 
-(use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
+  (use-package treemacs-projectile
+    :after (treemacs projectile)
+    :ensure t)
 
-;; (use-package treemacs-icons-dired
-;;   :hook (dired-mode . treemacs-icons-dired-enable-once)
-;;   :ensure t)
+  ;; (use-package treemacs-icons-dired
+  ;;   :hook (dired-mode . treemacs-icons-dired-enable-once)
+  ;;   :ensure t)
 
-(use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
+  (use-package treemacs-magit
+    :after (treemacs magit)
+    :ensure t)
 
-;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-;;   :ensure t
-;;   :config (treemacs-set-scope-type 'Perspectives))
+  ;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+  ;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+  ;;   :ensure t
+  ;;   :config (treemacs-set-scope-type 'Perspectives))
 
-;; (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
-;;   :after (treemacs)
-;;   :ensure t
-;;   :config (treemacs-set-scope-type 'Tabs))
+  ;; (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
+  ;;   :after (treemacs)
+  ;;   :ensure t
+  ;;   :config (treemacs-set-scope-type 'Tabs))
 
 #+END_SRC
 
@@ -422,28 +430,42 @@
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
   :config
-    (global-set-key (kbd "C-=") 'er/expand-region))
+  (global-set-key (kbd "C-=") 'er/expand-region)
+  (global-set-key (kbd "C-+") (lambda () (interactive) (er/expand-region -1))))
 #+END_SRC
 
 
 * General editor settings
 ** Basic settings
  #+BEGIN_SRC emacs-lisp
+   (setq frame-title-format
+         (list (format "%s %%S: %%j " (system-name))
+           '(buffer-file-name "%f" (dired-directory dired-directory "%b"))))
    (tool-bar-mode -1)
    (menu-bar-mode 1)
    (column-number-mode 1)
    (global-hl-line-mode 1)
    (global-visual-line-mode nil)
-   ;(global-whitespace-mode 1)
+   (global-whitespace-mode 1) 
    (show-paren-mode 1)
    (setq-default indent-tabs-mode nil)
+   (setq-default fill-column 120)
 #+END_SRC
+
+** Zoom window
+Toggles showing only current window, just like tmux.
+Todo: bind C-z to a fu
+#+BEGIN_SRC emacs-lisp
+(use-package zoom-window
+  :bind (("C-z" . zoom-window-zoom)))
+#+END_SRC
+
 ** Persist minibuffer history
 #+BEGIN_SRC emacs-lisp
   (savehist-mode 1)
 #+END_SRC
 
-* TO-do file customizations
+* To-do file customizations
 ** Customize the to-do workflow states.
    I distinguish between activites ("TODO") and meetings ("MEETING")
 #+BEGIN_SRC emacs-lisp
@@ -452,6 +474,7 @@
                 (sequence "MEETING" "|" "MTG DONE" "MTG CANCELED")))
 
 #+END_SRC
+
 ** Function to open todo file for the current day.
    This hard-codes my (rather primitive) convention: file name is the date, all files are in $HOME/todo.
 #+BEGIN_SRC emacs-lisp
@@ -476,11 +499,33 @@
    (kmacro-lambda-form [?\C-a ?# ?+ ?B ?E ?G ?I ?N ?_ ?S ?R ?C ?  ?e ?m ?a ?c ?s ?- ?l ?/ ?i ?s ?p backspace backspace backspace backspace ?i ?s ?p return return ?# ?+ ?E ?N ?D ?_ ?S ?R ?C up] 0 "%d"))
 #+END_SRC
 
+** Keyboard shortcut passthroughs
+These hyperkey shortcuts are defined on my macbook to open various applications.
+Here we map them to nil so that emacs passed them on to the OS.
+#+BEGIN_SRC emacs-lisp
+  (define-key input-decode-map "C-M-s-S-1" [])
+  (define-key input-decode-map "C-M-s-S-2" [])
+  (define-key input-decode-map "C-M-s-S-3" [])
+  (define-key input-decode-map "C-M-s-S-4" [])
+  (define-key input-decode-map "C-M-s-S-5" [])
+#+END_SRC
+
 * Markdown
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
     :custom (markdown-command "/usr/local/bin/markdown"))
   (use-package markdown-preview-mode)
+  (use-package markdown-xwidget
+    :after markdown-mode
+    :straight (markdown-xwidget
+               :type git
+               :host github
+               :repo "cfclrk/markdown-xwidget"
+               :files (:defaults "resources"))
+    :config
+    (setq markdown-xwidget-command "multimarkdown"
+          markdown-xwidget-codeblock-theme "nord"
+          markdown-xwidget-github-theme "dark"))
 #+END_SRC        
   
 * Snippets
@@ -490,7 +535,7 @@
     :config (yas-global-mode 1))
   (use-package yasnippet-snippets)
 #+END_SRC
-
+h
 
 * Git support 
  #+BEGIN_SRC emacs-lisp
@@ -543,28 +588,28 @@ Language Server Protocol support.
 #+END_SRC
 
 **** lsp-mode custom keymap
-#+BEGIN_SRC emacs-lisp 
-  (pretty-hydra-define lsp-hydra
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (pretty-hydra-define hydra-lsp
     (:hint nil :color wheatgrass :quit-key "q" :title "LSP")
     ("Navigation"
      (("." xref-find-definitions "Find definition")
       ("," xref-go-back "Go back")
       ("/" xref-find-references "Find references"))
-     ;; "Treemacs"
-     ;; (("ts" lsp-treemacs-symbols "Symbols")
-     ;;  ("td" lsp-treemacs-definitions "Definitions")
-     ;;  ("tr" lsp-treemacs-references "References"))
-      ;; ("tt" lsp-treemacs-types "Types")
-      ;; ("th" lsp-treemacs-call-hierarchy "Call hierarchy")
-      ;; ("tc" lsp-treemacs-code-actions "Code actions")
-      ;; ("te" lsp-treemacs-errors-list "Errors list")
-      ;; ("tf" lsp-treemacs-flatten-namespace "Flatten namespace")
-      ;; ("ti" lsp-treemacs-implementations "Implementations")
-      ;; ("tl" lsp-treemacs-list-projects "List projects")
-      ;; ("tp" lsp-treemacs-preferences "Preferences")
-      ;; ("tq" lsp-treemacs-rename "Rename")
-      ;; ("tt" lsp-treemacs-sync-mode "Sync mode")
-      ;; ("tu" lsp-treemacs-update-workspace "Update workspace"))
+     "Treemacs"
+     (("ts" lsp-treemacs-symbols "Symbols")
+      ("td" lsp-treemacs-definitions "Definitions")
+      ("tr" lsp-treemacs-references "References")
+      ("tt" lsp-treemacs-types "Types")
+      ("th" lsp-treemacs-call-hierarchy "Call hierarchy")
+      ("tc" lsp-treemacs-code-actions "Code actions")
+      ("te" lsp-treemacs-errors-list "Errors list")
+      ("tf" lsp-treemacs-flatten-namespace "Flatten namespace")
+      ("ti" lsp-treemacs-implementations "Implementations")
+      ("tl" lsp-treemacs-list-projects "List projects")
+      ("tp" lsp-treemacs-preferences "Preferences")
+      ("tq" lsp-treemacs-rename "Rename")
+      ("tt" lsp-treemacs-sync-mode "Sync mode")
+      ("tu" lsp-treemacs-update-workspace "Update workspace"))
      "Errors"
      (("<down>" flymake-goto-next-error "Next error")
       ("<up>" flymake-goto-prev-error "Previous error"))
@@ -573,7 +618,7 @@ Language Server Protocol support.
       ("r" dap-restart "Dap restart")
       ("d" dap-debug "Dap debug")
       ("l" dap-debug-last "Dap debug last"))))
-  (global-set-key (kbd "<f9>") 'lsp-hydra/body)
+  (global-set-key (kbd "<f9>") 'hydra-lsp/body)
 
   (add-hook 'dap-stopped-hook (lambda (arg) (call-interactively #'dap-hydra)))
 
@@ -767,6 +812,7 @@ I'm deferring adding java support until needed.
              (matcher . "CaseSensitive")))))
 
       (defvar gofmt-command '/usr/local/bin/gofmt)
+      (defvar gofmt-command '/usr/local/bin/goimports)
 
       ;; :hook ((go-mode . lsp-deferred)
       ;;        (before-save . lsp-format-buffer)
@@ -809,7 +855,7 @@ I'm deferring adding java support until needed.
 #+END_SRC
 
 * Custom keyboard shortcuts
-  Using F12 as the prefix for personal shortcuts.
+** Using F12 as the prefix for personal shortcuts.
 #+BEGIN_SRC emacs-lisp
   (defun open-emacs-config ()
     (interactive)
@@ -826,24 +872,31 @@ I'm deferring adding java support until needed.
      "TODO"
      (("t" open-today-todo-file))
      "Visual"
-     (("n" display-line-numbers-mode "Toggle line numbers")
-      ("p" prettify-symbols-mode "Toggle ligatures")
+     (("n" display-line-numbers-mode "Toggle line numbers" :toggle t)
+      ("w" global-whitespace-mode "Toggle whitespace mode" :toggle t)
+      ("p" prettify-symbols-mode "Toggle ligatures" :toggle t)
       ("l" load-theme))
      "windows"
-     (("<up>" windmove-up "Up window")
-      ("<down>" windmove-down "Down window")
-      ("<left>" windmove-left "Left window")
-      ("<right>" windmove-right "Right window")
+     (("<up>" windmove-up "Up window" :color red)
+      ("<down>" windmove-down "Down window" :color red)
+      ("<left>" windmove-left "Left window" :color red)
+      ("<right>" windmove-right "Right window" :color red)
       ("1" delete-other-windows "delete other windows")
-      ("0" delete-window "delete this window")
+      ("=" balance-windows "balance windows")
       ("2" split-window-below "split --")
       ("3" split-window-right "split |"))
      "Search"
      (("s" consult-line "search this buffer")
       ("S" consult-line-multi "search all buffers")
-      ("f" consult-focus-lines))))
+      ("f" consult-focus-lines))
+     "Projectile"
+     (("p" hydra-projectile/body "projectile"))
+     "LSP"
+     (("d" hydra-lsp/body "lsp"))
+     ))
 
-  (global-set-key (kbd "<f12>") 'david-hydra/body)
+  (global-set-key (kbd "C-c d") 'david-hydra/body)
+
 
 
   ;; (define-prefix-command 'david-map)
@@ -862,6 +915,18 @@ I'm deferring adding java support until needed.
   ;; (define-key david-map (kbd "<down>") #'windmove-down)
   ;; (define-key david-map (kbd "<left>") #'windmove-left)
   ;; (define-key david-map (kbd "<right>") #'windmove-right)
+#+END_SRC
+
+** Additional shortcuts
+
+*** Previous and next buffer
+
+Re-mapping the default `s-<left>` and `s-<right>` shortcuts to `previous-buffer` and `next-buffer`.
+This matches the back and forward shortcuts in chrome and firefox.
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "s-[") 'previous-buffer)
+(global-set-key (kbd "s-]") 'next-buffer)
 #+END_SRC
 
 * Window navigation
@@ -895,23 +960,24 @@ is available. Useful if you tend to hammer your keys like I do."
           (next-line))
       (copilot-complete)))
 
-  (define-key copilot-mode-map (kbd "M-C-<next>") #'copilot-next-completion)
-  (define-key copilot-mode-map (kbd "M-C-<prior>") #'copilot-previous-completion)
-  (define-key copilot-mode-map (kbd "M-C-<right>") #'copilot-accept-completion-by-word)
-  (define-key copilot-mode-map (kbd "M-C-<down>") #'copilot-accept-completion-by-line)
-  (define-key global-map (kbd "M-C-<return>") #'rk/copilot-complete-or-accept)
+  (define-key copilot-mode-map (kbd "m-]") #'copilot-next-completion)
+  (define-key copilot-mode-map (kbd "m-[") #'copilot-previous-completion)
+  (define-key copilot-mode-map (kbd "s-<right>") #'copilot-accept-completion-by-word)
+  (define-key copilot-mode-map (kbd "s-<down>") #'copilot-accept-completion-by-line)
+
+  (define-key global-map (kbd "S-<return>") #'rk/copilot-complete-or-accept)
 
 
-  (defun rk/copilot-tab ()
-    "Tab command that will complete with copilot if a completion is
-     available. Otherwise will try company, yasnippet or normal
-     tab-indent."
-    (interactive)
-    (or (copilot-accept-completion)
-        (company-yasnippet-or-completion)
-        (indent-for-tab-command)))
+  ;; (defun rk/copilot-tab ()
+  ;;   "Tab command that will complete with copilot if a completion is
+  ;;    available. Otherwise will try company, yasnippet or normal
+  ;;    tab-indent."
+  ;;   (interactive)
+  ;;   (or (copilot-accept-completion)
+  ;;       (company-yasnippet-or-completion)
+  ;;       (indent-for-tab-command)))
 
-  (define-key global-map (kbd "<tab>") #'rk/copilot-tab)
+  ;(define-key global-map (kbd "<tab>") #'rk/copilot-tab)
 
   (defun rk/copilot-quit ()
     "Run `copilot-clear-overlay' or `keyboard-quit'. If copilot is
@@ -932,7 +998,11 @@ is available. Useful if you tend to hammer your keys like I do."
 (advice-add 'keyboard-quit :before #'rk/copilot-quit))
 #+END_SRC
 
-
+* Sonarlint
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'lsp-sonarlint)
+(not )
+#+END_SRC
 
 
 * Fonts
@@ -958,13 +1028,22 @@ Note that the custom shortcut "F12-p" toggles ligatures for the buffer.
 * Themes
 To find new themes, see https://emacsthemes.com.
 
+** Configure load-theme
+#+BEGIN_SRC emacs-lisp
+  (defadvice load-theme (before clear-previous-themes activate)
+    "Clear existing theme settings instead of layering them."
+    (mapc #'disable-theme custom-enabled-themes))
+#+END_SRC
+
 ** Load my favorite themes
 #+BEGIN_SRC emacs-lisp
 (use-package nord-theme)
 (use-package zenburn-theme)
 (use-package os1-theme
   :straight (:type git :host github :repo "sashimacs/os1-theme"))
-#+END_SRC 
+#+END_SRC
+
+
 
 ** Persist theme selection across sessions
 #+BEGIN_SRC emacs-lisp
@@ -972,3 +1051,25 @@ To find new themes, see https://emacsthemes.com.
   :config (remember-last-theme-with-file-enable (expand-file-name "transient/last-theme" user-emacs-directory)))
 #+END_SRC 
 
+* Treesitter
+
+#+BEGIN_SRC emacs-lisp
+  (setq treesit-language-source-alist
+     '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+       (css "https://github.com/tree-sitter/tree-sitter-css")
+       (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+       (go "https://github.com/tree-sitter/tree-sitter-go")
+       (html "https://github.com/tree-sitter/tree-sitter-html")
+       (java "https://github.com/tree-sitter/tree-sitter-java")
+       (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+       (json "https://github.com/tree-sitter/tree-sitter-json")
+       (make "https://github.com/alemuller/tree-sitter-make")
+       (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+       (python "https://github.com/tree-sitter/tree-sitter-python")
+       (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+       (rust "https://github.com/tree-sitter/tree-sitter-rust")
+       (toml "https://github.com/tree-sitter/tree-sitter-toml")
+       (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+       (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+       (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+#+END_SRC
