@@ -407,6 +407,19 @@
 (use-package treemacs-magit
   :after (treemacs magit))
 
+
+;; Claude Code
+(use-package claude-code
+  :straight (:type git :host github :repo "stevemolitor/claude-code.el" :branch "main"
+                   :files ("*.el" (:exclude "demo.gif")))
+  :bind-keymap
+  ("C-c c" . claude-code-command-map)
+  :bind
+  ("<f12>" . claude-code-send-escape)
+  :config
+  (claude-code-mode))
+
+
 ;; Restore gc-cons-threshold
 (setq gc-cons-threshold (* 2 1000 1000))
 
