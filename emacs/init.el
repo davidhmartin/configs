@@ -6,6 +6,7 @@
 
 ;;; Code:
 
+
 ;; Performance optimizations
 (setq gc-cons-threshold (* 50 1000 1000))
 
@@ -27,7 +28,46 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+;; Fix PATH in GUI Emacs
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
+
+
+
 ;;; Basic Emacs Configuration
+
+;; Window dedication toggle
+(defun my/toggle-window-dedicated ()
+  "Toggle whether current window is dedicated to its buffer."
+  (interactive)
+  (let* ((window (selected-window))
+         (dedicated (window-dedicated-p window)))
+    (set-window-dedicated-p window (not dedicated))
+    (message "Window %sdedicated to %s"
+             (if dedicated "not " "")
+             (buffer-name (window-buffer window)))))
+
+(global-set-key (kbd "C-c w d") 'my/toggle-window-dedicated)
+
+;; Configure specific buffers to appear in side windows
+(add-to-list 'display-buffer-alist
+             '("\\*eldoc\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               (side . right)
+               (slot . 0)
+               (window-width . 80)
+               (window-parameters . ((no-delete-other-windows . t)))))
+
+(add-to-list 'display-buffer-alist
+             '("\\*eat\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               (side . bottom)
+               (slot . 0)
+               (window-height . 15)
+               (window-parameters . ((no-delete-other-windows . t)))))
 
 ;; UI preferences
 (setq inhibit-startup-message t)
@@ -88,6 +128,11 @@
 (unless custom-enabled-themes
   (load-theme 'doom-one t))
 
+;; Auto-save theme after using consult-theme
+(advice-add 'consult-theme :after
+            (lambda (&rest _)
+              (my/save-current-theme)))
+
 ;; Icons
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -104,6 +149,11 @@
   :config
   (which-key-mode)
   (setq which-key-idle-delay 1))
+
+;; Hydra for organized key bindings
+(use-package hydra
+  :config
+  (load (expand-file-name "hydras.el" user-emacs-directory)))
 
 ;; Enable basic completion system
 (setq completion-cycle-threshold 3)
@@ -170,33 +220,6 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-;; Theme switching with preview using consult
-(defun my/consult-theme ()
-  "Select and preview themes using consult."
-  (interactive)
-  (let* ((themes (mapcar #'symbol-name (custom-available-themes)))
-         (current (car custom-enabled-themes))
-         (current-name (when current (symbol-name current))))
-    (consult--read
-     themes
-     :prompt "Theme: "
-     :state (lambda (action theme)
-              (when theme
-                (pcase action
-                  ('preview
-                   (mapc #'disable-theme custom-enabled-themes)
-                   (load-theme (intern theme) t))
-                  ('return
-                   (mapc #'disable-theme custom-enabled-themes)
-                   (load-theme (intern theme) t)
-                   (my/save-current-theme)
-                   (message "Loaded and saved theme: %s" theme)))))
-     :default current-name
-     :require-match t
-     :category 'theme
-     :lookup #'consult--lookup-candidate)))
-
-(global-set-key (kbd "C-c t") 'my/consult-theme)
 
 ;; Helpful
 (use-package helpful
@@ -261,17 +284,37 @@
   :custom
   (eglot-autoshutdown t)
   (eglot-confirm-server-initiated-edits nil)
+  (eglot-sync-connect nil)     ; Don't block Emacs while connecting
+  (eglot-report-progress t)    ; Show progress in modeline
   :config
+  ;; Configure Elixir language servers for both elixir-mode and elixir-ts-mode
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 `((elixir-mode elixir-ts-mode) . ,(eglot-alternatives
+                                   '("~/.local/bin/elixir-ls/language_server.sh"
+				     "expert")))))
+
   (setq-default eglot-workspace-configuration
                 '((:rust-analyzer . (:cargo (:buildScripts (:enable t))
                                      :procMacro (:enable t)
                                      :diagnostics (:disabled ["unresolved-proc-macro"
                                                               "unresolved-macro-call"]))))))
 
+;; Tree-sitter configuration
+(use-package treesit-auto
+  :config
+  (global-treesit-auto-mode)
+  :custom
+  (treesit-auto-install 'prompt))
+
 ;; Language Modes
 
-;; Elixir
+;; Elixir with tree-sitter support
 (use-package elixir-mode)
+
+(use-package elixir-ts-mode
+  :mode "\\.exs?\\'"
+  :hook (elixir-ts-mode . eglot-ensure))
 
 ;; Rust
 (use-package rustic
@@ -291,13 +334,6 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
-;; Flymake (built-in syntax checking)
-(use-package flymake
-  :hook (prog-mode . flymake-mode)
-  :bind (:map flymake-mode-map
-              ("M-n" . flymake-goto-next-error)
-              ("M-p" . flymake-goto-prev-error)))
-
 ;; Yasnippet
 (use-package yasnippet
   :hook (prog-mode . yas-minor-mode)
@@ -312,7 +348,9 @@
   :bind (("C-c v" . eat)
          ("C-c C-v" . eat-project))
   :custom
-  (eat-term-name "xterm-256color"))
+  (eat-term-name "xterm-256color")
+  (eat-term-shell-integration-directory
+   (expand-file-name "straight/repos/eat/integration" user-emacs-directory)))
 
 ;; Treemacs
 (use-package treemacs
@@ -408,6 +446,7 @@
   :after (treemacs magit))
 
 
+
 ;; Claude Code
 (use-package claude-code
   :straight (:type git :host github :repo "stevemolitor/claude-code.el" :branch "main"
@@ -425,3 +464,18 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("9b9d7a851a8e26f294e778e02c8df25c8a3b15170e6f9fd6965ac5f2544ef2a9"
+     "fd22a3aac273624858a4184079b7134fb4e97104d1627cb2b488821be765ff17"
+     default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
