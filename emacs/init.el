@@ -6,6 +6,12 @@
 
 ;;; Code:
 
+;; Frame size constants
+(defconst my/default-frame-width 120
+  "Default width for new frames in characters.")
+(defconst my/default-frame-height 60
+  "Default height for new frames in lines.")
+
 
 ;; Performance optimizations
 (setq gc-cons-threshold (* 50 1000 1000))
@@ -52,23 +58,6 @@
 
 (global-set-key (kbd "C-c w d") 'my/toggle-window-dedicated)
 
-;; Configure specific buffers to appear in side windows
-(add-to-list 'display-buffer-alist
-             '("\\*eldoc\\*"
-               (display-buffer-reuse-window display-buffer-in-side-window)
-               (side . right)
-               (slot . 0)
-               (window-width . 80)
-               (window-parameters . ((no-delete-other-windows . t)))))
-
-(add-to-list 'display-buffer-alist
-             '("\\*eat\\*"
-               (display-buffer-reuse-window display-buffer-in-side-window)
-               (side . bottom)
-               (slot . 0)
-               (window-height . 15)
-               (window-parameters . ((no-delete-other-windows . t)))))
-
 ;; UI preferences
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)
@@ -76,6 +65,31 @@
 (tooltip-mode -1)
 (menu-bar-mode -1)
 (set-fringe-mode 10)
+
+;; Default frame size
+(setq frame-resize-pixelwise t)
+(setq frame-inhibit-implied-resize nil)
+(setq default-frame-alist
+      (append `((width . ,my/default-frame-width)
+                (height . ,my/default-frame-height))
+              default-frame-alist))
+(setq initial-frame-alist
+      (append `((width . ,my/default-frame-width)
+                (height . ,my/default-frame-height))
+              initial-frame-alist))
+
+;; Force new frames to resize after creation
+(defun my/resize-frame-on-create (frame)
+  "Force FRAME to the desired size after creation."
+  (run-with-timer
+   0.1 nil
+   (lambda ()
+     (with-selected-frame frame
+       (set-frame-parameter frame 'fullscreen nil)
+       (set-frame-width frame my/default-frame-width)
+       (set-frame-height frame my/default-frame-height)))))
+
+(add-hook 'after-make-frame-functions 'my/resize-frame-on-create)
 
 ;; Line numbers
 (column-number-mode)
@@ -93,6 +107,44 @@
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; Open current buffer in new frame
+(defun my/open-buffer-in-new-frame ()
+  "Open the current buffer in a new frame."
+  (interactive)
+  (let ((buffer (current-buffer)))
+    (select-frame (make-frame `((width . ,my/default-frame-width)
+                                (height . ,my/default-frame-height))))
+    (switch-to-buffer buffer)))
+
+(defun my/move-buffer-to-new-frame ()
+  "Move the current buffer to a new frame, closing it in the original frame."
+  (interactive)
+  (let ((buffer (current-buffer))
+        (window (selected-window)))
+    (select-frame (make-frame `((width . ,my/default-frame-width)
+                                (height . ,my/default-frame-height))))
+    (switch-to-buffer buffer)
+    (with-selected-frame (window-frame window)
+      (delete-window window))))
+
+;; Configure specific buffers to appear in side windows
+(add-to-list 'display-buffer-alist
+             '("\\*eldoc\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               (side . right)
+               (slot . 0)
+               (window-width . 80)
+               (window-parameters . ((no-delete-other-windows . t)))))
+
+(add-to-list 'display-buffer-alist
+             '("\\*eat\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               (side . bottom)
+               (slot . 0)
+               (window-height . 15)
+               (window-parameters . ((no-delete-other-windows . t)))))
+
 
 ;;; Package Configuration
 

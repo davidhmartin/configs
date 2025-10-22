@@ -40,7 +40,8 @@ _<left>_: left      _2_: split below    _S-<left>_: shrink h  _d_: delete
 _<down>_: down      _3_: split right    _S-<down>_: shrink v  _D_: delete others
 _<up>_: up          _u_: undo layout    _S-<up>_: enlarge v   _s_: swap
 _<right>_: right    _r_: redo layout    _S-<right>_: enlarge h _=_: balance
-_w_: ace-window     _p_: pin/unpin      ^ ^                   _q_: quit
+_w_: ace-window     _p_: pin/unpin      _f_: move->frame      _F_: copy->frame
+                                        _q_: quit
 "
   ("<left>" windmove-left)
   ("<down>" windmove-down)
@@ -60,6 +61,8 @@ _w_: ace-window     _p_: pin/unpin      ^ ^                   _q_: quit
   ("s" ace-swap-window :color teal)
   ("=" balance-windows :color teal)
   ("p" my/toggle-window-dedicated)
+  ("f" my/move-buffer-to-new-frame :color teal)
+  ("F" my/open-buffer-in-new-frame :color teal)
   ("q" nil))
 
 ;; Buffer management
