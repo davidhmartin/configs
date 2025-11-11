@@ -395,7 +395,26 @@
 (use-package yasnippet-snippets
   :after yasnippet)
 
-;; Terminal emulator
+;; Terminal emulators
+
+;; VTerm - Fast terminal emulator
+(use-package vterm
+  :commands vterm
+  :bind (("C-c t" . vterm)
+         ("C-c T" . vterm-other-window))
+  :custom
+  (vterm-max-scrollback 10000)
+  (vterm-shell (getenv "SHELL"))
+  (vterm-kill-buffer-on-exit t)
+  :config
+  ;; Don't query about killing vterm buffers
+  (defun my/vterm-kill-buffer-advice (&rest _)
+    "Kill vterm buffer without confirmation."
+    (let ((kill-buffer-query-functions nil))
+      (kill-buffer)))
+  (advice-add 'vterm--sentinel :after #'my/vterm-kill-buffer-advice))
+
+;; Eat - Alternative terminal emulator
 (use-package eat
   :bind (("C-c v" . eat)
          ("C-c C-v" . eat-project))
@@ -498,17 +517,80 @@
   :after (treemacs magit))
 
 
-
-;; Claude Code
-(use-package claude-code
-  :straight (:type git :host github :repo "stevemolitor/claude-code.el" :branch "main"
-                   :files ("*.el" (:exclude "demo.gif")))
-  :bind-keymap
-  ("C-c c" . claude-code-command-map)
-  :bind
-  ("<f12>" . claude-code-send-escape)
+;; Claude Code IDE
+(use-package claude-code-ide
+  :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
+  :bind (("C-c C-'" . claude-code-ide-menu)
+         ("C-c c i" . claude-code-ide-invoke)
+         ("C-c c c" . claude-code-ide-clear)
+         ("C-c c k" . claude-code-ide-kill)
+         ("C-c c s" . claude-code-ide-send-region)
+         ("C-c c b" . claude-code-ide-send-buffer)
+         ("C-c c e" . my/claude-send-error)
+         ("C-c c a" . my/claude-ask-about-code))
   :config
-  (claude-code-mode))
+  (claude-code-ide-emacs-tools-setup)
+  (setq claude-code-ide-terminal-backend 'vterm)
+
+  ;; Helper function to send errors to Claude
+  (defun my/claude-send-error ()
+    "Send the current error or diagnostic to Claude Code for help."
+    (interactive)
+    (let ((error-msg (or (and (bound-and-true-p flymake-mode)
+                              (flymake--diag-text (car (flymake-diagnostics (point)))))
+                         (thing-at-point 'line t))))
+      (when error-msg
+        (claude-code-ide-invoke
+         (format "Help me fix this error:\n\n%s\n\nContext: %s:%d"
+                 error-msg
+                 (buffer-file-name)
+                 (line-number-at-pos))))))
+
+  ;; Helper function to ask Claude about code at point
+  (defun my/claude-ask-about-code ()
+    "Ask Claude Code about the code at point or in region."
+    (interactive)
+    (let* ((code (if (use-region-p)
+                    (buffer-substring-no-properties (region-beginning) (region-end))
+                  (thing-at-point 'defun t)))
+           (question (read-string "Ask Claude: " "Explain this code: ")))
+      (when code
+        (claude-code-ide-invoke
+         (format "%s\n\n```%s\n%s\n```\n\nFile: %s:%d"
+                 question
+                 (symbol-name major-mode)
+                 code
+                 (buffer-file-name)
+                 (line-number-at-pos))))))
+
+  ;; Helper function to send buffer with custom message
+  (defun my/claude-send-buffer-with-prompt ()
+    "Send current buffer to Claude with a custom prompt."
+    (interactive)
+    (let ((prompt (read-string "What should Claude do with this buffer? ")))
+      (claude-code-ide-invoke
+       (format "%s\n\n```%s\n%s\n```\n\nFile: %s"
+               prompt
+               (symbol-name major-mode)
+               (buffer-substring-no-properties (point-min) (point-max))
+               (buffer-file-name))))))
+
+;; Display buffer configuration for Claude Code
+(add-to-list 'display-buffer-alist
+             '("\\*claude-code.*\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               (side . right)
+               (slot . 1)
+               (window-width . 100)
+               (window-parameters . ((no-delete-other-windows . t)))))
+
+(add-to-list 'display-buffer-alist
+             '("\\*Claude Code Terminal\\*"
+               (display-buffer-reuse-window display-buffer-in-side-window)
+               (side . bottom)
+               (slot . 1)
+               (window-height . 20)
+               (window-parameters . ((no-delete-other-windows . t)))))
 
 
 ;; Restore gc-cons-threshold

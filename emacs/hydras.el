@@ -14,6 +14,7 @@
 _w_: window mgmt    _f_: file ops       _d_: dev tools      _g_: git/magit      _t_: themes
 _b_: buffers        _p_: project        _l_: LSP/eglot      _m_: merge tools    _h_: help
 _q_: quit           _r_: recent files   _e_: errors         _x_: elixir/mix     _s_: search
+                                        _c_: claude code    _v_: terminals
 "
   ("w" hydra-windows/body)
   ("b" hydra-buffers/body)
@@ -26,6 +27,8 @@ _q_: quit           _r_: recent files   _e_: errors         _x_: elixir/mix     
   ("g" hydra-git/body)
   ("m" hydra-merge/body)
   ("x" hydra-elixir/body)
+  ("c" hydra-claude/body)
+  ("v" hydra-terminal/body)
   ("t" consult-theme)
   ("h" hydra-help/body)
   ("s" hydra-search/body)
@@ -330,6 +333,68 @@ _m_: multi occur    ^ ^                 ^ ^                 ^ ^
   ("l" consult-locate)
   ("r" replace-string)
   ("R" query-replace)
+  ("q" nil))
+
+;; Claude Code IDE operations
+(defhydra hydra-claude (:color teal :hint nil)
+  "
+^Invoke^            ^Send^              ^Quick Actions^     ^Session^
+^------^            ^----^              ^-------------^     ^-------^
+_i_: invoke         _r_: send region    _e_: fix error      _c_: clear
+_m_: menu           _b_: send buffer    _a_: ask about      _k_: kill session
+_p_: with prompt    _f_: send file      _d_: debug help     _q_: quit
+^ ^                 ^ ^                 _x_: explain        ^ ^
+"
+  ("i" claude-code-ide-invoke)
+  ("m" claude-code-ide-menu)
+  ("p" (lambda () (interactive)
+         (claude-code-ide-invoke (read-string "Ask Claude: "))))
+  ("r" claude-code-ide-send-region)
+  ("b" claude-code-ide-send-buffer)
+  ("f" my/claude-send-buffer-with-prompt)
+  ("e" my/claude-send-error)
+  ("a" my/claude-ask-about-code)
+  ("d" (lambda () (interactive)
+         (my/claude-ask-about-code)
+         (insert "Help me debug this: ")))
+  ("x" (lambda () (interactive)
+         (call-interactively 'my/claude-ask-about-code)))
+  ("c" claude-code-ide-clear)
+  ("k" claude-code-ide-kill)
+  ("q" nil))
+
+;; Terminal operations
+(defhydra hydra-terminal (:color teal :hint nil)
+  "
+^VTerm^             ^Eat^               ^Actions^           ^Navigation^
+^-----^             ^---^               ^-------^           ^----------^
+_t_: vterm          _e_: eat            _k_: kill terminal  _b_: switch term
+_T_: vterm other    _E_: eat project    _r_: rename buffer  _n_: next buffer
+_p_: vterm project  ^ ^                 _c_: clear buffer   _p_: prev buffer
+^ ^                 ^ ^                 _q_: quit           ^ ^
+"
+  ("t" vterm)
+  ("T" vterm-other-window)
+  ("p" (lambda () (interactive)
+         (let ((default-directory (if (fboundp 'projectile-project-root)
+                                      (projectile-project-root)
+                                    default-directory)))
+           (vterm))))
+  ("e" eat)
+  ("E" eat-project)
+  ("k" kill-buffer-and-window)
+  ("r" rename-buffer)
+  ("c" (lambda () (interactive)
+         (when (or (derived-mode-p 'vterm-mode)
+                   (derived-mode-p 'eat-mode))
+           (vterm-clear))))
+  ("b" (lambda () (interactive)
+         (consult-buffer '(:predicate (lambda (buf)
+                                        (with-current-buffer buf
+                                          (or (derived-mode-p 'vterm-mode)
+                                              (derived-mode-p 'eat-mode))))))))
+  ("n" next-buffer)
+  ("p" previous-buffer)
   ("q" nil))
 
 ;; Utility function for kill-other-buffers (referenced in buffers hydra)
