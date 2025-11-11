@@ -133,6 +133,14 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
+;; Undo-tree - Visual undo history
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  :custom
+  (undo-tree-auto-save-history nil)
+  (undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo-tree-history/")))))
+
 ;; Open current buffer in new frame
 (defun my/open-buffer-in-new-frame ()
   "Open the current buffer in a new frame."
@@ -393,6 +401,25 @@
   :mode "\\.exs?\\'"
   :hook (elixir-ts-mode . eglot-ensure))
 
+;; Inf-elixir - Enhanced IEx REPL integration
+(use-package inf-elixir
+  :bind (:map elixir-mode-map
+              ("C-c C-z" . inf-elixir)
+              ("C-c C-c" . inf-elixir-send-line)
+              ("C-c C-r" . inf-elixir-send-region)
+              ("C-c C-b" . inf-elixir-send-buffer)))
+
+;; Flycheck with Credo for Elixir linting
+(use-package flycheck
+  :hook (elixir-mode . flycheck-mode)
+  :custom
+  (flycheck-check-syntax-automatically '(save mode-enabled)))
+
+(use-package flycheck-credo
+  :after (flycheck elixir-mode)
+  :config
+  (flycheck-credo-setup))
+
 ;; Rust
 (use-package rustic
   :bind (:map rustic-mode-map
@@ -616,6 +643,23 @@
                (slot . 1)
                (window-height . 20)
                (window-parameters . ((no-delete-other-windows . t)))))
+
+
+;; Visual enhancements
+
+;; Auto-dim-other-buffers - Dim unfocused buffers
+(use-package auto-dim-other-buffers
+  :config
+  (auto-dim-other-buffers-mode t))
+
+;; Beacon - Highlight cursor on movement
+(use-package beacon
+  :custom
+  (beacon-blink-when-focused t)
+  (beacon-blink-when-window-scrolls t)
+  (beacon-blink-when-point-moves-vertically 10)
+  :config
+  (beacon-mode 1))
 
 
 ;; Restore gc-cons-threshold
