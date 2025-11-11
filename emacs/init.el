@@ -2,7 +2,11 @@
 
 ;;; Commentary:
 ;; Modern Emacs configuration focused on LSP-based development workflows
-;; with support for Elixir, Rust, and Go development.
+;; with support for Claude Code and Elixir.
+
+;; Packages to try in the future:
+;; - multiple-cursors: Edit multiple locations simultaneously
+;; - deadgrep: Interactive ripgrep interface with results buffer
 
 ;;; Code:
 
@@ -107,6 +111,27 @@
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; Ace-window for quick window switching
+(use-package ace-window
+  :bind ("M-o" . ace-window)
+  :custom
+  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  (aw-scope 'frame))
+
+;; Avy - Jump to any visible text
+(use-package avy
+  :bind (("C-:" . avy-goto-char)
+         ("C-'" . avy-goto-char-2)
+         ("M-g f" . avy-goto-line)
+         ("M-g w" . avy-goto-word-1))
+  :custom
+  (avy-all-windows t)
+  (avy-background t))
+
+;; Expand-region - Intelligently expand selection
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
 
 ;; Open current buffer in new frame
 (defun my/open-buffer-in-new-frame ()
