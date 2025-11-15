@@ -433,6 +433,17 @@
   :config
   (setq rustic-format-on-save t))
 
+;; Markdown
+(use-package markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
+  :custom
+  (markdown-command "pandoc")
+  (markdown-command-needs-filename nil)
+  (markdown-open-command "pandoc")
+  :config
+  ;; Use pandoc for live preview with GitHub Flavored Markdown
+  (setq markdown-command "pandoc -f gfm"))
+
 
 ;; Rainbow delimiters
 (use-package rainbow-delimiters
