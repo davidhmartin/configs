@@ -824,6 +824,10 @@
 
 ;; Visual enhancements
 
+;; Colorful-mode - Display color previews for hex codes, RGB, etc.
+(use-package colorful-mode
+  :hook (prog-mode . colorful-mode))
+
 ;; Auto-dim-other-buffers - Dim unfocused buffers
 ;; (use-package auto-dim-other-buffers
 ;;   :config
