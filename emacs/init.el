@@ -24,23 +24,25 @@
             (setq gc-cons-threshold (* 2 1000 1000))
             (setq gc-cons-percentage 0.1)))
 
-;; Bootstrap straight.el package manager
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;; Initialize package.el with MELPA
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(package-initialize)
 
-;; Configure use-package to use straight
-(straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
+;; Refresh package contents on first run
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; use-package is built-in since Emacs 29
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+;; Bootstrap vc-use-package for :vc keyword support
+(unless (package-installed-p 'vc-use-package)
+  (package-vc-install "https://github.com/slotThe/vc-use-package"))
+(require 'vc-use-package)
 
 ;; Custom file configuration - keep init.el clean
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -159,7 +161,7 @@
 
 ;; Persist minibuffer history across sessions
 (use-package savehist
-  :straight (:type built-in)
+  :ensure nil
   :init
   (savehist-mode 1)
   :custom
@@ -168,7 +170,7 @@
 
 ;; Track recently opened files
 (use-package recentf
-  :straight (:type built-in)
+  :ensure nil
   :init
   (recentf-mode 1)
   :custom
@@ -176,14 +178,13 @@
   (recentf-max-menu-items 15)
   (recentf-auto-cleanup 'never)
   :config
-  (add-to-list 'recentf-exclude (expand-file-name "straight/" user-emacs-directory))
   (add-to-list 'recentf-exclude (expand-file-name "elpa/" user-emacs-directory))
   (add-to-list 'recentf-exclude "recentf")
   (add-to-list 'recentf-exclude "\\.gpg\\'"))
 
 ;; Remember cursor position in files
 (use-package saveplace
-  :straight (:type built-in)
+  :ensure nil
   :init
   (save-place-mode 1))
 
@@ -273,7 +274,7 @@
 ;;   (doom-themes-org-config))
 
 (use-package gypsum
-  :straight (:host github :repo "davidhmartin/gypsum")
+  :vc (:fetcher github :repo "davidhmartin/gypsum")
   :config
   (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/"))
 
@@ -555,12 +556,12 @@
 
 ;; Electric pair mode - Auto-close brackets and quotes
 (use-package elec-pair
-  :straight (:type built-in)
+  :ensure nil
   :hook (prog-mode . electric-pair-local-mode))
 
 ;; So-long mode - Handle files with very long lines gracefully
 (use-package so-long
-  :straight (:type built-in)
+  :ensure nil
   :init
   (global-so-long-mode 1))
 
@@ -620,8 +621,6 @@
          ("C-c C-v" . eat-project))
   :custom
   (eat-term-name "xterm-256color")
-  (eat-term-shell-integration-directory
-   (expand-file-name "straight/repos/eat/integration" user-emacs-directory))
   :config
   ;; Set font for eat buffers (DejaVu Sans Mono has consistent glyph heights)
   (add-hook 'eat-mode-hook
@@ -725,7 +724,7 @@
 
 ;; Claude Code IDE
 (use-package claude-code-ide
-  :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
+  :vc (:fetcher github :repo "manzaltu/claude-code-ide.el")
   :bind (("C-c C-'" . claude-code-ide-menu)
          ("C-c c c" . claude-code-ide)
          ("C-c c p" . claude-code-ide-send-prompt)
