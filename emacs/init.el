@@ -17,8 +17,12 @@
   "Default height for new frames in lines.")
 
 
-;; Performance optimizations
-(setq gc-cons-threshold (* 50 1000 1000))
+;; Performance optimizations are now in early-init.el
+;; Restore GC settings after startup completes
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 2 1000 1000))
+            (setq gc-cons-percentage 0.1)))
 
 ;; Bootstrap straight.el package manager
 (defvar bootstrap-version)
@@ -37,6 +41,11 @@
 ;; Configure use-package to use straight
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
+
+;; Custom file configuration - keep init.el clean
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 ;; Fix PATH in GUI Emacs
 (use-package exec-path-from-shell
@@ -62,12 +71,8 @@
 
 (global-set-key (kbd "C-c w d") 'my/toggle-window-dedicated)
 
-;; UI preferences
-(setq inhibit-startup-message t)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
+;; UI preferences (basic UI disabling is in early-init.el for speed)
 (tooltip-mode -1)
-(menu-bar-mode -1)
 (set-fringe-mode 10)
 
 ;; Default frame size
@@ -107,7 +112,8 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Font configuration
-(set-face-attribute 'default nil :font "Fira Code" :height 120)
+;(set-face-attribute 'default nil :font "Fira Code" :height 120)
+(set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 120)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -133,13 +139,70 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-;; Undo-tree - Visual undo history
+;; Undo-tree - Visual undo history with persistence
 (use-package undo-tree
   :config
   (global-undo-tree-mode)
   :custom
-  (undo-tree-auto-save-history nil)
+  (undo-tree-auto-save-history t)
   (undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo-tree-history/")))))
+
+;; Auto-revert buffers when files change on disk
+(global-auto-revert-mode 1)
+(setq auto-revert-verbose nil)
+(setq auto-revert-check-vc-info t)
+(setq revert-buffer-restore-undo t)
+
+;; Auto-save files (modern IDE behavior)
+(auto-save-visited-mode 1)
+(setq auto-save-visited-interval 1)
+
+;; Persist minibuffer history across sessions
+(use-package savehist
+  :straight (:type built-in)
+  :init
+  (savehist-mode 1)
+  :custom
+  (savehist-additional-variables '(search-ring regexp-search-ring))
+  (savehist-autosave-interval 60))
+
+;; Track recently opened files
+(use-package recentf
+  :straight (:type built-in)
+  :init
+  (recentf-mode 1)
+  :custom
+  (recentf-max-saved-items 200)
+  (recentf-max-menu-items 15)
+  (recentf-auto-cleanup 'never)
+  :config
+  (add-to-list 'recentf-exclude (expand-file-name "straight/" user-emacs-directory))
+  (add-to-list 'recentf-exclude (expand-file-name "elpa/" user-emacs-directory))
+  (add-to-list 'recentf-exclude "recentf")
+  (add-to-list 'recentf-exclude "\\.gpg\\'"))
+
+;; Remember cursor position in files
+(use-package saveplace
+  :straight (:type built-in)
+  :init
+  (save-place-mode 1))
+
+;; Backup and autosave directory configuration
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "auto-saves/" user-emacs-directory) t)))
+(setq auto-save-list-file-prefix
+      (expand-file-name "auto-saves/.saves-" user-emacs-directory))
+(setq backup-by-copying t)
+(setq delete-old-versions t)
+(setq kept-new-versions 6)
+(setq kept-old-versions 2)
+(setq version-control t)
+
+;; Create backup and auto-save directories if they don't exist
+(make-directory (expand-file-name "backups/" user-emacs-directory) t)
+(make-directory (expand-file-name "auto-saves/" user-emacs-directory) t)
 
 ;; Open current buffer in new frame
 (defun my/open-buffer-in-new-frame ()
@@ -201,26 +264,40 @@
         (load-theme saved-theme t)))))
 
 ;; Theme
-(use-package doom-themes
+
+;; (use-package doom-themes
+;;   :config
+;;   (setq doom-themes-enable-bold t
+;;         doom-themes-enable-italic t)
+;;   (doom-themes-visual-bell-config)
+;;   (doom-themes-org-config))
+
+(use-package gypsum
+  :straight (:host github :repo "davidhmartin/gypsum")
   :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/"))
+
+;; (use-package gypsum
+;;   :straight (:local-repo "/var/home/david/git/gypsum")
+;;   :config
+;;   (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/"))
+
 
 ;; Load saved theme or default to doom-one
 (my/load-saved-theme)
-(unless custom-enabled-themes
-  (load-theme 'doom-one t))
+;; (unless custom-enabled-themes
+;;   (load-theme 'doom-one t))
 
 ;; Auto-save theme after using consult-theme
 (advice-add 'consult-theme :after
             (lambda (&rest _)
               (my/save-current-theme)))
 
-;; Icons
-(use-package all-the-icons
-  :if (display-graphic-p))
+;; Icons (nerd-icons is the modern replacement for all-the-icons)
+(use-package nerd-icons
+  :if (display-graphic-p)
+  :custom
+  (nerd-icons-font-family "Symbols Nerd Font Mono"))
 
 ;; Modeline
 (use-package doom-modeline
@@ -238,15 +315,15 @@
 ;; Hydra for organized key bindings
 (use-package hydra
   :config
-  (load (expand-file-name "hydras.el" user-emacs-directory)))
+  (let ((hydra-file (expand-file-name "hydras.el" user-emacs-directory)))
+    (when (file-exists-p hydra-file)
+      (load hydra-file))))
 
 ;; Enable basic completion system
 (setq completion-cycle-threshold 3)
 (setq completions-detailed t)
 (setq tab-always-indent 'complete)
-(setq completion-styles '(orderless basic))
 (setq completion-category-defaults nil)
-(setq completion-category-overrides '((file (styles partial-completion))))
 
 ;; Orderless completion style
 (use-package orderless
@@ -268,12 +345,15 @@
 
 (use-package consult
   :bind (("C-s" . consult-line)
+         ("C-M-s" . isearch-forward)      ; Fallback to classic isearch
+         ("C-M-r" . isearch-backward)     ; Fallback to classic isearch backward
          ("C-M-j" . consult-buffer)
          ("C-x b" . consult-buffer)
          ("M-y" . consult-yank-pop)
          ("M-g g" . consult-goto-line)
          ("M-g M-g" . consult-goto-line)
          ("M-g i" . consult-imenu)
+         ("M-g e" . consult-compile-error) ; Jump to compilation errors
          ("M-s d" . consult-find)
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
@@ -291,6 +371,14 @@
   ;; Configure consult-line to work properly
   (setq consult-line-start-from-top t))
 
+;; Consult integration with Projectile
+(use-package consult-projectile
+  :after (consult projectile)
+  :bind (:map projectile-command-map
+              ("b" . consult-projectile-switch-to-buffer)
+              ("f" . consult-projectile-find-file)
+              ("p" . consult-projectile-switch-project)))
+
 ;; Embark for contextual actions
 (use-package embark
   :bind
@@ -304,6 +392,12 @@
   :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+;; Wgrep - Make grep buffers editable (works with consult-ripgrep via embark)
+(use-package wgrep
+  :custom
+  (wgrep-auto-save-buffer t)
+  (wgrep-change-readonly-file t))
 
 
 ;; Helpful
@@ -397,8 +491,9 @@
 ;; Elixir with tree-sitter support
 (use-package elixir-mode)
 
+;; elixir-ts-mode - treesit-auto will handle mode selection automatically
+;; Don't set :mode here to avoid conflict with elixir-mode
 (use-package elixir-ts-mode
-  :mode "\\.exs?\\'"
   :hook (elixir-ts-mode . eglot-ensure))
 
 ;; Inf-elixir - Enhanced IEx REPL integration
@@ -410,10 +505,19 @@
               ("C-c C-b" . inf-elixir-send-buffer)))
 
 ;; Flycheck with Credo for Elixir linting
+;; Note: Eglot uses Flymake by default. We disable Flymake when Flycheck is active
+;; to avoid duplicate diagnostics.
 (use-package flycheck
-  :hook (elixir-mode . flycheck-mode)
+  :hook ((elixir-mode . flycheck-mode)
+         (elixir-ts-mode . flycheck-mode))
   :custom
-  (flycheck-check-syntax-automatically '(save mode-enabled)))
+  (flycheck-check-syntax-automatically '(save mode-enabled))
+  :config
+  ;; Disable Flymake when Flycheck is enabled to avoid duplicate diagnostics
+  (add-hook 'flycheck-mode-hook
+            (lambda ()
+              (when (bound-and-true-p flymake-mode)
+                (flymake-mode -1)))))
 
 (use-package flycheck-credo
   :after (flycheck elixir-mode)
@@ -449,6 +553,34 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; Electric pair mode - Auto-close brackets and quotes
+(use-package elec-pair
+  :straight (:type built-in)
+  :hook (prog-mode . electric-pair-local-mode))
+
+;; So-long mode - Handle files with very long lines gracefully
+(use-package so-long
+  :straight (:type built-in)
+  :init
+  (global-so-long-mode 1))
+
+;; Ws-butler - Unobtrusive whitespace trimming
+(use-package ws-butler
+  :hook (prog-mode . ws-butler-mode)
+  :custom
+  (ws-butler-keep-whitespace-before-point nil))
+
+;; Diff-hl - Highlight uncommitted changes in the fringe
+(use-package diff-hl
+  :hook ((prog-mode . diff-hl-mode)
+         (dired-mode . diff-hl-dired-mode)
+         (magit-pre-refresh . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :custom
+  (diff-hl-draw-borders nil)
+  :config
+  (global-diff-hl-mode))
+
 ;; Yasnippet
 (use-package yasnippet
   :hook (prog-mode . yas-minor-mode)
@@ -470,6 +602,11 @@
   (vterm-shell (getenv "SHELL"))
   (vterm-kill-buffer-on-exit t)
   :config
+  ;; Set font for vterm buffers (DejaVu Sans Mono has consistent glyph heights)
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (set (make-local-variable 'buffer-face-mode-face) '(:family "DejaVu Sans Mono" :height 120))
+              (buffer-face-mode t)))
   ;; Don't query about killing vterm buffers
   (defun my/vterm-kill-buffer-advice (&rest _)
     "Kill vterm buffer without confirmation."
@@ -484,7 +621,13 @@
   :custom
   (eat-term-name "xterm-256color")
   (eat-term-shell-integration-directory
-   (expand-file-name "straight/repos/eat/integration" user-emacs-directory)))
+   (expand-file-name "straight/repos/eat/integration" user-emacs-directory))
+  :config
+  ;; Set font for eat buffers (DejaVu Sans Mono has consistent glyph heights)
+  (add-hook 'eat-mode-hook
+            (lambda ()
+              (set (make-local-variable 'buffer-face-mode-face) '(:family "DejaVu Sans Mono" :height 120))
+              (buffer-face-mode t))))
 
 ;; Treemacs
 (use-package treemacs
@@ -584,13 +727,15 @@
 (use-package claude-code-ide
   :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
   :bind (("C-c C-'" . claude-code-ide-menu)
-         ("C-c c i" . claude-code-ide-invoke)
-         ("C-c c c" . claude-code-ide-clear)
-         ("C-c c k" . claude-code-ide-kill)
-         ("C-c c s" . claude-code-ide-send-region)
-         ("C-c c b" . claude-code-ide-send-buffer)
+         ("C-c c c" . claude-code-ide)
+         ("C-c c p" . claude-code-ide-send-prompt)
+         ("C-c c k" . claude-code-ide-stop)
+         ("C-c c t" . claude-code-ide-toggle)
+         ("C-c c r" . claude-code-ide-resume)
          ("C-c c e" . my/claude-send-error)
-         ("C-c c a" . my/claude-ask-about-code))
+         ("C-c c a" . my/claude-ask-about-code)
+         ("C-c c s" . my/claude-send-region)
+         ("C-c c b" . my/claude-send-buffer))
   :config
   (claude-code-ide-emacs-tools-setup)
   (setq claude-code-ide-terminal-backend 'vterm)
@@ -599,15 +744,21 @@
   (defun my/claude-send-error ()
     "Send the current error or diagnostic to Claude Code for help."
     (interactive)
-    (let ((error-msg (or (and (bound-and-true-p flymake-mode)
-                              (flymake--diag-text (car (flymake-diagnostics (point)))))
-                         (thing-at-point 'line t))))
-      (when error-msg
-        (claude-code-ide-invoke
-         (format "Help me fix this error:\n\n%s\n\nContext: %s:%d"
-                 error-msg
-                 (buffer-file-name)
-                 (line-number-at-pos))))))
+    (let* ((flymake-diag (and (bound-and-true-p flymake-mode)
+                              (car (flymake-diagnostics (point)))))
+           (flycheck-err (and (bound-and-true-p flycheck-mode)
+                              (car (flycheck-overlay-errors-at (point)))))
+           (error-msg (cond
+                       (flymake-diag (flymake--diag-text flymake-diag))
+                       (flycheck-err (flycheck-error-message flycheck-err))
+                       (t nil))))
+      (if error-msg
+          (claude-code-ide-send-prompt
+           (format "Help me fix this error:\n\n%s\n\nContext: %s:%d"
+                   error-msg
+                   (buffer-file-name)
+                   (line-number-at-pos)))
+        (message "No diagnostic found at point"))))
 
   ;; Helper function to ask Claude about code at point
   (defun my/claude-ask-about-code ()
@@ -618,7 +769,7 @@
                   (thing-at-point 'defun t)))
            (question (read-string "Ask Claude: " "Explain this code: ")))
       (when code
-        (claude-code-ide-invoke
+        (claude-code-ide-send-prompt
          (format "%s\n\n```%s\n%s\n```\n\nFile: %s:%d"
                  question
                  (symbol-name major-mode)
@@ -626,12 +777,28 @@
                  (buffer-file-name)
                  (line-number-at-pos))))))
 
-  ;; Helper function to send buffer with custom message
-  (defun my/claude-send-buffer-with-prompt ()
+  ;; Helper function to send region to Claude
+  (defun my/claude-send-region ()
+    "Send the current region to Claude with a prompt."
+    (interactive)
+    (if (use-region-p)
+        (let* ((code (buffer-substring-no-properties (region-beginning) (region-end)))
+               (prompt (read-string "What should Claude do? ")))
+          (claude-code-ide-send-prompt
+           (format "%s\n\n```%s\n%s\n```\n\nFile: %s:%d"
+                   prompt
+                   (symbol-name major-mode)
+                   code
+                   (buffer-file-name)
+                   (line-number-at-pos (region-beginning)))))
+      (message "No region selected")))
+
+  ;; Helper function to send buffer to Claude
+  (defun my/claude-send-buffer ()
     "Send current buffer to Claude with a custom prompt."
     (interactive)
     (let ((prompt (read-string "What should Claude do with this buffer? ")))
-      (claude-code-ide-invoke
+      (claude-code-ide-send-prompt
        (format "%s\n\n```%s\n%s\n```\n\nFile: %s"
                prompt
                (symbol-name major-mode)
@@ -659,9 +826,9 @@
 ;; Visual enhancements
 
 ;; Auto-dim-other-buffers - Dim unfocused buffers
-(use-package auto-dim-other-buffers
-  :config
-  (auto-dim-other-buffers-mode t))
+;; (use-package auto-dim-other-buffers
+;;   :config
+;;   (auto-dim-other-buffers-mode t))
 
 ;; Beacon - Highlight cursor on movement
 (use-package beacon
@@ -673,23 +840,7 @@
   (beacon-mode 1))
 
 
-;; Restore gc-cons-threshold
-(setq gc-cons-threshold (* 2 1000 1000))
+;; GC threshold restoration is handled by emacs-startup-hook at the top of this file
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("9b9d7a851a8e26f294e778e02c8df25c8a3b15170e6f9fd6965ac5f2544ef2a9"
-     "fd22a3aac273624858a4184079b7134fb4e97104d1627cb2b488821be765ff17"
-     default)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
