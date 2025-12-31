@@ -379,16 +379,12 @@
   :bind (("C-s" . consult-line)
          ("C-M-s" . isearch-forward)      ; Fallback to classic isearch
          ("C-M-r" . isearch-backward)     ; Fallback to classic isearch backward
-         ("C-M-j" . consult-buffer)
          ("C-x b" . consult-buffer)
          ("M-y" . consult-yank-pop)
          ("M-g g" . consult-goto-line)
          ("M-g M-g" . consult-goto-line)
          ("M-g i" . consult-imenu)
          ("M-g e" . consult-compile-error) ; Jump to compilation errors
-         ("M-s d" . consult-find)
-         ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
          :map minibuffer-local-map
@@ -431,10 +427,12 @@
   (wgrep-auto-save-buffer t)
   (wgrep-change-readonly-file t))
 
-;; Deadgrep - Interactive ripgrep interface with results buffer
+;; F5 search hub: F5=deadgrep, S-F5=ripgrep, C-F5=find files, M-F5=imenu
 (use-package deadgrep
   :bind (("<f5>" . deadgrep)
-         ("S-<f5>" . deadgrep-directory)))
+         ("S-<f5>" . consult-ripgrep)
+         ("C-<f5>" . consult-find)
+         ("M-<f5>" . consult-imenu)))
 
 ;; Helpful
 (use-package helpful

@@ -311,26 +311,24 @@ _n_: new task       ^ ^                 ^ ^                 ^ ^
   ("m" (compile "mix format"))
   ("q" nil))
 
-;; Search operations
+;; Search operations - cheatsheet showing F5 shortcuts
 (defhydra hydra-search (:color teal :hint nil)
   "
-^Buffer^            ^Project^           ^Global^            ^Replace^
-^------^            ^-------^           ^------^            ^-------^
-_s_: search line    _p_: project grep   _g_: global grep    _r_: replace
-_i_: isearch        _f_: find file      _G_: git grep       _R_: query replace
-_o_: occur          _d_: find dir       _l_: locate         _q_: quit
-_m_: multi occur    ^ ^                 ^ ^                 ^ ^
+^Buffer^            ^Project (F5)^      ^Navigate^          ^Replace^
+^------^            ^------------^      ^--------^          ^-------^
+_s_: search (C-s)   _d_: deadgrep       _i_: imenu          _r_: replace
+_o_: occur          _p_: ripgrep (S-)   _g_: goto line      _R_: query-replace
+_k_: keep lines     _f_: find file (C-) _e_: errors         _q_: quit
 "
   ("s" consult-line)
-  ("i" isearch-forward)
   ("o" occur)
-  ("m" multi-occur)
+  ("k" consult-keep-lines)
+  ("d" deadgrep)
   ("p" consult-ripgrep)
-  ("f" projectile-find-file)
-  ("d" projectile-find-dir)
-  ("g" consult-grep)
-  ("G" consult-git-grep)
-  ("l" consult-locate)
+  ("f" consult-find)
+  ("i" consult-imenu)
+  ("g" consult-goto-line)
+  ("e" consult-compile-error)
   ("r" replace-string)
   ("R" query-replace)
   ("q" nil))
