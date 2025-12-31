@@ -4,10 +4,6 @@
 ;; Modern Emacs configuration focused on LSP-based development workflows
 ;; with support for Claude Code and Elixir.
 
-;; Packages to try in the future:
-;; - multiple-cursors: Edit multiple locations simultaneously
-;; - deadgrep: Interactive ripgrep interface with results buffer
-
 ;;; Code:
 
 ;; Frame size constants
@@ -151,6 +147,13 @@
 ;; Expand-region - Intelligently expand selection
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
+
+;; Multiple-cursors - Edit multiple locations simultaneously
+(use-package multiple-cursors
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C-<" . mc/mark-all-like-this)
+         ("C-S-c C-S-c" . mc/edit-lines)))
 
 ;; Undo-tree - Visual undo history with persistence
 (use-package undo-tree
@@ -428,6 +431,10 @@
   (wgrep-auto-save-buffer t)
   (wgrep-change-readonly-file t))
 
+;; Deadgrep - Interactive ripgrep interface with results buffer
+(use-package deadgrep
+  :bind (("<f5>" . deadgrep)
+         ("S-<f5>" . deadgrep-directory)))
 
 ;; Helpful
 (use-package helpful
