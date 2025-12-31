@@ -7,29 +7,28 @@
 ;;; Code:
 
 ;; Main entry point hydra - accessible via a single key
-(defhydra hydra-main (:color teal :hint nil)
-  "
-^Windows^           ^Files^             ^Development^       ^Other^
-^-------^           ^-----^             ^-----------^       ^-----^
-_w_: window mgmt    _f_: file ops       _d_: dev tools      _t_: themes
-_q_: quit           _p_: project        _l_: LSP/eglot      _h_: help
-                    _r_: recent files   _e_: errors         _s_: search
-                                        _c_: claude code    _v_: terminals
-                                        _x_: elixir/mix
-"
-  ("w" hydra-windows/body)
-  ("f" hydra-files/body)
-  ("p" hydra-project/body)
-  ("r" consult-recent-file)
-  ("d" hydra-dev/body)
-  ("l" hydra-lsp/body)
-  ("e" hydra-errors/body)
-  ("x" hydra-elixir/body)
-  ("c" hydra-claude/body)
-  ("v" hydra-terminal/body)
-  ("t" consult-theme)
-  ("h" hydra-help/body)
-  ("s" hydra-search/body)
+(defhydra hydra-main (:color teal)
+;;   "
+;; ^Windows^           ^Project^           ^Development^       ^Other^
+;; ^-------^           ^-------^           ^-----------^       ^-----^
+;; _w_: window mgmt    _p_: project        _d_: dev tools      _t_: themes
+;; _q_: quit           _r_: recent files   _l_: LSP/eglot      _h_: help
+;;                                         _e_: errors         _s_: search
+;;                                         _c_: claude code    _v_: terminals
+;;                                         _x_: elixir/mix
+;; "
+  ("w" hydra-windows/body "windows")
+  ("p" hydra-project/body "project")
+  ("r" consult-recent-file "recent files")
+  ("d" hydra-dev/body "dev tools")
+  ("l" hydra-lsp/body "lsp/eglot")
+  ("e" hydra-errors/body "errors")
+  ("x" hydra-elixir/body "elixir")
+  ("c" hydra-claude/body "claude code")
+  ("v" hydra-terminal/body "terminals")
+  ("t" consult-theme "themes")
+  ("h" hydra-help/body "help")
+  ("s" hydra-search/body "search")
   ("q" nil))
 
 ;; Window management
