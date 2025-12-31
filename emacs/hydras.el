@@ -8,15 +8,6 @@
 
 ;; Main entry point hydra - accessible via a single key
 (defhydra hydra-main (:color teal)
-;;   "
-;; ^Windows^           ^Project^           ^Development^       ^Other^
-;; ^-------^           ^-------^           ^-----------^       ^-----^
-;; _w_: window mgmt    _p_: project        _d_: dev tools      _t_: themes
-;; _q_: quit           _r_: recent files   _l_: LSP/eglot      _h_: help
-;;                                         _e_: errors         _s_: search
-;;                                         _c_: claude code    _v_: terminals
-;;                                         _x_: elixir/mix
-;; "
   ("w" hydra-windows/body "windows")
   ("p" hydra-project/body "project")
   ("r" consult-recent-file "recent files")
@@ -25,7 +16,6 @@
   ("e" hydra-errors/body "errors")
   ("x" hydra-elixir/body "elixir")
   ("c" hydra-claude/body "claude code")
-  ("v" hydra-terminal/body "terminals")
   ("t" consult-theme "themes")
   ("h" hydra-help/body "help")
   ("s" hydra-search/body "search")
@@ -247,17 +237,9 @@ _n_: new task       ^ ^                 ^ ^                 ^ ^
   ("t" (compile "mix test"))
   ("T" (lambda () (interactive) (compile (format "mix test %s" (buffer-file-name)))))
   ("a" (lambda () (interactive) (compile (format "mix test %s:%d" (buffer-file-name) (line-number-at-pos)))))
-  ("i" (lambda () (interactive)
-         (let ((default-directory (if (fboundp 'projectile-project-root)
-                                      (projectile-project-root)
-                                    default-directory)))
-           (eat "iex"))))
-  ("I" (lambda () (interactive)
-         (let ((default-directory (if (fboundp 'projectile-project-root)
-                                      (projectile-project-root)
-                                    default-directory)))
-           (eat "iex -S mix"))))
-  ("s" (lambda () (interactive) (message "Send to IEx - eval region in IEx buffer")))
+  ("i" inf-elixir)
+  ("I" inf-elixir-project)
+  ("s" inf-elixir-send-region)
   ("f" eglot-format-buffer)
   ("m" (compile "mix format"))
   ("q" nil))
@@ -310,40 +292,6 @@ _p_: with prompt    _f_: send file      _d_: debug help     _q_: quit
          (call-interactively 'my/claude-ask-about-code)))
   ("c" claude-code-ide-clear)
   ("k" claude-code-ide-kill)
-  ("q" nil))
-
-;; Terminal operations
-(defhydra hydra-terminal (:color teal :hint nil)
-  "
-^VTerm^             ^Eat^               ^Actions^           ^Navigation^
-^-----^             ^---^               ^-------^           ^----------^
-_t_: vterm          _e_: eat            _k_: kill terminal  _b_: switch term
-_T_: vterm other    _E_: eat project    _r_: rename buffer  _n_: next buffer
-_p_: vterm project  ^ ^                 _c_: clear buffer   _p_: prev buffer
-^ ^                 ^ ^                 _q_: quit           ^ ^
-"
-  ("t" vterm)
-  ("T" vterm-other-window)
-  ("p" (lambda () (interactive)
-         (let ((default-directory (if (fboundp 'projectile-project-root)
-                                      (projectile-project-root)
-                                    default-directory)))
-           (vterm))))
-  ("e" eat)
-  ("E" eat-project)
-  ("k" kill-buffer-and-window)
-  ("r" rename-buffer)
-  ("c" (lambda () (interactive)
-         (when (or (derived-mode-p 'vterm-mode)
-                   (derived-mode-p 'eat-mode))
-           (vterm-clear))))
-  ("b" (lambda () (interactive)
-         (consult-buffer '(:predicate (lambda (buf)
-                                        (with-current-buffer buf
-                                          (or (derived-mode-p 'vterm-mode)
-                                              (derived-mode-p 'eat-mode))))))))
-  ("n" next-buffer)
-  ("p" previous-buffer)
   ("q" nil))
 
 ;; Utility function for kill-other-buffers (referenced in buffers hydra)

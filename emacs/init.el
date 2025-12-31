@@ -248,14 +248,6 @@
 ;;                (window-width . 80)
 ;;                (window-parameters . ((no-delete-other-windows . t)))))
 
-(add-to-list 'display-buffer-alist
-             '("\\*eat\\*"
-               (display-buffer-reuse-window display-buffer-in-side-window)
-               (side . bottom)
-               (slot . 0)
-               (window-height . 15)
-               (window-parameters . ((no-delete-other-windows . t)))))
-
 ;; show eldoc in a floating child frame
 (use-package eldoc-box
   :hook (eglot-managed-mode . eldoc-box-mouse-mode)
@@ -640,8 +632,6 @@
 ;; VTerm - Fast terminal emulator
 (use-package vterm
   :commands vterm
-  :bind (("C-c t" . vterm)
-         ("C-c T" . vterm-other-window))
   :custom
   (vterm-max-scrollback 10000)
   (vterm-shell (getenv "SHELL"))
@@ -659,18 +649,13 @@
       (kill-buffer)))
   (advice-add 'vterm--sentinel :after #'my/vterm-kill-buffer-advice))
 
-;; Eat - Alternative terminal emulator
-(use-package eat
-  :bind (("C-c v" . eat)
-         ("C-c C-v" . eat-project))
+;; vterm-toggle - Toggle and manage multiple vterm buffers
+;; C-u C-c t creates a new vterm buffer
+(use-package vterm-toggle
+  :bind ("C-c t" . vterm-toggle)
   :custom
-  (eat-term-name "xterm-256color")
-  :config
-  ;; Set font for eat buffers (DejaVu Sans Mono has consistent glyph heights)
-  (add-hook 'eat-mode-hook
-            (lambda ()
-              (set (make-local-variable 'buffer-face-mode-face) '(:family "DejaVu Sans Mono" :height 120))
-              (buffer-face-mode t))))
+  (vterm-toggle-fullscreen-p nil)
+  (vterm-toggle-scope 'project))
 
 ;; Treemacs
 (use-package treemacs
