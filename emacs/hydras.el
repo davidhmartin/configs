@@ -16,6 +16,7 @@
   ("e" hydra-errors/body "errors")
   ("x" hydra-elixir/body "elixir")
   ("c" hydra-claude/body "claude code")
+  ("v" hydra-terminal/body "terminal")
   ("t" consult-theme "themes")
   ("h" hydra-help/body "help")
   ("s" hydra-search/body "search")
@@ -292,6 +293,22 @@ _p_: with prompt    _f_: send file      _d_: debug help     _q_: quit
          (call-interactively 'my/claude-ask-about-code)))
   ("c" claude-code-ide-clear)
   ("k" claude-code-ide-kill)
+  ("q" nil))
+
+;; Terminal operations (vterm-toggle)
+(defhydra hydra-terminal (:color red :hint nil)
+  "
+^Toggle^            ^Navigate^
+^------^            ^--------^
+_t_: toggle         _f_/_→_: next vterm
+_n_: new vterm      _b_/_←_: prev vterm
+"
+  ("t" vterm-toggle :color teal)
+  ("n" (lambda () (interactive) (vterm-toggle 4)) :color teal)
+  ("f" vterm-toggle-forward)
+  ("<right>" vterm-toggle-forward)
+  ("b" vterm-toggle-backward)
+  ("<left>" vterm-toggle-backward)
   ("q" nil))
 
 ;; Utility function for kill-other-buffers (referenced in buffers hydra)
