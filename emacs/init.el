@@ -52,8 +52,14 @@
 ;; Fix PATH in GUI Emacs
 (use-package exec-path-from-shell
   :config
-  (when (memq window-system '(mac ns x))
+  (when (display-graphic-p)
     (exec-path-from-shell-initialize)))
+
+;;;; pre-30.2:
+;; (use-package exec-path-from-shell
+;;   :config
+;;   (when (memq window-system '(mac ns x))
+;;     (exec-path-from-shell-initialize)))
 
 
 
@@ -72,6 +78,11 @@
              (buffer-name (window-buffer window)))))
 
 (global-set-key (kbd "C-c w d") 'my/toggle-window-dedicated)
+
+(menu-bar-mode -1)
+
+;; use ibuffer
+(keymap-global-set "C-x C-b" #'ibuffer)
 
 ;; UI preferences (basic UI disabling is in early-init.el for speed)
 (tooltip-mode -1)
@@ -226,13 +237,13 @@
       (delete-window window))))
 
 ;; Configure specific buffers to appear in side windows
-(add-to-list 'display-buffer-alist
-             '("\\*eldoc\\*"
-               (display-buffer-reuse-window display-buffer-in-side-window)
-               (side . right)
-               (slot . 0)
-               (window-width . 80)
-               (window-parameters . ((no-delete-other-windows . t)))))
+;; (add-to-list 'display-buffer-alist
+;;              '("\\*eldoc\\*"
+;;                (display-buffer-reuse-window display-buffer-in-side-window)
+;;                (side . right)
+;;                (slot . 0)
+;;                (window-width . 80)
+;;                (window-parameters . ((no-delete-other-windows . t)))))
 
 (add-to-list 'display-buffer-alist
              '("\\*eat\\*"
@@ -241,6 +252,19 @@
                (slot . 0)
                (window-height . 15)
                (window-parameters . ((no-delete-other-windows . t)))))
+
+;; show eldoc in a floating child frame
+(use-package eldoc-box
+  :hook (eglot-managed-mode . eldoc-box-mouse-mode)
+  :config
+  (setq eldoc-box-frame-parameters
+	'((left-fringe . 8)
+	  (right-fringe . 8)
+	  (internal-border-width . 2)
+	  (no-special-glyphs . t)
+	  (alpha-background . 75)))
+  (eldoc-box-mouse-mode)
+  (setq eldoc-box-mouse-mode-idle-delay 1.0))
 
 
 ;;; Package Configuration
@@ -264,7 +288,8 @@
       (when (and saved-theme (symbolp saved-theme))
         (load-theme saved-theme t)))))
 
-;; Theme
+
+(setq custom-theme-directory "~/.emacs.d/themes")
 
 ;; (use-package doom-themes
 ;;   :config
@@ -273,16 +298,16 @@
 ;;   (doom-themes-visual-bell-config)
 ;;   (doom-themes-org-config))
 
+;; Development: use local copy
 (use-package gypsum
-  :vc (:fetcher github :repo "davidhmartin/gypsum")
-  :config
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/"))
+  :load-path "/var/home/david/git/gypsum")
 
-;; (use-package gypsum
-;;   :straight (:local-repo "/var/home/david/git/gypsum")
-;;   :config
-;;   (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/"))
+;; Production: fetch from GitHub
+;(use-package gypsum
+;  :vc (:fetcher github :repo "davidhmartin/gypsum"))
 
+(use-package nord-theme)
+(use-package zenburn-theme)
 
 ;; Load saved theme or default to doom-one
 (my/load-saved-theme)
@@ -303,7 +328,10 @@
 ;; Modeline
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+  :custom
+  (doom-modeline-height 15)
+  (doom-modeline-lsp t)
+  )
 
 ;; Which Key
 (use-package which-key
@@ -490,12 +518,23 @@
 ;; Language Modes
 
 ;; Elixir with tree-sitter support
-(use-package elixir-mode)
+(use-package elixir-mode
+  :custom
+  (elixir-smie-indent-basic 2))
 
 ;; elixir-ts-mode - treesit-auto will handle mode selection automatically
 ;; Don't set :mode here to avoid conflict with elixir-mode
 (use-package elixir-ts-mode
   :hook (elixir-ts-mode . eglot-ensure))
+
+;; Elixir indentation settings - use spaces, not tabs
+(defun my/elixir-mode-setup ()
+  "Setup indentation for Elixir modes."
+  (setq-local indent-tabs-mode nil)
+  (setq-local tab-width 2))
+
+(add-hook 'elixir-mode-hook #'my/elixir-mode-setup)
+(add-hook 'elixir-ts-mode-hook #'my/elixir-mode-setup)
 
 ;; Inf-elixir - Enhanced IEx REPL integration
 (use-package inf-elixir
@@ -822,6 +861,15 @@
                (window-parameters . ((no-delete-other-windows . t)))))
 
 
+;; PGmacs (Postgres)
+;; Requires Emacs 29 and git
+(unless (package-installed-p 'pg)
+   (package-vc-install "https://github.com/emarsden/pg-el" nil nil 'pg))
+(unless (package-installed-p 'pgmacs)
+   (package-vc-install "https://github.com/emarsden/pgmacs" nil nil 'pgmacs))
+
+(require 'pgmacs)
+
 ;; Visual enhancements
 
 ;; Colorful-mode - Display color previews for hex codes, RGB, etc.
@@ -847,3 +895,17 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-vc-selected-packages
+   '((vc-use-package :vc-backend Git :url
+		     "https://github.com/slotThe/vc-use-package"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
