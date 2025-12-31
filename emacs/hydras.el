@@ -7,19 +7,27 @@
 ;;; Code:
 
 ;; Main entry point hydra - accessible via a single key
-(defhydra hydra-main (:color teal)
-  ("w" hydra-windows/body "windows")
-  ("p" hydra-project/body "project")
-  ("r" consult-recent-file "recent files")
-  ("d" hydra-dev/body "dev tools")
-  ("l" hydra-lsp/body "lsp/eglot")
-  ("e" hydra-errors/body "errors")
-  ("x" hydra-elixir/body "elixir")
-  ("c" hydra-claude/body "claude code")
-  ("v" hydra-terminal/body "terminal")
-  ("t" consult-theme "themes")
-  ("h" hydra-help/body "help")
-  ("s" hydra-search/body "search")
+(defhydra hydra-main (:color teal :hint nil)
+  "
+^Navigation^        ^Development^       ^Tools^             ^Other^
+^----------^        ^-----------^       ^-----^             ^-----^
+_w_: windows        _d_: dev tools      _s_: search         _t_: themes
+_p_: project        _l_: LSP/eglot      _v_: terminal       _h_: help
+_r_: recent files   _e_: errors         _c_: claude code    _q_: quit
+                    _x_: elixir
+"
+  ("w" hydra-windows/body)
+  ("p" hydra-project/body)
+  ("r" consult-recent-file)
+  ("d" hydra-dev/body)
+  ("l" hydra-lsp/body)
+  ("e" hydra-errors/body)
+  ("x" hydra-elixir/body)
+  ("c" hydra-claude/body)
+  ("v" hydra-terminal/body)
+  ("t" consult-theme)
+  ("h" hydra-help/body)
+  ("s" hydra-search/body)
   ("q" nil))
 
 ;; Window management
