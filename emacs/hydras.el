@@ -9,23 +9,21 @@
 ;; Main entry point hydra - accessible via a single key
 (defhydra hydra-main (:color teal :hint nil)
   "
-^Windows^           ^Files^             ^Development^       ^Git^               ^Other^
-^-------^           ^-----^             ^-----------^       ^---^               ^-----^
-_w_: window mgmt    _f_: file ops       _d_: dev tools      _g_: git/magit      _t_: themes
-_b_: buffers        _p_: project        _l_: LSP/eglot      _m_: merge tools    _h_: help
-_q_: quit           _r_: recent files   _e_: errors         _x_: elixir/mix     _s_: search
+^Windows^           ^Files^             ^Development^       ^Other^
+^-------^           ^-----^             ^-----------^       ^-----^
+_w_: window mgmt    _f_: file ops       _d_: dev tools      _t_: themes
+_q_: quit           _p_: project        _l_: LSP/eglot      _h_: help
+                    _r_: recent files   _e_: errors         _s_: search
                                         _c_: claude code    _v_: terminals
+                                        _x_: elixir/mix
 "
   ("w" hydra-windows/body)
-  ("b" hydra-buffers/body)
   ("f" hydra-files/body)
   ("p" hydra-project/body)
   ("r" consult-recent-file)
   ("d" hydra-dev/body)
   ("l" hydra-lsp/body)
   ("e" hydra-errors/body)
-  ("g" hydra-git/body)
-  ("m" hydra-merge/body)
   ("x" hydra-elixir/body)
   ("c" hydra-claude/body)
   ("v" hydra-terminal/body)
@@ -66,29 +64,6 @@ _w_: ace-window     _p_: pin/unpin      _f_: move->frame      _F_: copy->frame
   ("p" my/toggle-window-dedicated)
   ("f" my/move-buffer-to-new-frame :color teal)
   ("F" my/open-buffer-in-new-frame :color teal)
-  ("q" nil))
-
-;; Buffer management
-(defhydra hydra-buffers (:color teal :hint nil)
-  "
-^Switch^            ^Actions^           ^List^
-^------^            ^-------^           ^----^
-_b_: switch         _k_: kill           _l_: list all
-_n_: next           _K_: kill others    _i_: ibuffer
-_p_: previous       _s_: save           _r_: revert
-_o_: other window   _S_: save all       ^ ^
-"
-  ("b" consult-buffer)
-  ("n" next-buffer)
-  ("p" previous-buffer)
-  ("o" switch-to-buffer-other-window)
-  ("k" kill-buffer)
-  ("K" kill-other-buffers)
-  ("s" save-buffer)
-  ("S" save-some-buffers)
-  ("l" list-buffers)
-  ("i" ibuffer)
-  ("r" revert-buffer)
   ("q" nil))
 
 ;; File operations
@@ -146,7 +121,7 @@ _w_: window         _g_: grep           _i_: invalidate     _o_: occur
 _._: find def       _e_: eval region    _b_: toggle break   _f_: format buffer
 _,_: go back        _E_: eval buffer    _d_: debug          _r_: format region
 _/_: find refs      _s_: eval sexp      _c_: clear breaks   _n_: indent region
-_m_: imenu          ^ ^                 ^ ^                 ^ ^
+_m_: imenu          ^ ^                 _M_: merge conflicts ^ ^
 "
   ("." xref-find-definitions)
   ("," xref-go-back)
@@ -158,6 +133,7 @@ _m_: imenu          ^ ^                 ^ ^                 ^ ^
   ("b" (lambda () (interactive) (message "Breakpoint toggle - mode dependent")))
   ("d" (lambda () (interactive) (message "Debug - mode dependent")))
   ("c" (lambda () (interactive) (message "Clear breakpoints - mode dependent")))
+  ("M" hydra-merge/body)
   ("f" (lambda () (interactive) (if (fboundp 'eglot-format-buffer) (eglot-format-buffer) (message "No formatter available"))))
   ("r" (lambda () (interactive) (if (fboundp 'eglot-format) (eglot-format) (message "No formatter available"))))
   ("n" indent-region)
@@ -206,30 +182,6 @@ _P_: prev flymake   ^ ^                 ^ ^
   ("l" flymake-show-buffer-diagnostics :color teal)
   ("c" flymake-start :color teal)
   ("b" flymake-show-buffer-diagnostics :color teal)
-  ("q" nil))
-
-;; Git operations
-(defhydra hydra-git (:color teal :hint nil)
-  "
-^Magit^             ^Actions^           ^Hunks^             ^Files^
-^-----^             ^-------^           ^-----^             ^-----^
-_s_: status         _c_: commit         _n_: next hunk      _f_: find file
-_l_: log            _a_: amend          _p_: prev hunk      _F_: find rev
-_b_: branch         _r_: revert                             _d_: diff file
-_d_: diff           _P_: push                               ^ ^
-"
-  ("s" magit-status)
-  ("l" magit-log)
-  ("b" magit-branch)
-  ("d" magit-diff)
-  ("c" magit-commit)
-  ("a" magit-commit-amend)
-  ("r" magit-revert)
-  ("P" magit-push)
-  ("n" (lambda () (interactive) (message "Git hunk navigation - install git-gutter or similar")))
-  ("p" (lambda () (interactive) (message "Git hunk navigation - install git-gutter or similar")))
-  ("f" magit-find-file)
-  ("F" magit-find-file-other-window)
   ("q" nil))
 
 ;; Merge conflict resolution
