@@ -304,7 +304,10 @@ _t_: toggle         _f_/_→_: next vterm
 _n_: new vterm      _b_/_←_: prev vterm
 "
   ("t" vterm-toggle :color teal)
-  ("n" (lambda () (interactive) (vterm-toggle 4)) :color teal)
+  ("n" (lambda () (interactive)
+         (let ((name (read-string "Vterm name: ")))
+           (vterm-toggle 4)
+           (rename-buffer (format "*vterm: %s*" name) t))) :color teal)
   ("f" vterm-toggle-forward)
   ("<right>" vterm-toggle-forward)
   ("b" vterm-toggle-backward)
