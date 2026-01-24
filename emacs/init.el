@@ -62,6 +62,18 @@
 
 ;;; Basic Emacs Configuration
 
+;; Clipboard integration (works in Distrobox with Wayland)
+(setq select-enable-clipboard t)
+(setq select-enable-primary t)
+
+;; Use wl-clipboard for terminal Emacs in Wayland
+(use-package xclip
+  :config
+  (setq xclip-program "wl-copy")
+  (setq xclip-select-enable-clipboard t)
+  (setq xclip-method (quote wl-copy))
+  (xclip-mode 1))
+
 ;; Window dedication toggle
 (defun my/toggle-window-dedicated ()
   "Toggle whether current window is dedicated to its buffer."
@@ -79,6 +91,8 @@
 
 ;; use ibuffer
 (keymap-global-set "C-x C-b" #'ibuffer)
+
+(keymap-global-set "C-M-s" #'comment-line)
 
 ;; UI preferences (basic UI disabling is in early-init.el for speed)
 (tooltip-mode -1)
@@ -120,15 +134,26 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+
 ;; Font configuration
-;(set-face-attribute 'default nil :font "Fira Code" :height 120)
-(set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 120)
+
+;;; These fonts support ligatures
+;; (set-face-attribute 'default nil :font "Fira Code" :height 120)
+;; (set-face-attribute 'default nil :font "JetBrains Mono" :height 120)
+;; (set-face-attribute 'default nil :font "Cascadia Code" :height 120)
+;; (set-face-attribute 'default nil :font "Iosevka Nerd Font Mono" :height 120)
+(set-face-attribute 'default nil :font "Victor Mono" :height 120)
+
+;(set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 120)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-;; Ace-window for quick window switching
+;; undo/redo for window management actions
+(winner-mode 1)
+
 (use-package ace-window
+;; Ace-window for quick window switching
   :bind ("M-o" . ace-window)
   :custom
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
@@ -137,6 +162,7 @@
 ;; Avy - Jump to any visible text
 (use-package avy
   :bind (("C-:" . avy-goto-char)
+	 ("M-j" . avy-goto-char-timer)
          ("C-'" . avy-goto-char-2)
          ("M-g f" . avy-goto-line)
          ("M-g w" . avy-goto-word-1))
@@ -343,6 +369,10 @@
     (when (file-exists-p hydra-file)
       (load hydra-file))))
 
+(let ((qmk-file (expand-file-name "macropad.el" user-emacs-directory)))
+  (when (file-exists-p qmk-file)
+    (load qmk-file)))
+
 ;; Enable basic completion system
 (setq completion-cycle-threshold 3)
 (setq completions-detailed t)
@@ -541,6 +571,7 @@
               ("C-c C-r" . inf-elixir-send-region)
               ("C-c C-b" . inf-elixir-send-buffer)))
 
+
 ;; Flycheck with Credo for Elixir linting
 ;; Note: Eglot uses Flymake by default. We disable Flymake when Flycheck is active
 ;; to avoid duplicate diagnostics.
@@ -560,6 +591,15 @@
   :after (flycheck elixir-mode)
   :config
   (flycheck-credo-setup))
+
+(use-package ligature
+  :config
+  (ligature-set-ligatures 'elixir-ts-mode
+    '("|>" "->" "=>" "<-" "<>" "<<" ">>"
+      "==" "!=" "<=" ">=" "&&" "||"
+      "::" "++" "--" "**" "~~"))
+  (global-ligature-mode t))
+
 
 ;; Rust
 (use-package rustic
@@ -636,6 +676,9 @@
   (vterm-max-scrollback 10000)
   (vterm-shell (getenv "SHELL"))
   (vterm-kill-buffer-on-exit t)
+  :bind
+  ("C-c <next>" . vterm-toggle-forward)
+  ("C-c <prev>" . vterm-toggle-backward)
   :config
   ;; Set font for vterm buffers (DejaVu Sans Mono has consistent glyph heights)
   (add-hook 'vterm-mode-hook
@@ -899,3 +942,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'narrow-to-region 'disabled nil)
