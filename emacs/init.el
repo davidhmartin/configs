@@ -876,6 +876,50 @@
                (buffer-substring-no-properties (point-min) (point-max))
                (buffer-file-name))))))
 
+;; Focus mode - toggle read-only on all buffers except Claude Code vterm
+(defvar my/claude-focus-mode nil
+  "Non-nil when Claude focus mode is active (other buffers read-only).")
+
+(defvar my/claude-focus-restored-buffers nil
+  "List of buffers that were made read-only by focus mode.")
+
+(defun my/claude-focus-mode-toggle ()
+  "Toggle read-only mode on all buffers except Claude Code vterm.
+When enabled, file-visiting buffers become read-only to prevent
+accidental edits while typing in Claude Code."
+  (interactive)
+  (if my/claude-focus-mode
+      ;; Disable: restore writable state
+      (progn
+        (dolist (buf my/claude-focus-restored-buffers)
+          (when (buffer-live-p buf)
+            (with-current-buffer buf
+              (read-only-mode -1))))
+        (setq my/claude-focus-restored-buffers nil)
+        (setq my/claude-focus-mode nil)
+        (message "Claude focus mode OFF - buffers are writable"))
+    ;; Enable: make file-visiting buffers read-only
+    (setq my/claude-focus-restored-buffers nil)
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (when (and buffer-file-name
+                   (not buffer-read-only)
+                   (not (claude-code-ide--session-buffer-p buf)))
+          (read-only-mode 1)
+          (push buf my/claude-focus-restored-buffers))))
+    (setq my/claude-focus-mode t)
+    ;; Switch to the Claude Code window if visible
+    (let ((claude-win (cl-find-if
+                       (lambda (w)
+                         (claude-code-ide--session-buffer-p (window-buffer w)))
+                       (window-list))))
+      (when claude-win
+        (select-window claude-win)))
+    (message "Claude focus mode ON - file buffers are read-only (%d buffers)"
+             (length my/claude-focus-restored-buffers))))
+
+(global-set-key (kbd "C-c c f") #'my/claude-focus-mode-toggle)
+
 ;; Display buffer configuration for Claude Code
 (add-to-list 'display-buffer-alist
              '("\\*claude-code.*\\*"
@@ -925,6 +969,12 @@
 
 
 ;; GC threshold restoration is handled by emacs-startup-hook at the top of this file
+
+;; start daemon if not already running
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 
 (provide 'init)
 ;;; init.el ends here
