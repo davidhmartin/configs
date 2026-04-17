@@ -700,6 +700,19 @@
   (vterm-toggle-fullscreen-p nil)
   (vterm-toggle-scope 'project))
 
+;; Eat - Emulate A Terminal (used as Claude Code terminal backend)
+(use-package eat
+  :commands eat
+  :custom
+  (eat-term-scrollback-size 10000)
+  :config
+  ;; Set font for eat buffers (DejaVu Sans Mono has consistent glyph heights
+  ;; for the special Unicode characters Claude Code uses in its status line)
+  (add-hook 'eat-mode-hook
+            (lambda ()
+              (set (make-local-variable 'buffer-face-mode-face) '(:family "DejaVu Sans Mono" :height 120))
+              (buffer-face-mode t))))
+
 ;; Treemacs
 (use-package treemacs
   :defer t
@@ -809,7 +822,10 @@
          ("C-c c b" . my/claude-send-buffer))
   :config
   (claude-code-ide-emacs-tools-setup)
+  ;; Terminal backend: use 'vterm or 'eat
   (setq claude-code-ide-terminal-backend 'vterm)
+  (setq claude-code-ide-window-width 120)
+  ;;(setq claude-code-ide-terminal-backend 'eat)
 
   ;; Helper function to send errors to Claude
   (defun my/claude-send-error ()
