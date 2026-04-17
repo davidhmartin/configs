@@ -31,7 +31,7 @@ LAYER_COLOR = {
 
 LAYER_TITLE = {
     '_NUM_ON':  'L0  _NUM_ON   Numpad (OS Num Lock on)',
-    '_NUM_OFF': 'L1  _NUM_OFF  Nav (OS Num Lock off, falls through to _NUM_ON)',
+    '_NUM_OFF': 'L1  _NUM_OFF  Nav mode (OS Num Lock off) \u2014 shown as OS interprets it',
     '_HYPR':    'L2  _HYPR     Ctrl+Alt+Shift+Super + letter',
     '_LCAG':    'L3  _LCAG     Ctrl+Alt+Super + letter',
     '_MEH':     'L4  _MEH      Ctrl+Alt+Shift + letter',
@@ -67,6 +67,41 @@ TO_FRIENDLY = {
     'LCAG':    'LCAG',
     'MEH':     'MEH',
 }
+
+# Layers whose transparent keys fall through to this layer (the default layer).
+DEFAULT_LAYER = '_NUM_ON'
+
+# When OS Num Lock is off, numpad keycodes are reinterpreted by the host as
+# nav keys. Operators (/ * - + Enter = Num) are unchanged.
+NUMLOCK_OFF_LABELS = {
+    'KC_P0':   'Ins',
+    'KC_P1':   'End',
+    'KC_P2':   '\u2193',   # down arrow
+    'KC_P3':   'PgDn',
+    'KC_P4':   '\u2190',   # left arrow
+    'KC_P5':   '5',        # OS-dependent (Clear / KP_Begin); shown as "5"
+    'KC_P6':   '\u2192',   # right arrow
+    'KC_P7':   'Home',
+    'KC_P8':   '\u2191',   # up arrow
+    'KC_P9':   'PgUp',
+    'KC_PDOT': 'Del',
+}
+
+
+def resolve_keycode(layer_name, kc, idx, all_layers):
+    """If kc is transparent, return the equivalent keycode from the default layer."""
+    if kc == '_______' and layer_name != DEFAULT_LAYER:
+        default = all_layers.get(DEFAULT_LAYER, [])
+        if idx < len(default):
+            return default[idx]
+    return kc
+
+
+def effective_label(layer_name, kc):
+    """Label accounting for how the host actually interprets the keycode on this layer."""
+    if layer_name == '_NUM_OFF' and kc in NUMLOCK_OFF_LABELS:
+        return NUMLOCK_OFF_LABELS[kc]
+    return label_for(kc)
 
 
 def label_for(kc):
@@ -158,7 +193,7 @@ def render_key(x, y, w, h, fill, stroke, text_color, label):
     return elems
 
 
-def render_layer(layer_name, keycodes, x0, y0):
+def render_layer(layer_name, keycodes, x0, y0, all_layers):
     elems = []
     title = LAYER_TITLE.get(layer_name, layer_name)
     title_color = LAYER_COLOR.get(layer_name, '#e0e0e0')
@@ -172,14 +207,16 @@ def render_layer(layer_name, keycodes, x0, y0):
         h = TOP_H if row == 0 else NORMAL_H
         x = x0
         for col in range(4):
-            kc = keycodes[idx]
+            raw = keycodes[idx]
+            resolved = resolve_keycode(layer_name, raw, idx, all_layers)
             # Bottom-left is 2.25u wide
             if row == 5 and col == 0:
                 w = int(UNIT * 2.25) + 2 * GAP
             else:
                 w = UNIT
-            fill, stroke, text_color = key_color(layer_name, row, col, kc)
-            elems.extend(render_key(x, y, w, h, fill, stroke, text_color, label_for(kc)))
+            fill, stroke, text_color = key_color(layer_name, row, col, resolved)
+            elems.extend(render_key(x, y, w, h, fill, stroke, text_color,
+                                    effective_label(layer_name, resolved)))
             x += w + GAP
             idx += 1
         y += h + GAP
@@ -222,7 +259,7 @@ def main():
     legend_w = 260
 
     # Measure a layer's actual height by dry-rendering
-    _, layer_height = render_layer(render_list[0], layers[render_list[0]], 0, 0)
+    _, layer_height = render_layer(render_list[0], layers[render_list[0]], 0, 0, layers)
     layer_gap = 22
 
     content_w = grid_w + 40 + legend_w
@@ -235,7 +272,7 @@ def main():
 
     y = margin
     for name in render_list:
-        layer_elems, h = render_layer(name, layers[name], margin, y)
+        layer_elems, h = render_layer(name, layers[name], margin, y, layers)
         elems.extend(layer_elems)
         y += h + layer_gap
 

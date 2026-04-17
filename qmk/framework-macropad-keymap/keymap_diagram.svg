@@ -49,7 +49,7 @@
   <text x="273.0" y="486.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">.</text>
   <rect x="309" y="449" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
   <text x="339.0" y="486.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">Enter</text>
-  <text x="24" y="562" fill="#00b400" font-size="15px" font-weight="bold" font-family="monospace">L1  _NUM_OFF  Nav (OS Num Lock off, falls through to _NUM_ON)</text>
+  <text x="24" y="562" fill="#00b400" font-size="15px" font-weight="bold" font-family="monospace">L1  _NUM_OFF  Nav mode (OS Num Lock off) — shown as OS interprets it</text>
   <rect x="24" y="572" width="60" height="45" rx="6" fill="#00b4b4" stroke="#00b4b4" stroke-width="1.5"/>
   <text x="54.0" y="594.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">Num</text>
   <rect x="90" y="572" width="60" height="45" rx="6" fill="#8000ff" stroke="#8000ff" stroke-width="1.5"/>
@@ -58,38 +58,38 @@
   <text x="186.0" y="594.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="12px" font-family="monospace">→LCAG</text>
   <rect x="222" y="572" width="60" height="45" rx="6" fill="#ffa000" stroke="#ffa000" stroke-width="1.5"/>
   <text x="252.0" y="594.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="12px" font-family="monospace">→MEH</text>
-  <rect x="24" y="623" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="54.0" y="660.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="90" y="623" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="120.0" y="660.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="156" y="623" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="186.0" y="660.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="222" y="623" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="252.0" y="660.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="24" y="716" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="54.0" y="753.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="90" y="716" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="120.0" y="753.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="156" y="716" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="186.0" y="753.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="222" y="716" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="252.0" y="753.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="24" y="797" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="54.0" y="834.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="90" y="797" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="120.0" y="834.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="156" y="797" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="186.0" y="834.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="222" y="797" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="252.0" y="834.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="24" y="878" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="54.0" y="915.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="90" y="878" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="120.0" y="915.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="156" y="878" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="186.0" y="915.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
-  <rect x="222" y="878" width="60" height="75" rx="6" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
-  <text x="252.0" y="915.5" text-anchor="middle" dominant-baseline="central" fill="#555" font-size="15px" font-family="monospace">·</text>
+  <rect x="24" y="623" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="54.0" y="660.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">Num</text>
+  <rect x="90" y="623" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="120.0" y="660.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">/</text>
+  <rect x="156" y="623" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="186.0" y="660.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">*</text>
+  <rect x="222" y="623" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="252.0" y="660.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">=</text>
+  <rect x="24" y="716" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="54.0" y="753.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">Home</text>
+  <rect x="90" y="716" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="120.0" y="753.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">↑</text>
+  <rect x="156" y="716" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="186.0" y="753.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">PgUp</text>
+  <rect x="222" y="716" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="252.0" y="753.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">-</text>
+  <rect x="24" y="797" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="54.0" y="834.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">←</text>
+  <rect x="90" y="797" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="120.0" y="834.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">5</text>
+  <rect x="156" y="797" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="186.0" y="834.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">→</text>
+  <rect x="222" y="797" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="252.0" y="834.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">+</text>
+  <rect x="24" y="878" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="54.0" y="915.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">End</text>
+  <rect x="90" y="878" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="120.0" y="915.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">↓</text>
+  <rect x="156" y="878" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="186.0" y="915.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">PgDn</text>
+  <rect x="222" y="878" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="252.0" y="915.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">Enter</text>
   <rect x="24" y="971" width="147" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
   <text x="97.5" y="1008.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">Home</text>
   <rect x="177" y="971" width="60" height="75" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
