@@ -1,0 +1,414 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 755" font-family="monospace" font-size="11">
+  <rect width="900" height="755" fill="#1a1a1a" rx="8"/>
+  <text x="20" y="35" fill="#666" font-size="9px">Caps Lock → LCtrl | FN+&apos; → Toggle QWERTY | FN+\ → Bootloader | FN+Caps → Caps Lock</text>
+  <text x="20" y="50" fill="#e0e0e0" font-size="16px" font-weight="bold">Dvorak Base Layer (_DVORAK)</text>
+    <rect x="20" y="62" width="56.0" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="48.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Esc</text>
+    <rect x="80.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="102.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Mute</text>
+    <rect x="128.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="150.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Vol-</text>
+    <rect x="176.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="198.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Vol+</text>
+    <rect x="224.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="246.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Prev</text>
+    <rect x="272.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="294.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Play</text>
+    <rect x="320.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="342.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Next</text>
+    <rect x="368.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="390.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Bri-</text>
+    <rect x="416.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="438.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Bri+</text>
+    <rect x="464.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="486.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Scrn</text>
+    <rect x="512.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="534.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Airp</text>
+    <rect x="560.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="582.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">PrtSc</text>
+    <rect x="608.0" y="62" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="630.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">MSel</text>
+    <rect x="656.0" y="62" width="80.0" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="696.0" y="74.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Del</text>
+    <rect x="20" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="42.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">`</text>
+    <rect x="68" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="90.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">1</text>
+    <rect x="116" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="138.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">2</text>
+    <rect x="164" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="186.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">3</text>
+    <rect x="212" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="234.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">4</text>
+    <rect x="260" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="282.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">5</text>
+    <rect x="308" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="330.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">6</text>
+    <rect x="356" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="378.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">7</text>
+    <rect x="404" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="426.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">8</text>
+    <rect x="452" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="474.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">9</text>
+    <rect x="500" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="522.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">0</text>
+    <rect x="548" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="570.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">-</text>
+    <rect x="596" y="90" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="618.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">=</text>
+    <rect x="644" y="90" width="92" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="690.0" y="111.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Bksp</text>
+    <rect x="20" y="136" width="68.0" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="54.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Tab</text>
+    <rect x="92.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="114.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">&apos;</text>
+    <rect x="140.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="162.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">,</text>
+    <rect x="188.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="210.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">.</text>
+    <rect x="236.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="258.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">P</text>
+    <rect x="284.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="306.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Y</text>
+    <rect x="332.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="354.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F</text>
+    <rect x="380.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="402.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">G</text>
+    <rect x="428.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="450.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">C</text>
+    <rect x="476.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="498.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">R</text>
+    <rect x="524.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="546.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">L</text>
+    <rect x="572.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="594.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">/</text>
+    <rect x="620.0" y="136" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="642.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">=</text>
+    <rect x="668.0" y="136" width="68.0" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="702.0" y="157.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">\</text>
+    <rect x="20" y="182" width="80.0" height="42" fill="#0050ff" stroke="#4488ff" rx="4"/>
+    <text x="60.0" y="198.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Ctrl</text>
+    <text x="60.0" y="211.0" text-anchor="middle" fill="#888" font-size="7px">(Caps)</text>
+    <rect x="104.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="126.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">A</text>
+    <rect x="152.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="174.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">O</text>
+    <rect x="200.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="222.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">E</text>
+    <rect x="248.0" y="182" width="44" height="42" fill="#00b4b4" stroke="#44dddd" rx="4"/>
+    <text x="270.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">U</text>
+    <rect x="296.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="318.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">I</text>
+    <rect x="344.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="366.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">D</text>
+    <rect x="392.0" y="182" width="44" height="42" fill="#00b4b4" stroke="#44dddd" rx="4"/>
+    <text x="414.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">H</text>
+    <rect x="440.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="462.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">T</text>
+    <rect x="488.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="510.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">N</text>
+    <rect x="536.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="558.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">S</text>
+    <rect x="584.0" y="182" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="606.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">-</text>
+    <rect x="632.0" y="182" width="116.0" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="690.0" y="203.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Enter</text>
+    <rect x="20" y="228" width="116.0" height="42" fill="#00b400" stroke="#44aa44" rx="4"/>
+    <text x="78.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Shift</text>
+    <rect x="140.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="162.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">;</text>
+    <rect x="188.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="210.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Q</text>
+    <rect x="236.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="258.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">J</text>
+    <rect x="284.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="306.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">K</text>
+    <rect x="332.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="354.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">X</text>
+    <rect x="380.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="402.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">B</text>
+    <rect x="428.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="450.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">M</text>
+    <rect x="476.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="498.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">W</text>
+    <rect x="524.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="546.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">V</text>
+    <rect x="572.0" y="228" width="44" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="594.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Z</text>
+    <rect x="620.0" y="228" width="140" height="42" fill="#00b400" stroke="#44aa44" rx="4"/>
+    <text x="690.0" y="249.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Shift</text>
+    <rect x="20" y="274" width="56.0" height="42" fill="#0050ff" stroke="#4488ff" rx="4"/>
+    <text x="48.0" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Ctrl</text>
+    <rect x="80.0" y="274" width="44" height="42" fill="#8000ff" stroke="#aa44ff" rx="4"/>
+    <text x="102.0" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">FN</text>
+    <rect x="128.0" y="274" width="44" height="42" fill="#646464" stroke="#888888" rx="4"/>
+    <text x="150.0" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">GUI</text>
+    <rect x="176.0" y="274" width="44" height="42" fill="#ffa000" stroke="#cc8800" rx="4"/>
+    <text x="198.0" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Alt</text>
+    <rect x="224.0" y="274" width="284" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="366.0" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Space</text>
+    <rect x="512.0" y="274" width="44" height="42" fill="#ffa000" stroke="#cc8800" rx="4"/>
+    <text x="534.0" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Alt</text>
+    <rect x="560.0" y="274" width="44" height="42" fill="#0050ff" stroke="#4488ff" rx="4"/>
+    <text x="582.0" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Ctrl</text>
+    <rect x="608.0" y="274" width="55.0" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="635.5" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">←</text>
+    <rect x="667.0" y="274" width="55.0" height="20" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="694.5" y="284.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">↑</text>
+    <rect x="667.0" y="296" width="55.0" height="20" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="694.5" y="306.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">↓</text>
+    <rect x="726.0" y="274" width="55.0" height="42" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="753.5" y="295.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">→</text>
+  <text x="20" y="335" fill="#e0e0e0" font-size="16px" font-weight="bold">FN Layer (hold FN)</text>
+    <rect x="20" y="347" width="56.0" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="48.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">FnLk</text>
+    <rect x="80.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="102.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F1</text>
+    <rect x="128.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="150.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F2</text>
+    <rect x="176.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="198.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F3</text>
+    <rect x="224.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="246.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F4</text>
+    <rect x="272.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="294.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F5</text>
+    <rect x="320.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="342.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F6</text>
+    <rect x="368.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="390.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F7</text>
+    <rect x="416.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="438.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F8</text>
+    <rect x="464.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="486.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F9</text>
+    <rect x="512.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="534.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F10</text>
+    <rect x="560.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="582.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F11</text>
+    <rect x="608.0" y="347" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="630.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F12</text>
+    <rect x="656.0" y="347" width="80.0" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="696.0" y="359.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Ins</text>
+    <rect x="20" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="68" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="116" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="164" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="212" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="260" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="308" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="356" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="404" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="452" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="500" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="548" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="596" y="375" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="644" y="375" width="92" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="20" y="411" width="68.0" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="54.0" y="421.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">TG</text>
+    <text x="54.0" y="433.0" text-anchor="middle" dominant-baseline="central" fill="#888888" font-size="8px">QWERTY</text>
+    <rect x="92.0" y="411" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="140.0" y="411" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="162.0" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">RGB</text>
+    <rect x="188.0" y="411" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="210.0" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">RMod</text>
+    <rect x="236.0" y="411" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="258.0" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Hue+</text>
+    <rect x="284.0" y="411" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="306.0" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Sat+</text>
+    <rect x="332.0" y="411" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="354.0" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Spd+</text>
+    <rect x="380.0" y="411" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="402.0" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Brt+</text>
+    <rect x="428.0" y="411" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="476.0" y="411" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="524.0" y="411" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="546.0" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Pause</text>
+    <rect x="572.0" y="411" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="620.0" y="411" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="668.0" y="411" width="68.0" height="32" fill="#ff0000" stroke="#cc0000" rx="4"/>
+    <text x="702.0" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">BOOT</text>
+    <rect x="20" y="447" width="80.0" height="32" fill="#00b400" stroke="#44aa44" rx="4"/>
+    <text x="60.0" y="463.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Caps</text>
+    <rect x="104.0" y="447" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="152.0" y="447" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="200.0" y="447" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="222.0" y="463.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">RMod</text>
+    <rect x="248.0" y="447" width="44" height="32" fill="#00b4b4" stroke="#44dddd" rx="4"/>
+    <text x="270.0" y="463.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Hue-</text>
+    <rect x="296.0" y="447" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="318.0" y="463.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Sat-</text>
+    <rect x="344.0" y="447" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="366.0" y="463.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Spd-</text>
+    <rect x="392.0" y="447" width="44" height="32" fill="#00b4b4" stroke="#44dddd" rx="4"/>
+    <text x="414.0" y="463.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Brt-</text>
+    <rect x="440.0" y="447" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="462.0" y="463.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">ScrLk</text>
+    <rect x="488.0" y="447" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="536.0" y="447" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="584.0" y="447" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="632.0" y="447" width="116.0" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="20" y="483" width="116.0" height="24" fill="#00b400" stroke="#44aa44" rx="4"/>
+    <rect x="140.0" y="483" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="188.0" y="483" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="236.0" y="483" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="258.0" y="495.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">BLTog</text>
+    <rect x="284.0" y="483" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="332.0" y="483" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="354.0" y="495.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Brk</text>
+    <rect x="380.0" y="483" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="428.0" y="483" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="476.0" y="483" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="524.0" y="483" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="572.0" y="483" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="620.0" y="483" width="140" height="24" fill="#00b400" stroke="#44aa44" rx="4"/>
+    <rect x="20" y="511" width="56.0" height="10" fill="#0050ff" stroke="#4488ff" rx="4"/>
+    <rect x="80.0" y="511" width="44" height="10" fill="#8000ff" stroke="#aa44ff" rx="4"/>
+    <rect x="128.0" y="511" width="44" height="10" fill="#646464" stroke="#888888" rx="4"/>
+    <rect x="176.0" y="511" width="44" height="10" fill="#ffa000" stroke="#cc8800" rx="4"/>
+    <rect x="224.0" y="511" width="284" height="10" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="366.0" y="516.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="8px">BL Step</text>
+    <rect x="512.0" y="511" width="44" height="10" fill="#ffa000" stroke="#cc8800" rx="4"/>
+    <rect x="560.0" y="511" width="44" height="10" fill="#0050ff" stroke="#4488ff" rx="4"/>
+    <rect x="608.0" y="511" width="55.0" height="10" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="635.5" y="516.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Home</text>
+    <rect x="667.0" y="511" width="55.0" height="20" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="694.5" y="521.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">PgUp</text>
+    <rect x="667.0" y="533" width="55.0" height="20" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="694.5" y="543.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">PgDn</text>
+    <rect x="726.0" y="511" width="55.0" height="10" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="753.5" y="516.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">End</text>
+  <text x="20" y="540" fill="#e0e0e0" font-size="16px" font-weight="bold">QWERTY Overlay (toggle FN+&apos;)</text>
+    <rect x="20" y="552" width="56.0" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="80.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="128.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="176.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="224.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="272.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="320.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="368.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="416.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="464.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="512.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="560.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="608.0" y="552" width="44" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="656.0" y="552" width="80.0" height="24" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="20" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="68" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="116" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="164" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="212" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="260" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="308" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="356" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="404" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="452" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="500" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="548" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="596" y="580" width="44" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="644" y="580" width="92" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="20" y="616" width="68.0" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="92.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="114.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Q</text>
+    <rect x="140.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="162.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">W</text>
+    <rect x="188.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="210.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">E</text>
+    <rect x="236.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="258.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">R</text>
+    <rect x="284.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="306.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">T</text>
+    <rect x="332.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="354.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Y</text>
+    <rect x="380.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="402.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">U</text>
+    <rect x="428.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="450.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">I</text>
+    <rect x="476.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="498.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">O</text>
+    <rect x="524.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="546.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">P</text>
+    <rect x="572.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="594.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">[</text>
+    <rect x="620.0" y="616" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="642.0" y="632.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">]</text>
+    <rect x="668.0" y="616" width="68.0" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="20" y="652" width="80.0" height="32" fill="#0050ff" stroke="#4488ff" rx="4"/>
+    <rect x="104.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="126.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">A</text>
+    <rect x="152.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="174.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">S</text>
+    <rect x="200.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="222.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">D</text>
+    <rect x="248.0" y="652" width="44" height="32" fill="#ff7800" stroke="#ff9944" rx="4"/>
+    <text x="270.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">F</text>
+    <rect x="296.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="318.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">G</text>
+    <rect x="344.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="366.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">H</text>
+    <rect x="392.0" y="652" width="44" height="32" fill="#ff7800" stroke="#ff9944" rx="4"/>
+    <text x="414.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">J</text>
+    <rect x="440.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="462.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">K</text>
+    <rect x="488.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="510.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">L</text>
+    <rect x="536.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="558.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">;</text>
+    <rect x="584.0" y="652" width="44" height="32" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="606.0" y="668.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">&apos;</text>
+    <rect x="632.0" y="652" width="116.0" height="32" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="20" y="688" width="116.0" height="24" fill="#00b400" stroke="#44aa44" rx="4"/>
+    <rect x="140.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="162.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">Z</text>
+    <rect x="188.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="210.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">X</text>
+    <rect x="236.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="258.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">C</text>
+    <rect x="284.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="306.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">V</text>
+    <rect x="332.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="354.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">B</text>
+    <rect x="380.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="402.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">N</text>
+    <rect x="428.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="450.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">M</text>
+    <rect x="476.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="498.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">,</text>
+    <rect x="524.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="546.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">.</text>
+    <rect x="572.0" y="688" width="44" height="24" fill="#2d2d2d" stroke="#555555" rx="4"/>
+    <text x="594.0" y="700.0" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="10px">/</text>
+    <rect x="620.0" y="688" width="140" height="24" fill="#00b400" stroke="#44aa44" rx="4"/>
+    <rect x="20" y="716" width="56.0" height="10" fill="#0050ff" stroke="#4488ff" rx="4"/>
+    <rect x="80.0" y="716" width="44" height="10" fill="#8000ff" stroke="#aa44ff" rx="4"/>
+    <rect x="128.0" y="716" width="44" height="10" fill="#646464" stroke="#888888" rx="4"/>
+    <rect x="176.0" y="716" width="44" height="10" fill="#ffa000" stroke="#cc8800" rx="4"/>
+    <rect x="224.0" y="716" width="284" height="10" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="512.0" y="716" width="44" height="10" fill="#ffa000" stroke="#cc8800" rx="4"/>
+    <rect x="560.0" y="716" width="44" height="10" fill="#0050ff" stroke="#4488ff" rx="4"/>
+    <rect x="608.0" y="716" width="55.0" height="10" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="667.0" y="716" width="55.0" height="20" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="667.0" y="738" width="55.0" height="20" fill="#1a1a1a" stroke="#333333" rx="4"/>
+    <rect x="726.0" y="716" width="55.0" height="10" fill="#1a1a1a" stroke="#333333" rx="4"/>
+  <text x="730" y="60" fill="#aaa" font-size="12px">LED Colors</text>
+  <rect x="730" y="74" width="14" height="12" fill="#00b4b4" stroke="#555" rx="2"/>
+  <text x="752" y="80" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">Home index (Dvorak)</text>
+  <rect x="730" y="92" width="14" height="12" fill="#ff7800" stroke="#555" rx="2"/>
+  <text x="752" y="98" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">Home index (QWERTY)</text>
+  <rect x="730" y="110" width="14" height="12" fill="#0050ff" stroke="#555" rx="2"/>
+  <text x="752" y="116" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">Ctrl</text>
+  <rect x="730" y="128" width="14" height="12" fill="#00b400" stroke="#555" rx="2"/>
+  <text x="752" y="134" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">Shift</text>
+  <rect x="730" y="146" width="14" height="12" fill="#ffa000" stroke="#555" rx="2"/>
+  <text x="752" y="152" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">Alt</text>
+  <rect x="730" y="164" width="14" height="12" fill="#646464" stroke="#555" rx="2"/>
+  <text x="752" y="170" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">GUI</text>
+  <rect x="730" y="182" width="14" height="12" fill="#8000ff" stroke="#555" rx="2"/>
+  <text x="752" y="188" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">FN</text>
+  <rect x="730" y="200" width="14" height="12" fill="#ffff00" stroke="#555" rx="2"/>
+  <text x="752" y="206" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">TG QWERTY (FN)</text>
+  <rect x="730" y="218" width="14" height="12" fill="#ff0000" stroke="#555" rx="2"/>
+  <text x="752" y="224" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">BOOT (FN)</text>
+  <rect x="730" y="236" width="14" height="12" fill="#2d2d2d" stroke="#555" rx="2"/>
+  <text x="752" y="242" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">Normal key</text>
+  <rect x="730" y="254" width="14" height="12" fill="#1a1a1a" stroke="#555" rx="2"/>
+  <text x="752" y="260" fill="#888" font-size="9px" text-anchor="start" dominant-baseline="central">Transparent</text>
+</svg>

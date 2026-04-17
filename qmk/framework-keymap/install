@@ -1,0 +1,19 @@
+#!/bin/sh
+# Install keymap files into the QMK firmware tree and build
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+QMK_DIR="${1:-$SCRIPT_DIR/../qmk_firmware}"
+KEYMAP_DIR="$QMK_DIR/keyboards/framework/ansi/keymaps/david"
+
+if [ ! -d "$QMK_DIR/keyboards/framework" ]; then
+    echo "Error: QMK firmware not found at $QMK_DIR"
+    echo "Usage: $0 [path/to/qmk_firmware]"
+    exit 1
+fi
+
+mkdir -p "$KEYMAP_DIR"
+cp "$SCRIPT_DIR/keymap.c" "$KEYMAP_DIR/"
+cp "$SCRIPT_DIR/rules.mk" "$KEYMAP_DIR/"
+
+echo "Installed keymap to $KEYMAP_DIR"
+echo "To build: cd $QMK_DIR && make framework/ansi:david"

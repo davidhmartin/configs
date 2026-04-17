@@ -1,0 +1,19 @@
+#!/bin/sh
+# Install macropad keymap into the QMK firmware tree and build.
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+QMK_DIR="${1:-$SCRIPT_DIR/../qmk_firmware}"
+KEYMAP_DIR="$QMK_DIR/keyboards/framework/macropad/keymaps/david"
+
+if [ ! -d "$QMK_DIR/keyboards/framework/macropad" ]; then
+    echo "Error: framework/macropad not found at $QMK_DIR/keyboards/framework/macropad"
+    echo "Usage: $0 [path/to/qmk_firmware]"
+    exit 1
+fi
+
+mkdir -p "$KEYMAP_DIR"
+cp "$SCRIPT_DIR/keymap.c" "$KEYMAP_DIR/"
+cp "$SCRIPT_DIR/rules.mk" "$KEYMAP_DIR/"
+
+echo "Installed keymap to $KEYMAP_DIR"
+echo "To build: cd $QMK_DIR && make framework/macropad:david"

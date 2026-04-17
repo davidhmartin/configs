@@ -1,0 +1,46 @@
+#!/bin/sh
+# Clone or update the Framework QMK firmware fork into ./qmk_firmware.
+# The keymap install scripts in this directory expect to find it here.
+#
+# The fork's default branch is upstream QMK master, which does NOT contain
+# Framework's keyboard/macropad definitions. Those live on Framework-specific
+# branches/tags. We pin to a known-good tag; bump QMK_REF to upgrade.
+
+set -e
+
+QMK_REMOTE="https://github.com/FrameworkComputer/qmk_firmware.git"
+QMK_REF="v0.3.1"
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+QMK_DIR="$SCRIPT_DIR/qmk_firmware"
+
+if [ -d "$QMK_DIR/.git" ]; then
+    echo "Fetching updates for existing clone at $QMK_DIR"
+    cd "$QMK_DIR"
+    git fetch --tags origin
+else
+    echo "Cloning $QMK_REMOTE into $QMK_DIR"
+    git clone "$QMK_REMOTE" "$QMK_DIR"
+    cd "$QMK_DIR"
+fi
+
+echo "Checking out $QMK_REF"
+git checkout "$QMK_REF"
+
+echo "Syncing submodules"
+make git-submodule
+
+PATCH_DIR="$SCRIPT_DIR/patches"
+if [ -d "$PATCH_DIR" ]; then
+    for patch in "$PATCH_DIR"/*.patch; do
+        [ -e "$patch" ] || continue
+        if git apply --check "$patch" 2>/dev/null; then
+            echo "Applying $(basename "$patch")"
+            git apply "$patch"
+        else
+            echo "Skipping $(basename "$patch") (already applied or does not apply cleanly)"
+        fi
+    done
+fi
+
+echo "Done. QMK firmware ready at $QMK_DIR (at $QMK_REF)"
