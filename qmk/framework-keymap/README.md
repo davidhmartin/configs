@@ -2,28 +2,31 @@
 
 Custom QMK keymap for the Framework Laptop 16 keyboard module (ANSI layout).
 
-## Layout
+See the [top-level `qmk/README.md`](../README.md) for build, flash, and diagram-generation instructions.
 
-- **Base layer:** Dvorak with Caps Lock remapped to LCtrl
-- **FN layer:** F-keys, RGB/backlight controls, navigation
-- **FN Lock:** Persistent F-key mode (FN+Esc to toggle)
-- **QWERTY overlay:** Toggle with FN+Tab
+## Layers
 
-See `keymap_diagram.svg` for a visual reference.
+- **`_DVORAK`** — Base layer; Dvorak with Caps Lock remapped to LCtrl.
+- **`_FN`** — Hold FN: F-keys, RGB/backlight controls, navigation.
+- **`_FN_LOCK`** — Persistent F-key mode (FN+Esc from `_FN` to toggle on; FN+Esc from `_FM` to toggle off).
+- **`_FM`** — Accessed via MO from `_FN_LOCK`; restores media keys and navigation while F-Lock is active.
+- **`_QWERTY`** — Toggleable overlay (FN+Tab from `_FN`).
 
-### Notable bindings
+See [`keymap_diagram.svg`](keymap_diagram.svg) for a visual reference.
+
+## Notable bindings
 
 | Combo | Action |
 |---|---|
 | FN + Esc | Toggle FN Lock |
 | FN + Tab | Toggle QWERTY overlay |
 | FN + Caps position | Caps Lock |
-| FN + \\ | Enter bootloader (QK_BOOT) |
+| FN + `\` | Enter bootloader (`QK_BOOT`) |
 | FN + Brt+/Brt- | RGB indicator brightness |
 
-### RGB indicators
+## RGB indicators
 
-Only specific keys are lit — all others are off:
+Only specific keys are lit — all others are off.
 
 | Key | Color |
 |---|---|
@@ -35,36 +38,3 @@ Only specific keys are lit — all others are off:
 | FN | Purple |
 | TG QWERTY (FN layer) | Yellow |
 | QK_BOOT (FN layer) | Red |
-
-## Building
-
-```bash
-# Clone Framework's QMK fork
-git clone https://github.com/FrameworkComputer/qmk_firmware.git
-cd qmk_firmware
-git checkout v0.3.1  # or latest tag
-git submodule update --init --recursive
-
-# Install the keymap
-mkdir -p keyboards/framework/ansi/keymaps/david
-cp /path/to/this/repo/keymap.c keyboards/framework/ansi/keymaps/david/
-cp /path/to/this/repo/rules.mk keyboards/framework/ansi/keymaps/david/
-
-# Build (requires arm-none-eabi-gcc)
-make framework/ansi:david
-```
-
-Output: `framework_ansi_david.uf2`
-
-## Flashing
-
-1. Enter bootloader mode: press FN+\\ (or `sudo qmk_hid via --bootloader`)
-2. A USB mass storage device appears
-3. Copy the `.uf2` file to the mounted device
-4. Keyboard reboots automatically
-
-## Regenerating the diagram
-
-```bash
-python3 gen_keymap_svg.py keymap.c keymap_diagram.svg
-```
