@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="606" height="888" viewBox="0 0 606 888" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="606" height="888" fill="#141414"/>
+
+  <text x="24" y="30" fill="#8000ff" font-size="15px" font-weight="bold" font-family="monospace">_HYPR     Structured Code Navigation</text>
+  <text x="24" y="52" fill="#aaa" font-size="11px" font-family="monospace">Navigate by functions and expressions, not characters.</text>
+
+  <!-- Top indicator row -->
+  <rect x="24" y="70" width="130" height="45" rx="6" fill="#00b4b4" stroke="#00b4b4" stroke-width="1.5"/>
+  <text x="89.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">numpad</text>
+  <rect x="160" y="70" width="130" height="45" rx="6" fill="#8000ff" stroke="#e0e0e0" stroke-width="2.5"/>
+  <text x="225.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">codenav</text>
+  <rect x="296" y="70" width="130" height="45" rx="6" fill="#0050ff" stroke="#0050ff" stroke-width="1.5"/>
+  <text x="361.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">win nav</text>
+  <rect x="432" y="70" width="130" height="45" rx="6" fill="#ffa000" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="497.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">win mutate</text>
+
+  <!-- Row 1 -->
+  <rect x="24" y="133" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="32" y="148" fill="#8000ff" font-size="10px" font-family="monospace">H-a</text>
+  <text x="89.0" y="170.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="13px" font-family="monospace">prev-buffer</text>
+  <rect x="160" y="133" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="168" y="148" fill="#8000ff" font-size="10px" font-family="monospace">H-b</text>
+  <text x="225.0" y="170.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="13px" font-family="monospace">ibuffer</text>
+  <rect x="296" y="133" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="304" y="148" fill="#8000ff" font-size="10px" font-family="monospace">H-c</text>
+  <text x="361.0" y="170.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="13px" font-family="monospace">dired</text>
+  <rect x="432" y="133" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="440" y="148" fill="#8000ff" font-size="10px" font-family="monospace">H-d</text>
+  <text x="497.0" y="170.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="13px" font-family="monospace">next-buffer</text>
+
+  <!-- Row 2 -->
+  <rect x="24" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="32" y="229" fill="#8000ff" font-size="10px" font-family="monospace">H-e</text>
+  <text x="89.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">expand-</text>
+  <text x="89.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">region</text>
+  <rect x="160" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="168" y="229" fill="#8000ff" font-size="10px" font-family="monospace">H-f</text>
+  <text x="225.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">↑ begin-</text>
+  <text x="225.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">defun</text>
+  <rect x="296" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="304" y="229" fill="#8000ff" font-size="10px" font-family="monospace">H-g</text>
+  <text x="361.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">mark-</text>
+  <text x="361.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">defun</text>
+  <rect x="432" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="440" y="229" fill="#8000ff" font-size="10px" font-family="monospace">H-h</text>
+  <text x="497.0" y="251.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="13px" font-family="monospace">imenu-multi</text>
+
+  <!-- Row 3 -->
+  <rect x="24" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="32" y="310" fill="#8000ff" font-size="10px" font-family="monospace">H-i</text>
+  <text x="89.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">← back-</text>
+  <text x="89.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">sexp</text>
+  <rect x="160" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="168" y="310" fill="#8000ff" font-size="10px" font-family="monospace">H-j</text>
+  <text x="225.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">↓ end-</text>
+  <text x="225.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">defun</text>
+  <rect x="296" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="304" y="310" fill="#8000ff" font-size="10px" font-family="monospace">H-k</text>
+  <text x="361.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">forward- →</text>
+  <text x="361.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">sexp</text>
+  <rect x="432" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="440" y="310" fill="#8000ff" font-size="10px" font-family="monospace">H-l</text>
+  <text x="497.0" y="332.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="13px" font-family="monospace">imenu</text>
+
+  <!-- Row 4 -->
+  <rect x="24" y="376" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="32" y="391" fill="#8000ff" font-size="10px" font-family="monospace">H-m</text>
+  <text x="89.0" y="413.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="13px" font-family="monospace">deadgrep</text>
+  <rect x="160" y="376" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="168" y="391" fill="#8000ff" font-size="10px" font-family="monospace">H-n</text>
+  <text x="225.0" y="404.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">consult-</text>
+  <text x="225.0" y="422.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">ripgrep</text>
+  <rect x="296" y="376" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="304" y="391" fill="#8000ff" font-size="10px" font-family="monospace">H-o</text>
+  <text x="361.0" y="404.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">consult-</text>
+  <text x="361.0" y="422.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">find</text>
+  <rect x="432" y="376" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="440" y="391" fill="#8000ff" font-size="10px" font-family="monospace">H-p</text>
+  <text x="497.0" y="413.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="13px" font-family="monospace">imenu</text>
+
+  <!-- Bottom indicator row -->
+  <rect x="24" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="89.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">Home</text>
+  <rect x="160" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="225.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">PgUp</text>
+  <rect x="296" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="361.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">PgDn</text>
+  <rect x="432" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="497.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">End</text>
+
+  <text x="24" y="552" fill="#aaa" font-size="13px" font-weight="bold" font-family="monospace">Quick Reference</text>
+  <line x1="24" y1="560" x2="582" y2="560" stroke="#3a3a3a" stroke-width="1"/>
+  <text x="24"  y="580" fill="#8000ff" font-size="12px" font-family="monospace">H-a</text>
+  <text x="70"  y="580" fill="#e0e0e0" font-size="12px" font-family="monospace">previous-buffer</text>
+  <text x="290" y="580" fill="#aaa" font-size="12px" font-family="monospace">Switch to previous buffer</text>
+  <text x="24"  y="598" fill="#8000ff" font-size="12px" font-family="monospace">H-b</text>
+  <text x="70"  y="598" fill="#e0e0e0" font-size="12px" font-family="monospace">ibuffer</text>
+  <text x="290" y="598" fill="#aaa" font-size="12px" font-family="monospace">Open buffer list</text>
+  <text x="24"  y="616" fill="#8000ff" font-size="12px" font-family="monospace">H-c</text>
+  <text x="70"  y="616" fill="#e0e0e0" font-size="12px" font-family="monospace">dired</text>
+  <text x="290" y="616" fill="#aaa" font-size="12px" font-family="monospace">Open directory editor</text>
+  <text x="24"  y="634" fill="#8000ff" font-size="12px" font-family="monospace">H-d</text>
+  <text x="70"  y="634" fill="#e0e0e0" font-size="12px" font-family="monospace">next-buffer</text>
+  <text x="290" y="634" fill="#aaa" font-size="12px" font-family="monospace">Switch to next buffer</text>
+  <text x="24"  y="652" fill="#8000ff" font-size="12px" font-family="monospace">H-e</text>
+  <text x="70"  y="652" fill="#e0e0e0" font-size="12px" font-family="monospace">er/expand-region</text>
+  <text x="290" y="652" fill="#aaa" font-size="12px" font-family="monospace">Expand selection outward</text>
+  <text x="24"  y="670" fill="#8000ff" font-size="12px" font-family="monospace">H-f</text>
+  <text x="70"  y="670" fill="#e0e0e0" font-size="12px" font-family="monospace">treesit-beginning-of-defun</text>
+  <text x="290" y="670" fill="#aaa" font-size="12px" font-family="monospace">Jump to start of function</text>
+  <text x="24"  y="688" fill="#8000ff" font-size="12px" font-family="monospace">H-g</text>
+  <text x="70"  y="688" fill="#e0e0e0" font-size="12px" font-family="monospace">mark-defun</text>
+  <text x="290" y="688" fill="#aaa" font-size="12px" font-family="monospace">Select entire function</text>
+  <text x="24"  y="706" fill="#8000ff" font-size="12px" font-family="monospace">H-h</text>
+  <text x="70"  y="706" fill="#e0e0e0" font-size="12px" font-family="monospace">consult-imenu-multi</text>
+  <text x="290" y="706" fill="#aaa" font-size="12px" font-family="monospace">imenu of all buffers in project</text>
+  <text x="24"  y="724" fill="#8000ff" font-size="12px" font-family="monospace">H-i</text>
+  <text x="70"  y="724" fill="#e0e0e0" font-size="12px" font-family="monospace">treesit-backward-sexp</text>
+  <text x="290" y="724" fill="#aaa" font-size="12px" font-family="monospace">Jump to previous expression</text>
+  <text x="24"  y="742" fill="#8000ff" font-size="12px" font-family="monospace">H-j</text>
+  <text x="70"  y="742" fill="#e0e0e0" font-size="12px" font-family="monospace">treesit-end-of-defun</text>
+  <text x="290" y="742" fill="#aaa" font-size="12px" font-family="monospace">Jump to end of function</text>
+  <text x="24"  y="760" fill="#8000ff" font-size="12px" font-family="monospace">H-k</text>
+  <text x="70"  y="760" fill="#e0e0e0" font-size="12px" font-family="monospace">treesit-forward-sexp</text>
+  <text x="290" y="760" fill="#aaa" font-size="12px" font-family="monospace">Jump to next expression</text>
+  <text x="24"  y="778" fill="#8000ff" font-size="12px" font-family="monospace">H-l</text>
+  <text x="70"  y="778" fill="#e0e0e0" font-size="12px" font-family="monospace">consult-imenu</text>
+  <text x="290" y="778" fill="#aaa" font-size="12px" font-family="monospace">Jump to symbol in buffer</text>
+  <text x="24"  y="796" fill="#8000ff" font-size="12px" font-family="monospace">H-m</text>
+  <text x="70"  y="796" fill="#e0e0e0" font-size="12px" font-family="monospace">deadgrep</text>
+  <text x="290" y="796" fill="#aaa" font-size="12px" font-family="monospace">Persistent ripgrep search buffer</text>
+  <text x="24"  y="814" fill="#8000ff" font-size="12px" font-family="monospace">H-n</text>
+  <text x="70"  y="814" fill="#e0e0e0" font-size="12px" font-family="monospace">consult-ripgrep</text>
+  <text x="290" y="814" fill="#aaa" font-size="12px" font-family="monospace">Quick project-wide text search</text>
+  <text x="24"  y="832" fill="#8000ff" font-size="12px" font-family="monospace">H-o</text>
+  <text x="70"  y="832" fill="#e0e0e0" font-size="12px" font-family="monospace">consult-find</text>
+  <text x="290" y="832" fill="#aaa" font-size="12px" font-family="monospace">Find files by name</text>
+  <text x="24"  y="850" fill="#8000ff" font-size="12px" font-family="monospace">H-p</text>
+  <text x="70"  y="850" fill="#e0e0e0" font-size="12px" font-family="monospace">consult-imenu</text>
+  <text x="290" y="850" fill="#aaa" font-size="12px" font-family="monospace">Jump to symbol in buffer</text>
+</svg>

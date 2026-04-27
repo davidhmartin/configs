@@ -82,3 +82,4 @@
 (global-set-key (kbd "C-M-S-n") #'balance-windows)
 (global-set-key (kbd "C-M-S-o") #'delete-window)
 (global-set-key (kbd "C-M-S-p") #'delete-other-windows)
+

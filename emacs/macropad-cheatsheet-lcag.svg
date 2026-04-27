@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="606" height="708" viewBox="0 0 606 708" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="606" height="708" fill="#141414"/>
+
+  <text x="24" y="30" fill="#0050ff" font-size="15px" font-weight="bold" font-family="monospace">_LCAG     Window Navigation</text>
+  <text x="24" y="52" fill="#aaa" font-size="11px" font-family="monospace">Move focus between windows without changing layout.</text>
+
+  <!-- Top indicator row -->
+  <rect x="24" y="70" width="130" height="45" rx="6" fill="#00b4b4" stroke="#00b4b4" stroke-width="1.5"/>
+  <text x="89.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">numpad</text>
+  <rect x="160" y="70" width="130" height="45" rx="6" fill="#8000ff" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="225.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">codenav</text>
+  <rect x="296" y="70" width="130" height="45" rx="6" fill="#0050ff" stroke="#e0e0e0" stroke-width="2.5"/>
+  <text x="361.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">win nav</text>
+  <rect x="432" y="70" width="130" height="45" rx="6" fill="#ffa000" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="497.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">win mutate</text>
+
+  <!-- Row 1 -->
+  <rect x="24" y="133" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="160" y="133" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="296" y="133" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="432" y="133" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+
+  <!-- Row 2 -->
+  <rect x="24" y="214" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="160" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#0050ff" stroke-width="1.5"/>
+  <text x="168" y="229" fill="#0050ff" font-size="10px" font-family="monospace">L-f</text>
+  <text x="225.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">windmove</text>
+  <text x="225.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">↑</text>
+  <rect x="296" y="214" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="432" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#0050ff" stroke-width="1.5"/>
+  <text x="440" y="229" fill="#0050ff" font-size="10px" font-family="monospace">L-h</text>
+  <text x="497.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">winner-</text>
+  <text x="497.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">redo ↷</text>
+
+  <!-- Row 3 -->
+  <rect x="24" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#0050ff" stroke-width="1.5"/>
+  <text x="32" y="310" fill="#0050ff" font-size="10px" font-family="monospace">L-i</text>
+  <text x="89.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">windmove</text>
+  <text x="89.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">←</text>
+  <rect x="160" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#0050ff" stroke-width="1.5"/>
+  <text x="168" y="310" fill="#0050ff" font-size="10px" font-family="monospace">L-j</text>
+  <text x="225.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">windmove</text>
+  <text x="225.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">↓</text>
+  <rect x="296" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#0050ff" stroke-width="1.5"/>
+  <text x="304" y="310" fill="#0050ff" font-size="10px" font-family="monospace">L-k</text>
+  <text x="361.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">windmove</text>
+  <text x="361.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">→</text>
+  <rect x="432" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#0050ff" stroke-width="1.5"/>
+  <text x="440" y="310" fill="#0050ff" font-size="10px" font-family="monospace">L-l</text>
+  <text x="497.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">winner-</text>
+  <text x="497.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">undo ↶</text>
+
+  <!-- Row 4 -->
+  <rect x="24" y="376" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="160" y="376" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="296" y="376" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="432" y="376" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+
+  <!-- Bottom indicator row -->
+  <rect x="24" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="89.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">Home</text>
+  <rect x="160" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="225.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">PgUp</text>
+  <rect x="296" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="361.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">PgDn</text>
+  <rect x="432" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="497.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">End</text>
+
+  <text x="24" y="552" fill="#aaa" font-size="13px" font-weight="bold" font-family="monospace">Quick Reference</text>
+  <line x1="24" y1="560" x2="582" y2="560" stroke="#3a3a3a" stroke-width="1"/>
+  <text x="24"  y="580" fill="#0050ff" font-size="12px" font-family="monospace">L-f</text>
+  <text x="70"  y="580" fill="#e0e0e0" font-size="12px" font-family="monospace">windmove-up</text>
+  <text x="290" y="580" fill="#aaa" font-size="12px" font-family="monospace">Move focus to window above</text>
+  <text x="24"  y="598" fill="#0050ff" font-size="12px" font-family="monospace">L-i</text>
+  <text x="70"  y="598" fill="#e0e0e0" font-size="12px" font-family="monospace">windmove-left</text>
+  <text x="290" y="598" fill="#aaa" font-size="12px" font-family="monospace">Move focus to window left</text>
+  <text x="24"  y="616" fill="#0050ff" font-size="12px" font-family="monospace">L-j</text>
+  <text x="70"  y="616" fill="#e0e0e0" font-size="12px" font-family="monospace">windmove-down</text>
+  <text x="290" y="616" fill="#aaa" font-size="12px" font-family="monospace">Move focus to window below</text>
+  <text x="24"  y="634" fill="#0050ff" font-size="12px" font-family="monospace">L-k</text>
+  <text x="70"  y="634" fill="#e0e0e0" font-size="12px" font-family="monospace">windmove-right</text>
+  <text x="290" y="634" fill="#aaa" font-size="12px" font-family="monospace">Move focus to window right</text>
+  <text x="24"  y="652" fill="#0050ff" font-size="12px" font-family="monospace">L-h</text>
+  <text x="70"  y="652" fill="#e0e0e0" font-size="12px" font-family="monospace">winner-redo</text>
+  <text x="290" y="652" fill="#aaa" font-size="12px" font-family="monospace">Redo window layout change</text>
+  <text x="24"  y="670" fill="#0050ff" font-size="12px" font-family="monospace">L-l</text>
+  <text x="70"  y="670" fill="#e0e0e0" font-size="12px" font-family="monospace">winner-undo</text>
+  <text x="290" y="670" fill="#aaa" font-size="12px" font-family="monospace">Undo window layout change</text>
+</svg>

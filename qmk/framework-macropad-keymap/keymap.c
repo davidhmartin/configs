@@ -11,9 +11,10 @@
 //   L4 _MEH     - 4x4 grid sends MEH(A..P)  = Ctrl+Alt+Shift+letter
 //
 // Layout:
-//   Top row (H1..H4): layer switches on every layer.
-//     H1 = KC_NUM (toggles OS Num Lock; led_update_user moves between L0/L1).
-//     H2..H4 = TO(_HYPR/_LCAG/_MEH).
+//   Top row (H1..H4): tap-dance layer switches on every layer.
+//     Tap  = layer action (H1 toggles Num Lock, H2..H4 = TO(_HYPR/_LCAG/_MEH)).
+//     Hold = send KC_F14..KC_F17 so the host (Emacs) can show the cheatsheet.
+//            (KC_F17 for the Num key — F13 maps to XF86Tools, which GNOME grabs.)
 //   Middle 4x4: per-layer content.
 //   Bottom row: Home / PgUp / PgDn / End on every layer.
 
@@ -27,9 +28,20 @@ enum my_layers {
     _MEH,
 };
 
+// Top-row layer keys are tap-dance: tap = layer action, hold = show cheatsheet.
+// Hold sends F14..F17 to the host; Emacs binds those to display the per-layer
+// cheatsheet in a new frame. (Num uses F17 instead of F13 because F13 maps to
+// XF86Tools under XKB, which GNOME intercepts.)
+enum tap_dances {
+    TD_NUM,
+    TD_HYPR,
+    TD_LCAG,
+    TD_MEH,
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NUM_ON] = LAYOUT(
-        KC_NUM,     TO(_HYPR),  TO(_LCAG),  TO(_MEH),
+        TD(TD_NUM), TD(TD_HYPR),TD(TD_LCAG),TD(TD_MEH),
         KC_NUM,     KC_PSLS,    KC_PAST,    KC_EQL,
         KC_P7,      KC_P8,      KC_P9,      KC_PMNS,
         KC_P4,      KC_P5,      KC_P6,      KC_PPLS,
@@ -41,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // PgDn / Ins / Del while Num Lock is off, matching the default keymap's
     // behavior. RGB/backlight controls take the col-4 slots as in default _FN.
     [_NUM_OFF] = LAYOUT(
-        KC_NUM,     TO(_HYPR),  TO(_LCAG),  TO(_MEH),
+        TD(TD_NUM), TD(TD_HYPR),TD(TD_LCAG),TD(TD_MEH),
         _______,    _______,    _______,    _______,
         _______,    _______,    _______,    _______,
         _______,    _______,    _______,    _______,
@@ -49,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_HOME,    KC_PGUP,    KC_PGDN,    KC_END
     ),
     [_HYPR] = LAYOUT(
-        KC_NUM,     TO(_HYPR),  TO(_LCAG),  TO(_MEH),
+        TD(TD_NUM), TD(TD_HYPR),TD(TD_LCAG),TD(TD_MEH),
         HYPR(KC_A), HYPR(KC_B), HYPR(KC_C), HYPR(KC_D),
         HYPR(KC_E), HYPR(KC_F), HYPR(KC_G), HYPR(KC_H),
         HYPR(KC_I), HYPR(KC_J), HYPR(KC_K), HYPR(KC_L),
@@ -57,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_HOME,    KC_PGUP,    KC_PGDN,    KC_END
     ),
     [_LCAG] = LAYOUT(
-        KC_NUM,     TO(_HYPR),  TO(_LCAG),  TO(_MEH),
+        TD(TD_NUM), TD(TD_HYPR),TD(TD_LCAG),TD(TD_MEH),
         LCAG(KC_A), LCAG(KC_B), LCAG(KC_C), LCAG(KC_D),
         LCAG(KC_E), LCAG(KC_F), LCAG(KC_G), LCAG(KC_H),
         LCAG(KC_I), LCAG(KC_J), LCAG(KC_K), LCAG(KC_L),
@@ -65,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_HOME,    KC_PGUP,    KC_PGDN,    KC_END
     ),
     [_MEH] = LAYOUT(
-        KC_NUM,     TO(_HYPR),  TO(_LCAG),  TO(_MEH),
+        TD(TD_NUM), TD(TD_HYPR),TD(TD_LCAG),TD(TD_MEH),
         MEH(KC_A),  MEH(KC_B),  MEH(KC_C),  MEH(KC_D),
         MEH(KC_E),  MEH(KC_F),  MEH(KC_G),  MEH(KC_H),
         MEH(KC_I),  MEH(KC_J),  MEH(KC_K),  MEH(KC_L),
@@ -74,16 +86,61 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-// H1 is KC_NUM. When pressed, toggle OS Num Lock *and* move to the
-// appropriate numpad layer (predicted from the flipped state). This keeps the
-// layer switch tied to the keypress rather than to host LED-state echoes,
-// which can fire spuriously and would otherwise yank us out of _HYPR/_LCAG/_MEH.
+// === Tap dance: tap = layer/num-lock action, hold = send Fn-key for cheatsheet ===
+//
+// `state->pressed` inside the *finished* callback is true if the key is still
+// held when QMK resolves the dance (i.e. TAPPING_TERM elapsed without release).
+// We treat that as "hold" and fire the cheatsheet keycode. Otherwise the user
+// released first, so it's a tap and we perform the layer/num-lock action.
+
+static void td_num_finished(tap_dance_state_t *state, void *user_data) {
+    if (state->count != 1) return;
+    if (state->pressed) {
+        tap_code(KC_F17);
+    } else {
+        // Replicate the original row-1 KC_NUM behavior: predict the new
+        // num-lock state, send KC_NUM to the host, and move to the matching
+        // numpad layer. tap_code() does not pass through process_record_user,
+        // so we must do the layer move ourselves here.
+        bool new_num_lock = !host_keyboard_led_state().num_lock;
+        tap_code(KC_NUM);
+        layer_move(new_num_lock ? _NUM_ON : _NUM_OFF);
+    }
+}
+
+static void td_hypr_finished(tap_dance_state_t *state, void *user_data) {
+    if (state->count != 1) return;
+    if (state->pressed) tap_code(KC_F14);
+    else                layer_move(_HYPR);
+}
+
+static void td_lcag_finished(tap_dance_state_t *state, void *user_data) {
+    if (state->count != 1) return;
+    if (state->pressed) tap_code(KC_F15);
+    else                layer_move(_LCAG);
+}
+
+static void td_meh_finished(tap_dance_state_t *state, void *user_data) {
+    if (state->count != 1) return;
+    if (state->pressed) tap_code(KC_F16);
+    else                layer_move(_MEH);
+}
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_NUM]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_num_finished,  NULL),
+    [TD_HYPR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_hypr_finished, NULL),
+    [TD_LCAG] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_lcag_finished, NULL),
+    [TD_MEH]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_meh_finished,  NULL),
+};
+
+// Row-2 KC_NUM (within the numpad cluster) still fires through the matrix and
+// is handled here: toggle OS Num Lock and move to the matching numpad layer.
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (keycode == KC_NUM && record->event.pressed) {
         bool new_num_lock = !host_keyboard_led_state().num_lock;
         layer_move(new_num_lock ? _NUM_ON : _NUM_OFF);
     }
-    return true;  // still let KC_NUM fire normally so the host toggles Num Lock
+    return true;
 }
 
 // Keep numpad-layer state in sync with OS Num Lock, but *only* when we are

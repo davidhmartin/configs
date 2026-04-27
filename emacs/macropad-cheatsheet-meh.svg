@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="606" height="816" viewBox="0 0 606 816" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="606" height="816" fill="#141414"/>
+
+  <text x="24" y="30" fill="#ffa000" font-size="15px" font-weight="bold" font-family="monospace">_MEH     Window Mutation</text>
+  <text x="24" y="52" fill="#aaa" font-size="11px" font-family="monospace">Resize, split, and delete windows.</text>
+
+  <!-- Top indicator row -->
+  <rect x="24" y="70" width="130" height="45" rx="6" fill="#00b4b4" stroke="#00b4b4" stroke-width="1.5"/>
+  <text x="89.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">numpad</text>
+  <rect x="160" y="70" width="130" height="45" rx="6" fill="#8000ff" stroke="#8000ff" stroke-width="1.5"/>
+  <text x="225.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">codenav</text>
+  <rect x="296" y="70" width="130" height="45" rx="6" fill="#0050ff" stroke="#0050ff" stroke-width="1.5"/>
+  <text x="361.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">win nav</text>
+  <rect x="432" y="70" width="130" height="45" rx="6" fill="#ffa000" stroke="#e0e0e0" stroke-width="2.5"/>
+  <text x="497.0" y="92.5" text-anchor="middle" dominant-baseline="central" fill="#0e0e0e" font-size="15px" font-family="monospace">win mutate</text>
+
+  <!-- Row 1 -->
+  <rect x="24" y="133" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="160" y="133" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="296" y="133" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="432" y="133" width="130" height="75" rx="6" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="1.5"/>
+
+  <!-- Row 2 -->
+  <rect x="24" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="32" y="229" fill="#ffa000" font-size="10px" font-family="monospace">M-e</text>
+  <text x="89.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">split-</text>
+  <text x="89.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">below ┬</text>
+  <rect x="160" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="168" y="229" fill="#ffa000" font-size="10px" font-family="monospace">M-f</text>
+  <text x="225.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">enlarge</text>
+  <text x="225.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">vert ↑</text>
+  <rect x="296" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="304" y="229" fill="#ffa000" font-size="10px" font-family="monospace">M-g</text>
+  <text x="361.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">split-</text>
+  <text x="361.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">right ┤</text>
+  <rect x="432" y="214" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="440" y="229" fill="#ffa000" font-size="10px" font-family="monospace">M-h</text>
+  <text x="497.0" y="242.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">winner-</text>
+  <text x="497.0" y="260.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">redo ↷</text>
+
+  <!-- Row 3 -->
+  <rect x="24" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="32" y="310" fill="#ffa000" font-size="10px" font-family="monospace">M-i</text>
+  <text x="89.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">shrink</text>
+  <text x="89.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">horiz ←</text>
+  <rect x="160" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="168" y="310" fill="#ffa000" font-size="10px" font-family="monospace">M-j</text>
+  <text x="225.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">shrink</text>
+  <text x="225.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">vert ↓</text>
+  <rect x="296" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="304" y="310" fill="#ffa000" font-size="10px" font-family="monospace">M-k</text>
+  <text x="361.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">enlarge</text>
+  <text x="361.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">horiz →</text>
+  <rect x="432" y="295" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="440" y="310" fill="#ffa000" font-size="10px" font-family="monospace">M-l</text>
+  <text x="497.0" y="323.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">winner-</text>
+  <text x="497.0" y="341.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">undo ↶</text>
+
+  <!-- Row 4 -->
+  <rect x="24" y="376" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="32" y="391" fill="#ffa000" font-size="10px" font-family="monospace">M-m</text>
+  <text x="89.0" y="404.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">maximize</text>
+  <text x="89.0" y="422.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">window</text>
+  <rect x="160" y="376" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="168" y="391" fill="#ffa000" font-size="10px" font-family="monospace">M-n</text>
+  <text x="225.0" y="404.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">balance</text>
+  <text x="225.0" y="422.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">windows =</text>
+  <rect x="296" y="376" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="304" y="391" fill="#ffa000" font-size="10px" font-family="monospace">M-o</text>
+  <text x="361.0" y="404.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">delete-</text>
+  <text x="361.0" y="422.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">window ✕</text>
+  <rect x="432" y="376" width="130" height="75" rx="6" fill="#2d2d2d" stroke="#ffa000" stroke-width="1.5"/>
+  <text x="440" y="391" fill="#ffa000" font-size="10px" font-family="monospace">M-p</text>
+  <text x="497.0" y="404.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">delete-</text>
+  <text x="497.0" y="422.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="12px" font-family="monospace">other ✕✕</text>
+
+  <!-- Bottom indicator row -->
+  <rect x="24" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="89.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">Home</text>
+  <rect x="160" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="225.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">PgUp</text>
+  <rect x="296" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="361.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">PgDn</text>
+  <rect x="432" y="469" width="130" height="45" rx="6" fill="#2d2d2d" stroke="#555" stroke-width="1.5"/>
+  <text x="497.0" y="491.5" text-anchor="middle" dominant-baseline="central" fill="#e0e0e0" font-size="15px" font-family="monospace">End</text>
+
+  <text x="24" y="552" fill="#aaa" font-size="13px" font-weight="bold" font-family="monospace">Quick Reference</text>
+  <line x1="24" y1="560" x2="582" y2="560" stroke="#3a3a3a" stroke-width="1"/>
+  <text x="24"  y="580" fill="#ffa000" font-size="12px" font-family="monospace">M-e</text>
+  <text x="70"  y="580" fill="#e0e0e0" font-size="12px" font-family="monospace">split-window-below</text>
+  <text x="290" y="580" fill="#aaa" font-size="12px" font-family="monospace">Split horizontally (new window below)</text>
+  <text x="24"  y="598" fill="#ffa000" font-size="12px" font-family="monospace">M-f</text>
+  <text x="70"  y="598" fill="#e0e0e0" font-size="12px" font-family="monospace">enlarge-window</text>
+  <text x="290" y="598" fill="#aaa" font-size="12px" font-family="monospace">Make window taller</text>
+  <text x="24"  y="616" fill="#ffa000" font-size="12px" font-family="monospace">M-g</text>
+  <text x="70"  y="616" fill="#e0e0e0" font-size="12px" font-family="monospace">split-window-right</text>
+  <text x="290" y="616" fill="#aaa" font-size="12px" font-family="monospace">Split vertically (new window right)</text>
+  <text x="24"  y="634" fill="#ffa000" font-size="12px" font-family="monospace">M-h</text>
+  <text x="70"  y="634" fill="#e0e0e0" font-size="12px" font-family="monospace">winner-redo</text>
+  <text x="290" y="634" fill="#aaa" font-size="12px" font-family="monospace">Redo window layout change</text>
+  <text x="24"  y="652" fill="#ffa000" font-size="12px" font-family="monospace">M-i</text>
+  <text x="70"  y="652" fill="#e0e0e0" font-size="12px" font-family="monospace">shrink-window-horizontally</text>
+  <text x="290" y="652" fill="#aaa" font-size="12px" font-family="monospace">Make window narrower</text>
+  <text x="24"  y="670" fill="#ffa000" font-size="12px" font-family="monospace">M-j</text>
+  <text x="70"  y="670" fill="#e0e0e0" font-size="12px" font-family="monospace">shrink-window</text>
+  <text x="290" y="670" fill="#aaa" font-size="12px" font-family="monospace">Make window shorter</text>
+  <text x="24"  y="688" fill="#ffa000" font-size="12px" font-family="monospace">M-k</text>
+  <text x="70"  y="688" fill="#e0e0e0" font-size="12px" font-family="monospace">enlarge-window-horizontally</text>
+  <text x="290" y="688" fill="#aaa" font-size="12px" font-family="monospace">Make window wider</text>
+  <text x="24"  y="706" fill="#ffa000" font-size="12px" font-family="monospace">M-l</text>
+  <text x="70"  y="706" fill="#e0e0e0" font-size="12px" font-family="monospace">winner-undo</text>
+  <text x="290" y="706" fill="#aaa" font-size="12px" font-family="monospace">Undo window layout change</text>
+  <text x="24"  y="724" fill="#ffa000" font-size="12px" font-family="monospace">M-m</text>
+  <text x="70"  y="724" fill="#e0e0e0" font-size="12px" font-family="monospace">maximize-window</text>
+  <text x="290" y="724" fill="#aaa" font-size="12px" font-family="monospace">Maximize current window</text>
+  <text x="24"  y="742" fill="#ffa000" font-size="12px" font-family="monospace">M-n</text>
+  <text x="70"  y="742" fill="#e0e0e0" font-size="12px" font-family="monospace">balance-windows</text>
+  <text x="290" y="742" fill="#aaa" font-size="12px" font-family="monospace">Make all windows equal size</text>
+  <text x="24"  y="760" fill="#ffa000" font-size="12px" font-family="monospace">M-o</text>
+  <text x="70"  y="760" fill="#e0e0e0" font-size="12px" font-family="monospace">delete-window</text>
+  <text x="290" y="760" fill="#aaa" font-size="12px" font-family="monospace">Close current window</text>
+  <text x="24"  y="778" fill="#ffa000" font-size="12px" font-family="monospace">M-p</text>
+  <text x="70"  y="778" fill="#e0e0e0" font-size="12px" font-family="monospace">delete-other-windows</text>
+  <text x="290" y="778" fill="#aaa" font-size="12px" font-family="monospace">Close all other windows</text>
+</svg>
